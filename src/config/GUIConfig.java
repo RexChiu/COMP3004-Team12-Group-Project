@@ -1,6 +1,24 @@
 package config;
 
+
+//JTextField aboutText = new JTextField("\tServer Status"); 
+//aboutText.setEditable(Boolean.FALSE);
+//aboutText.setSize(GUIConfig.ABOUT_TEXT_HEIGHT*2, GUIConfig.ABOUT_TEXT_WIDTH*2); 
+
+//URL path = this.getClass().getResource("/actioncardlarge/Ivanhoe.png");
+//JButton imageButton = new JButton(new ImageIcon(path)); 
+//imageButton.setSize(GUIConfig.ABOUT_TEXT_HEIGHT*2, GUIConfig.ABOUT_TEXT_WIDTH*2); 
+//add(BorderLayout.CENTER, imageButton);
+
 public class GUIConfig {
+	// Ivanhoe Host
+	public static final int		HOST_WINDOW_HEIGHT			= 250;
+	public static final int		HOST_WINDOW_WIDTH			= 500;
+	public static final String  HOST_SERVER					= "Server";
+	public static final String	HOST_CLIENT					= "Client";
+	public static final String  HOST_START					= "Start";
+	public static final String	HOST_STOP					= "Stop";
+		
 	// Ivanhoe Application
 	public static final int 	APP_WINDOW_HEIGHT 			= 780;
 	public static final int 	APP_WINDOW_WIDTH 			= 1024;
@@ -120,6 +138,15 @@ public class GUIConfig {
 	public static final int 	TOURNAMENT_TOTAL_HEIGHT		= 50;
 	public static final int 	TOURNAMENT_TOTAL_WIDTH		= 75;
 	
+	// Start Server Dialog
+	public static final int 	START_SERVER_WINDOW_HEIGHT 	= 300;
+	public static final int 	START_SERVER_WINDOW_WIDTH 	= 150;	
+	public static final String  NUMBER_PLAYER				= "Number of Player: ";
+	public static final String	IP							= "IP: ";
+	public static final String	PORT						= "Port: ";
+	public static final String	START						= "Start";
+	public static final String	CANCEL						= "Cancel";
+	
 	// About Dialog
 	public static final int 	ABOUT_WINDOW_HEIGHT 		= 300;
 	public static final int 	ABOUT_WINDOW_WIDTH 			= 350;
@@ -131,5 +158,5 @@ public class GUIConfig {
     public static final String [] 	SERVER_TEXT 	= {"Server Status", "Start Server", "Stop Server"};
     public static final String [] 	CLIENT_TEXT 	= {"Client Join", "Client Quit"};
     public static final String [] 	PLAYER_TEXT 	= {"View Player", "Edit Player"};
-    public static final String [] 	ABOUT_TEXT		= {"About Game", "Help Game"};
+    public static final String [] 	ABOUT_TEXT	= {"About Game", "Help Game"};
 }
