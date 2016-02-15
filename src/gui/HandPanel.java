@@ -19,5 +19,7 @@ public class HandPanel extends JFrame{
 		//setSize(GUIConfig.USER_HAND_WIDTH, GUIConfig.USER_HAND_HEIGHT);
 		//setLayout(new CardLayout(1,5));	
 		//setBackground(Color.BLACK);
+		
+
 	}
 }

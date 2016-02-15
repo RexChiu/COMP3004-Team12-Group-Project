@@ -47,6 +47,5 @@ public class UserPanel extends JPanel{
 		displayButton.setLocation(GUIConfig.USER_DISPLAY_LOCATION_X, GUIConfig.USER_DISPLAY_LOCATION_Y);
 		displayButton.setSize(GUIConfig.USER_DISPLAY_WIDTH, GUIConfig.USER_DISPLAY_HEIGHT);
 		add(displayButton);
-		
 	}  
 }

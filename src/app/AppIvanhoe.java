@@ -1,6 +1,13 @@
-package gui;
+package app;
 
 import config.GUIConfig;
+import gui.AboutDialog;
+import gui.PlayerPanel;
+import gui.PoolPanel;
+import gui.ServerStatusPanel;
+import gui.StartServerPanel;
+import gui.TournamentPanel;
+import gui.UserPanel;
 import jdk.nashorn.internal.runtime.regexp.joni.Config;
 
 import java.awt.*; 
@@ -11,17 +18,17 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class IvanhoeApp extends JFrame implements ActionListener{
+public class AppIvanhoe extends JFrame implements ActionListener{
 	
 	private static final String GAME_TITLE = "Ivanhoe";
 	
-	public static final String MENU_STRINGS = "Open Server Close Server Join Client Close Client"
-    		+ "View Player Edit Player About Game Help Game";
+	public static final String MENU_STRINGS = "Server Status Start Server Stop Server Client Join Client"
+    		+ "Quit View Player Edit Player About Game Help Game";
 	
 	public HashMap<String, JMenuItem> listJMI = new HashMap<String, JMenuItem>();
 	public HashMap<String, String[]> listMENU = new HashMap<String, String[]>();
 		
-	public IvanhoeApp(){
+	public AppIvanhoe(){
 		super(GAME_TITLE);
 		getContentPane().setLayout(null);
 
@@ -39,7 +46,7 @@ public class IvanhoeApp extends JFrame implements ActionListener{
 		setup_userPanel();		
 		
 	    setSize(GUIConfig.APP_WINDOW_WIDTH, GUIConfig.APP_WINDOW_HEIGHT);
-	    setResizable(false);
+	    setResizable(Boolean.FALSE);
 	}
 	
 	public void setup_poolPanel(){
@@ -103,8 +110,13 @@ public class IvanhoeApp extends JFrame implements ActionListener{
 			System.out.println(listJMI.get(text).getText());
 		}
 		
-		
 		switch(text){
+			case "Start Server":
+				new StartServerPanel(this, "Start Server").setVisible(Boolean.TRUE);
+				break;
+			case "Server Status":
+				new ServerStatusPanel(this, "Server Status").setVisible(Boolean.TRUE);
+				break;
 			case "About Game":
 				new AboutDialog(this, "About Ivanhoe", "About Ivanhoe").setVisible(Boolean.TRUE);
 				break;
@@ -115,5 +127,5 @@ public class IvanhoeApp extends JFrame implements ActionListener{
 		}
 	}
 	
-	public static void main(String args[]) { new IvanhoeApp().setVisible(true); }
+	public static void main(String args[]) { new AppIvanhoe().setVisible(true); }
 }
