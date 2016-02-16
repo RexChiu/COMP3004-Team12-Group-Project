@@ -1,13 +1,6 @@
-package app;
+package gui;
 
 import config.GUIConfig;
-import gui.AboutDialog;
-import gui.PlayerPanel;
-import gui.PoolPanel;
-import gui.ServerStatusPanel;
-import gui.StartServerPanel;
-import gui.TournamentPanel;
-import gui.UserPanel;
 import jdk.nashorn.internal.runtime.regexp.joni.Config;
 
 import java.awt.*; 
@@ -18,7 +11,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AppIvanhoe extends JFrame implements ActionListener{
+public class ClientPanel extends JFrame implements ActionListener{
 	
 	private static final String GAME_TITLE = "Ivanhoe";
 	
@@ -28,7 +21,7 @@ public class AppIvanhoe extends JFrame implements ActionListener{
 	public HashMap<String, JMenuItem> listJMI = new HashMap<String, JMenuItem>();
 	public HashMap<String, String[]> listMENU = new HashMap<String, String[]>();
 		
-	public AppIvanhoe(){
+	public ClientPanel(){
 		super(GAME_TITLE);
 		getContentPane().setLayout(null);
 
@@ -45,7 +38,7 @@ public class AppIvanhoe extends JFrame implements ActionListener{
 		setup_playerPanel();
 		setup_userPanel();		
 		
-	    setSize(GUIConfig.APP_WINDOW_WIDTH, GUIConfig.APP_WINDOW_HEIGHT);
+	    setSize(GUIConfig.CLIENT_WINDOW_WIDTH, GUIConfig.CLIENT_WINDOW_HEIGHT);
 	    setResizable(Boolean.FALSE);
 	}
 	
@@ -126,6 +119,4 @@ public class AppIvanhoe extends JFrame implements ActionListener{
 				break;
 		}
 	}
-	
-	public static void main(String args[]) { new AppIvanhoe().setVisible(true); }
 }
