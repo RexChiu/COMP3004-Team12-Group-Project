@@ -36,4 +36,5 @@ public class Card implements Cloneable{
 	
 	// Special Card of Action Card
 	public boolean 	isIvanhoe()			{ return this.name.equalsIgnoreCase(GAMEConfig.IVANHOE);		}
+	public boolean 	isShield()			{ return this.name.equalsIgnoreCase(GAMEConfig.SHIELD);			}
 }
