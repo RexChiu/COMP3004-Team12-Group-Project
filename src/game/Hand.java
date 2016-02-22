@@ -187,4 +187,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there any purple card
+	public boolean hasPurple(){
+		for (Card card : hand){
+			if (card.isPurple())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
