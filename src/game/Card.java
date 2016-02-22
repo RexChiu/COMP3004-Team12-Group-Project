@@ -47,4 +47,5 @@ public class Card implements Cloneable{
 	public boolean 	isKnockDown()		{ return this.name.equalsIgnoreCase(GAMEConfig.KNOCK_DOWN);		}
 	public boolean 	isOutmaneuver()		{ return this.name.equalsIgnoreCase(GAMEConfig.OUTMANEUVER);	}
 	public boolean 	isCharge()			{ return this.name.equalsIgnoreCase(GAMEConfig.CHARGE);			}
+	public boolean 	isCountercharge()	{ return this.name.equalsIgnoreCase(GAMEConfig.COUNTERCHARGE);	}
 }
