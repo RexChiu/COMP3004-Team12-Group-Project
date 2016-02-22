@@ -162,4 +162,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isRiposte());
     }
+    
+    @Test
+	public void testIsDodge () {
+		System.out.println("@Test(): isDodge()");
+		card = new Card("Dodge", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isDodge());
+    }
 }
