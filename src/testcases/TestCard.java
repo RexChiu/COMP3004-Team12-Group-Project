@@ -66,4 +66,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isAction());
     }
+    
+    @Test
+	public void testIsPurple () {
+		System.out.println("@Test(): isPurple()");
+		card = new Card("Jousting", "Purple", 0);
+		
+		assertEquals(Boolean.TRUE, card.isPurple());
+    }
 }
