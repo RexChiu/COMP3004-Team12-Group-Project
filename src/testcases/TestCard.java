@@ -122,4 +122,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isSquire());
     }
+    
+    @Test
+	public void testIsIvanhoe () {
+		System.out.println("@Test(): isIvanhoe()");
+		card = new Card("Ivanhoe", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isIvanhoe());
+    }
 }
