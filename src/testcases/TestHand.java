@@ -139,4 +139,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasShield());
     }
+    
+    @Test
+	public void testHasStunned () {
+		System.out.println("@Test(): hasStunned()");
+
+		Card card = new Card("Stunned", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasStunned());
+    }
 }
