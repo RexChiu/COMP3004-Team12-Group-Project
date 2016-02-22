@@ -104,4 +104,18 @@ public class TestDeck {
 		assertEquals(deck.getSize(), deck2.getSize());
 		assertTrue(!(deck.equals(deck2)));
     }
+    
+    @Test
+	public void testCleanDeck () 
+    {
+		System.out.println("@Test(): cleanDeck()");
+		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		
+		deck.addCard(card);
+		
+		deck.cleanDeck();
+		
+		assertTrue(deck.isEmpty());
+    }
 }
