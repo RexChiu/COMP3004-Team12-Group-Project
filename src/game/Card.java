@@ -26,4 +26,5 @@ public class Card implements Cloneable{
 	// Simple Card of Color Card
 	public boolean 	isPurple()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE);	}
 	public boolean 	isRed()				{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_RED);		}
+	public boolean 	isBlue()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_BLUE);	}
 }
