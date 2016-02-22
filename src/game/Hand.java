@@ -34,4 +34,13 @@ public class Hand {
 		}
 		return count; 
 	}
+	
+	// Check all card are action
+	public boolean allAction() {
+		for (Card card : hand){
+			if (!card.isAction())
+				return Boolean.FALSE;	
+		}
+		return Boolean.TRUE;
+	}
 }
