@@ -172,4 +172,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionRiposte());
     }
+    
+    @Test
+	public void testHasActionDodge () {
+		System.out.println("@Test(): hasActionDodge()");
+
+		Card card = new Card("Dodge", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionDodge());
+    }
 }
