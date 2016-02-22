@@ -178,4 +178,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isRetreat());
     }
+    
+    @Test
+	public void testIsKnockDown () {
+		System.out.println("@Test(): isKnockDown()");
+		card = new Card("Knock Down", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isKnockDown());
+    }
 }
