@@ -42,4 +42,5 @@ public class Card implements Cloneable{
 	// Affect Display of Action Card
 	public boolean 	isBreakLance()		{ return this.name.equalsIgnoreCase(GAMEConfig.BREAK_LANCE);	}
 	public boolean 	isRiposte()			{ return this.name.equalsIgnoreCase(GAMEConfig.RIPOSTE);		}
+	public boolean 	isDodge()			{ return this.name.equalsIgnoreCase(GAMEConfig.DODGE);			}
 }
