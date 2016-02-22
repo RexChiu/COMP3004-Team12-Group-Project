@@ -19,12 +19,14 @@ public class Display {
 	}
 
 	// Collection of setter 
-	public void		setStatus(String status) 	{ this.status += status; 	}
+	public void		setStatus(String status) 		{ this.status += status; 	}
+	public void 	setTournament(String tournament) { this.tournament = tournament; }
 	
 	// Collection of Getter
-	public int 		getTotal() 					{ return this.total; 	}
-	public Card 	getCard(int index) 			{ return this.display.get(index);		}
-	public String	getStatus()					{ return this.status; 					}
+	public int 		getTotal() 			{ return this.total; 				}
+	public Card 	getCard(int index) 	{ return this.display.get(index);	}
+	public String	getStatus()			{ return this.status; 				}
+	public String 	getTournament() 	{ return this.tournament; 			}
 	
 	// Add one card to display
 	public void addCard(Card card) { 
