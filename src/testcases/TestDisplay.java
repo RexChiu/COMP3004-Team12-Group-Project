@@ -117,6 +117,18 @@ public class TestDisplay {
 		display.unhorse("Red");
 		
 		assertEquals("Red", display.getTournament());
+    }
+    
+    @Test
+	public void testchangeWeapon () {
+		System.out.println("@Test(): changeWeapon(String tournament)");
 		
+		display.setTournament("Blue");
+
+		assertEquals("Blue", display.getTournament());
+		
+		display.changeWeapon("Red");
+		
+		assertEquals("Red", display.getTournament());
     }
 }
