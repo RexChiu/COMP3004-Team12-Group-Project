@@ -161,4 +161,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionBraekLance());
     }
+    
+    @Test
+	public void testHasActionRiposte () {
+		System.out.println("@Test(): hasActionRiposte()");
+
+		Card card = new Card("Riposte", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionRiposte());
+    }
 }
