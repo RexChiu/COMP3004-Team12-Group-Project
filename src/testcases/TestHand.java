@@ -194,4 +194,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionRetreat());
     }
+    
+    @Test
+	public void testHasActionKnockDown () {
+		System.out.println("@Test(): hasActionKnockDown()");
+
+		Card card = new Card("Knock Down", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionKnockDown());
+    }
 }
