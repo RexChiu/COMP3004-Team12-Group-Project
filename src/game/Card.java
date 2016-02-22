@@ -33,4 +33,7 @@ public class Card implements Cloneable{
 	// Simple Card of Supporter (White Card)
 	public boolean 	isMaiden() 			{ return this.name.equalsIgnoreCase(GAMEConfig.MAIDEN);			}
 	public boolean 	isSquire() 			{ return this.name.equalsIgnoreCase(GAMEConfig.SQUIRE);			}
+	
+	// Special Card of Action Card
+	public boolean 	isIvanhoe()			{ return this.name.equalsIgnoreCase(GAMEConfig.IVANHOE);		}
 }
