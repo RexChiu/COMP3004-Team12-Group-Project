@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
    TestIvanhoe.class,
    TestIvanhoeRequests.class,
    TestIvanhoeResponses.class,
-   TestToken.class
+   TestToken.class,
+   TestHand.class
 })
 
 public class IvanhoeTestSuite {
