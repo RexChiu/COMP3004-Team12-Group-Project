@@ -37,8 +37,8 @@ public class TestHand {
     }
     
     @Test
-	public void testgetCard () {
-		System.out.println("@Test(): getCard()");
+	public void testGetCard () {
+		System.out.println("@Test(): getCard(int index)");
 		
 		Card card = new Card("Ivanhoe", "Action Card", 0);
 		
