@@ -128,4 +128,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasSquire());
     }
+    
+    @Test
+	public void testHasShield () {
+		System.out.println("@Test(): hasShield()");
+
+		Card card = new Card("Shield", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasShield());
+    }
 }
