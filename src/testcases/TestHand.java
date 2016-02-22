@@ -57,4 +57,17 @@ public class TestHand {
 				
 		assertEquals(Boolean.TRUE, hand.lastCard());
     }
+    
+    @Test
+	public void testPlayCard () {
+		System.out.println("@Test(): playCard(Card card)");
+		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+
+		assertEquals(Boolean.FALSE, hand.playCard(card));
+		
+		hand.drawCard(card);
+				
+		assertEquals(Boolean.TRUE, hand.playCard(card));
+    }
 }
