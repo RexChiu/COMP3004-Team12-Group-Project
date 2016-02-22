@@ -69,4 +69,13 @@ public class TestDisplay {
 		display.setStatus("Stunned");
 		assertEquals("ShieldStunned", display.getStatus());
     }
+    
+    @Test
+	public void testGetTournament () {
+		System.out.println("@Test(): getTournament()");
+
+		display.setTournament("Purple");
+		
+		assertEquals("Purple", display.getTournament());
+    }
 }
