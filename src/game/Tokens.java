@@ -13,6 +13,7 @@ public class Tokens {
 	}
 
 	public void 	addToken(String token)		{ this.tokens.put(token, new Token(token)); }
+	public void 	removeToken(String token)	{ this.tokens.remove(token);				}
 	public boolean 	checkToken(String token)	{ return tokens.containsKey(token); 		}
 	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
 	
