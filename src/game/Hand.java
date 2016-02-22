@@ -13,6 +13,9 @@ public class Hand {
 		hand = new ArrayList<Card>();
 	}
 	
+	// Check there is only last card in the hand
+	public boolean lastCard() { return this.hand.size() == GAMEConfig.MIN_CARD; }
+	
 	// Draw a card into the hands
 	public void drawCard(Card card) { hand.add(card); }
 	
