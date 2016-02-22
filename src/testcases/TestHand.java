@@ -84,4 +84,15 @@ public class TestHand {
 		
 		assertEquals(1, hand.countCard(card));
     }
+    
+    @Test
+	public void testAllAction () {
+		System.out.println("@Test(): allAction()");
+
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.allAction());
+    }
 }
