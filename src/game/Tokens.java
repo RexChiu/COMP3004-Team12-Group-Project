@@ -12,4 +12,5 @@ public class Tokens {
 		tokens.put(token, new Token(token));
 	}
 	
+	public int		getSize()	{ return tokens.size(); }
 }
