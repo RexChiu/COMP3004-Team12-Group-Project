@@ -12,7 +12,7 @@ import game.Token;
 import game.Tokens;
 
 public class TestToken {
-	Tokens token;
+	Tokens tokens;
 	
     @BeforeClass
     public static void BeforeClass() {
@@ -22,7 +22,7 @@ public class TestToken {
     @Before
     public void setUp() {
 		System.out.println("@Before: TestToken");
-		token = new Tokens("Purple");
+		tokens = new Tokens("Purple");
 	}
 	
     @After
@@ -39,7 +39,7 @@ public class TestToken {
 	public void testGetSize () {
 		System.out.println("@Test(): getSize()");
 		
-		assertEquals(1, token.getSize());
+		assertEquals(1, tokens.getSize());
     }
 
     @Test
@@ -48,101 +48,101 @@ public class TestToken {
 		
 		Token purpleToken = new Token("Purple");
 		
-		assertEquals(purpleToken.getName(), token.getToken("Purple").getName());
+		assertEquals(purpleToken.getName(), tokens.getToken("Purple").getName());
     }
 
     @Test
 	public void testCheckToken () {
 		System.out.println("@Test(): checkToken(String token)");
 				
-		assertEquals(Boolean.TRUE, token.checkToken("Purple"));
+		assertEquals(Boolean.TRUE, tokens.checkToken("Purple"));
     }
 
     @Test
 	public void testAddToken () {
 		System.out.println("@Test(): addToken(String token)");
 		
-		token.addToken("Blue");
+		tokens.addToken("Blue");
 
-		assertEquals(Boolean.TRUE, token.checkToken("Blue"));
+		assertEquals(Boolean.TRUE, tokens.checkToken("Blue"));
     }
 
     @Test
 	public void testRemoveToken () {
 		System.out.println("@Test(): removeToken(String token)");
 		
-		token.removeToken("Blue");
+		tokens.removeToken("Blue");
 
-		assertEquals(Boolean.FALSE, token.checkToken("Blue"));
+		assertEquals(Boolean.FALSE, tokens.checkToken("Blue"));
     }
 
     @Test
 	public void testHasPurple () {
 		System.out.println("@Test(): hasPurple()");
 		
-		assertEquals(Boolean.TRUE, token.hasPurple());
+		assertEquals(Boolean.TRUE, tokens.hasPurple());
     }
 
     @Test
 	public void testHasRed () {
 		System.out.println("@Test(): hasRed()");
 		
-		token.addToken("Red");
+		tokens.addToken("Red");
 		
-		assertEquals(Boolean.TRUE, token.hasRed());
+		assertEquals(Boolean.TRUE, tokens.hasRed());
     }
 
     @Test
 	public void testHasBlue () {
 		System.out.println("@Test(): hasBlue()");
 		
-		token.addToken("Blue");
+		tokens.addToken("Blue");
 		
-		assertEquals(Boolean.TRUE, token.hasBlue());
+		assertEquals(Boolean.TRUE, tokens.hasBlue());
     }
 
     @Test
 	public void testHasYellow () {
 		System.out.println("@Test(): hasYellow()");
 		
-		token.addToken("Yellow");
+		tokens.addToken("Yellow");
 		
-		assertEquals(Boolean.TRUE, token.hasYellow());
+		assertEquals(Boolean.TRUE, tokens.hasYellow());
     }
 
     @Test
 	public void testHasWhite () {
 		System.out.println("@Test(): hasWhite()");
 		
-		token.addToken("White");
+		tokens.addToken("White");
 		
-		assertEquals(Boolean.TRUE, token.hasWhite());
+		assertEquals(Boolean.TRUE, tokens.hasWhite());
     }
     
     @Test
 	public void testHasFour () {
 		System.out.println("@Test(): hasFour()");
 		
-		assertEquals(Boolean.FALSE, token.hasFour());
+		assertEquals(Boolean.FALSE, tokens.hasFour());
 
-		token.addToken("Red");
-		token.addToken("Blue");
-		token.addToken("Yellow");
+		tokens.addToken("Red");
+		tokens.addToken("Blue");
+		tokens.addToken("Yellow");
 		
-		assertEquals(Boolean.TRUE, token.hasFour());
+		assertEquals(Boolean.TRUE, tokens.hasFour());
     }
     
     @Test
 	public void testHasFive () {
 		System.out.println("@Test(): hasFive()");
 		
-		assertEquals(Boolean.FALSE, token.hasFive());
+		assertEquals(Boolean.FALSE, tokens.hasFive());
 
-		token.addToken("Red");
-		token.addToken("Blue");
-		token.addToken("Yellow");
-		token.addToken("White");
+		tokens.addToken("Red");
+		tokens.addToken("Blue");
+		tokens.addToken("Yellow");
+		tokens.addToken("White");
 		
-		assertEquals(Boolean.TRUE, token.hasFive());
+		assertEquals(Boolean.TRUE, tokens.hasFive());
     }
 }
