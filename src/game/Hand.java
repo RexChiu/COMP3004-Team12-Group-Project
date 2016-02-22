@@ -142,4 +142,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a charge
+	public boolean hasActionCharge(){
+		for (Card card : hand){
+			if (card.isCharge())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
