@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import game.Card;
 import game.Hand;
 import game.Tokens;
 
@@ -33,5 +34,16 @@ public class TestHand {
     @AfterClass
     public static void afterClass () {
     	 System.out.println("@AfterClass: TestHand");
+    }
+    
+    @Test
+	public void testgetCard () {
+		System.out.println("@Test(): getCard()");
+		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		
+		hand.drawCard(card);
+		
+		assertEquals(card, card.getCard(0));
     }
 }
