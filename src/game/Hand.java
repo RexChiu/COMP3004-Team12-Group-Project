@@ -70,4 +70,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a shield
+	public boolean hasShield(){
+		for (Card card : hand){
+			if (card.isShield())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
