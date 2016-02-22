@@ -79,7 +79,9 @@ public class TestHand {
 		System.out.println("@Test(): countCard(Card sameCard)");
 
 		Card card = new Card("Ivanhoe", "Action Card", 0);
-				
+
+		hand.drawCard(card);
+		
 		assertEquals(1, hand.countCard(card));
     }
 }
