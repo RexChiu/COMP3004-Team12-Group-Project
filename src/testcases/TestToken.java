@@ -57,4 +57,13 @@ public class TestToken {
 				
 		assertEquals(Boolean.TRUE, token.checkToken("Purple"));
     }
+
+    @Test
+	public void testAddToken () {
+		System.out.println("@Test(): addToken(String token)");
+		
+		token.addToken("Blue");
+
+		assertEquals(Boolean.TRUE, token.checkToken("Blue"));
+    }
 }
