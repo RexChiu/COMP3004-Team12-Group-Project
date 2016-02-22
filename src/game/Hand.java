@@ -24,4 +24,14 @@ public class Hand {
 	
 	// Get the information of card in the hand
 	public Card getCard(int index) { return hand.get(index); }
+	
+	// Count the numeber of same card in the hand
+	public int countCard(Card sameCard) {
+		int count = 0;
+		for (Card card : hand){
+			if (card.equals(sameCard))
+				count++;
+		}
+		return count; 
+	}
 }
