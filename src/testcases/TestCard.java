@@ -170,4 +170,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isDodge());
     }
+    
+    @Test
+	public void testIsRetreat () {
+		System.out.println("@Test(): isRetreat()");
+		card = new Card("Retreat", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isRetreat());
+    }
 }
