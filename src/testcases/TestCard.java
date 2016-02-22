@@ -202,4 +202,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isCharge());
     }
+    
+    @Test
+	public void testIsCountercharge () {
+		System.out.println("@Test(): isCountercharge()");
+		card = new Card("Countercharge", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isCountercharge());
+    }
 }
