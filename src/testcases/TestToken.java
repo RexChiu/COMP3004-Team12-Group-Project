@@ -119,8 +119,6 @@ public class TestToken {
 		assertEquals(Boolean.TRUE, token.hasWhite());
     }
     
-
-
     @Test
 	public void testHasFour () {
 		System.out.println("@Test(): hasFour()");
@@ -132,5 +130,19 @@ public class TestToken {
 		token.addToken("Yellow");
 		
 		assertEquals(Boolean.TRUE, token.hasFour());
+    }
+    
+    @Test
+	public void testHasFive () {
+		System.out.println("@Test(): hasFive()");
+		
+		assertEquals(Boolean.FALSE, token.hasFive());
+
+		token.addToken("Red");
+		token.addToken("Blue");
+		token.addToken("Yellow");
+		token.addToken("White");
+		
+		assertEquals(Boolean.TRUE, token.hasFive());
     }
 }
