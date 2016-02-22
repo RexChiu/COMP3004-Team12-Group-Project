@@ -8,8 +8,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class TestToken {
+import game.Tokens;
 
+public class TestToken {
+	Tokens token;
+	
     @BeforeClass
     public static void BeforeClass() {
         System.out.println("@BeforeClass: TestToken");
@@ -18,7 +21,7 @@ public class TestToken {
     @Before
     public void setUp() {
 		System.out.println("@Before: TestToken");
-		Tokens token = new Tokens("Purple");
+		token = new Tokens("Purple");
 	}
 	
     @After
@@ -29,5 +32,12 @@ public class TestToken {
     @AfterClass
     public static void afterClass () {
     	 System.out.println("@AfterClass: TestToken");
+    }
+
+    @Test
+	public void testGetSize () {
+		System.out.println("@Test(): getSize()");
+		
+		assertEquals(1, token.getSize());
     }
 }
