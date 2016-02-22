@@ -160,4 +160,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a disgrace
+	public boolean hasActionDisgrace(){
+		for (Card card : hand){
+			if (card.isDisgrace())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
