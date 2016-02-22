@@ -19,6 +19,9 @@ public class Hand {
 	// Draw a card into the hands
 	public void drawCard(Card card) { hand.add(card); }
 	
+	// Play a card to the display
+	public boolean playCard(Card card){ return ( !lastCard() ? hand.remove(card) : Boolean.FALSE); }
+	
 	// Get the information of card in the hand
 	public Card getCard(int index) { return hand.get(index); }
 }
