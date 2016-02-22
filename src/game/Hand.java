@@ -97,4 +97,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a
+	public boolean hasActionRiposte(){
+		for (Card card : hand){
+			if (card.isRiposte())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
