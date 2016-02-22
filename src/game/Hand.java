@@ -151,4 +151,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a countercharge
+	public boolean hasActionCountercharge(){
+		for (Card card : hand){
+			if (card.isCountercharge())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
