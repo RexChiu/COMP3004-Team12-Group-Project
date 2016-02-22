@@ -105,4 +105,18 @@ public class TestDisplay {
 		
 		assertEquals(Boolean.TRUE, display.isStunned());
     }
+    
+    @Test
+	public void testUnhorse () {
+		System.out.println("@Test(): unhorse(String tournament)");
+		
+		display.setTournament("Purple");
+
+		assertEquals("Purple", display.getTournament());
+		
+		display.unhorse("Red");
+		
+		assertEquals("Red", display.getTournament());
+		
+    }
 }
