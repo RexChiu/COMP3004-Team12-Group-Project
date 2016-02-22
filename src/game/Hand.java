@@ -88,4 +88,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a Break Lance
+	public boolean hasActionBraekLance(){
+		for (Card card : hand){
+			if (card.isBreakLance())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
