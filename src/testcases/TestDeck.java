@@ -110,6 +110,20 @@ public class TestDeck {
     {
 		System.out.println("@Test(): cleanDeck()");
 		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		
+		deck.addCard(card);
+		
+		deck.cleanDeck();
+		
+		assertTrue(deck.isEmpty());
+    }
+    
+    @Test
+	public void testCloneDeck () 
+    {
+		System.out.println("@Test(): cleanDeck()");
+		
 		Card card 	= new Card(GAMEConfig.SQUIRE, 			GAMEConfig.SUPPORTERS_WHITE, 	GAMEConfig.VALUE_SQUIRE_TWO);
 		Card card2 	= new Card(GAMEConfig.NO_WEAPON, 		GAMEConfig.COLOR_GREEN, 		GAMEConfig.VALUE_NO_WEAPON_ONE);
 		Card card3 	= new Card(GAMEConfig.MAIDEN, 			GAMEConfig.SUPPORTERS_WHITE, 	GAMEConfig.VALUE_MAIDEN_SIX);
@@ -122,22 +136,10 @@ public class TestDeck {
 		deck.addCard(card4);
 		deck.addCard(card5);
 		
-		Deck deck2 = deck.clone();
+		Deck deck2 = new Deck();
+		
+		deck2 = deck.getDeck();
 		
 		assertTrue(deck.equals(deck2));
-    }
-    
-    @Test
-	public void testCloneDeck () 
-    {
-		System.out.println("@Test(): cloneDeck()");
-		
-		Card card = new Card("Ivanhoe", "Action Card", 0);
-		
-		deck.addCard(card);
-		
-		deck.cleanDeck();
-		
-		assertTrue(deck.isEmpty());
     }
 }
