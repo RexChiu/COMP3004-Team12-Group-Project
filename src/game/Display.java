@@ -2,6 +2,8 @@ package game;
 
 import java.util.ArrayList;
 
+import config.GAMEConfig;
+
 public class Display {
 
 	private ArrayList<Card> display;
@@ -33,5 +35,7 @@ public class Display {
 		this.display.add(card); 
 		this.total += card.getValue();
 	}
-	
+
+	// Check the green tournament
+	public boolean 	isGreenTournament() { return this.tournament.equalsIgnoreCase(GAMEConfig.COLOR_GREEN); 		}
 }
