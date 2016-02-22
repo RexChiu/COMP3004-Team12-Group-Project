@@ -22,4 +22,7 @@ public class Card implements Cloneable{
 
 	// Check the card is action card
 	public boolean 	isAction()			{ return this.color.equalsIgnoreCase(GAMEConfig.ACTION_CARD); }
+	
+	// Simple Card of Color Card
+	public boolean 	isPurple()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE);	}
 }
