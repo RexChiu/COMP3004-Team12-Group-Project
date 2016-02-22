@@ -106,4 +106,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isGreen());
     }
+    
+    @Test
+	public void testIsMaiden () {
+		System.out.println("@Test(): isMaiden()");
+		card = new Card("Maiden", "White", 2);
+		
+		assertEquals(Boolean.TRUE, card.isMaiden());
+    }
 }
