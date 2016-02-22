@@ -205,4 +205,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionKnockDown());
     }
+    
+    @Test
+	public void testHasActionOutmaneuver () {
+		System.out.println("@Test(): hasActionOutmaneuver()");
+
+		Card card = new Card("Outmaneuver", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionOutmaneuver());
+    }
 }
