@@ -2,6 +2,8 @@ package game;
 
 import java.util.HashMap;
 
+import config.GAMEConfig;
+
 public class Tokens {
 	
 	private HashMap <String, Token> tokens;
@@ -18,4 +20,7 @@ public class Tokens {
 	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
 	
 	public int		getSize()	{ return tokens.size(); }
+	
+	// Check the token whether there is one or not
+	public boolean 	hasPurple() { return tokens.containsKey(GAMEConfig.COLOR_PURPLE); 		}
 }
