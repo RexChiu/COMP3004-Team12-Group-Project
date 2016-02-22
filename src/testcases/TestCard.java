@@ -186,4 +186,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isKnockDown());
     }
+    
+    @Test
+	public void testIsOutmaneuver () {
+		System.out.println("@Test(): isOutmaneuver()");
+		card = new Card("Outmaneuver", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isOutmaneuver());
+    }
 }
