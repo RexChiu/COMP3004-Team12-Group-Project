@@ -117,4 +117,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasMaiden());
     }
+    
+    @Test
+	public void testHasSquire () {
+		System.out.println("@Test(): hasSquire()");
+
+		Card card = new Card("Squire", "White", 2);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasSquire());
+    }
 }
