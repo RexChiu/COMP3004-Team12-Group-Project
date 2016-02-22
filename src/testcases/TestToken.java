@@ -50,4 +50,11 @@ public class TestToken {
 		
 		assertEquals(purpleToken.getName(), token.getToken("Purple").getName());
     }
+
+    @Test
+	public void testCheckToken () {
+		System.out.println("@Test(): checkToken(String token)");
+				
+		assertEquals(Boolean.TRUE, token.checkToken("Purple"));
+    }
 }
