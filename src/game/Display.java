@@ -38,4 +38,7 @@ public class Display {
 
 	// Check the green tournament
 	public boolean 	isGreenTournament() { return this.tournament.equalsIgnoreCase(GAMEConfig.COLOR_GREEN); 		}
+	
+	// Check the status whether is shield of not
+	public boolean 	isShield() 			{ return GAMEConfig.containsKey(this.status, GAMEConfig.STATUS_SHIELD); }
 }
