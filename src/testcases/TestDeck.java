@@ -1,6 +1,6 @@
 package testcases;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -59,5 +59,17 @@ public class TestDeck {
 		deck.removeCard(card);
 		
 		assertTrue(deck.isEmpty());
+    }
+    
+    @Test
+	public void testGetSize () 
+    {
+		System.out.println("@Test(): getSize()");
+		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		
+		deck.addCard(card);
+		
+		assertEquals(1, deck.getSize());
     }
 }
