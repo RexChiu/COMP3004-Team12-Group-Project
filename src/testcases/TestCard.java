@@ -50,4 +50,12 @@ public class TestCard {
 		
 		assertEquals("White", card.getColor());
     }
+    
+    @Test
+	public void testGetValue () {
+		System.out.println("@Test(): getValue()");
+		card = new Card("Maiden", "White", 6);
+		
+		assertEquals(6, card.getValue());
+    }
 }
