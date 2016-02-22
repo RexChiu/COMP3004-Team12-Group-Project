@@ -95,4 +95,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.allAction());
     }
+    
+    @Test
+	public void testHasIvanhoe () {
+		System.out.println("@Test(): hasIvanhoe()");
+
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasIvanhoe());
+    }
 }
