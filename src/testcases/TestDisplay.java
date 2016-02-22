@@ -120,7 +120,7 @@ public class TestDisplay {
     }
     
     @Test
-	public void testchangeWeapon () {
+	public void testChangeWeapon () {
 		System.out.println("@Test(): changeWeapon(String tournament)");
 		
 		display.setTournament("Blue");
@@ -130,5 +130,18 @@ public class TestDisplay {
 		display.changeWeapon("Red");
 		
 		assertEquals("Red", display.getTournament());
+    }
+    
+    @Test
+	public void testDropWeapon () {
+		System.out.println("@Test(): dropWeapon()");
+		
+		display.setTournament("Blue");
+
+		assertEquals("Blue", display.getTournament());
+		
+		display.dropWeapon();
+		
+		assertEquals("Green", display.getTournament());
     }
 }
