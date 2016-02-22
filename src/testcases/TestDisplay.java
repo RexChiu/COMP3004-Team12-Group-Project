@@ -57,4 +57,17 @@ public class TestDisplay {
 		
 		assertEquals(card, display.getCard(0));
     }
+    
+    @Test
+	public void testGetStatus () {
+		System.out.println("@Test(): getStatus()");
+
+		assertEquals("", display.getStatus());
+
+		display.setStatus("Shield");
+		assertEquals("Shield", display.getStatus());
+		
+		display.setStatus("Stunned");
+		assertEquals("Stunned", display.getStatus());
+    }
 }

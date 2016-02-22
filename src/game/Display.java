@@ -20,6 +20,7 @@ public class Display {
 	
 	// Collection of Getter
 	public int 		getTotal() 			{ return this.total; 	}
+	public Card 	getCard(int index) 	{ return this.display.get(index); 								}
 	
 	// Add one card to display
 	public void addCard(Card card) { 
