@@ -130,4 +130,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isIvanhoe());
     }
+    
+    @Test
+	public void testIsShield () {
+		System.out.println("@Test(): isShield()");
+		card = new Card("Shield", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isShield());
+    }
 }
