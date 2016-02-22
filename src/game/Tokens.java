@@ -23,4 +23,8 @@ public class Tokens {
 	
 	// Check the token whether there is one or not
 	public boolean 	hasPurple() { return tokens.containsKey(GAMEConfig.COLOR_PURPLE); 		}
+	public boolean 	hasRed() 	{ return tokens.containsKey(GAMEConfig.COLOR_RED); 			}
+	public boolean 	hasBlue() 	{ return tokens.containsKey(GAMEConfig.COLOR_BLUE); 		}
+	public boolean 	hasYellow() { return tokens.containsKey(GAMEConfig.COLOR_YELLOW); 		}
+	public boolean 	hasWhite() 	{ return tokens.containsKey(GAMEConfig.SUPPORTERS_WHITE);	}
 }

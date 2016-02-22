@@ -87,12 +87,16 @@ public class TestToken {
 	public void testHasRed () {
 		System.out.println("@Test(): hasRed()");
 		
+		token.addToken("Red");
+		
 		assertEquals(Boolean.TRUE, token.hasRed());
     }
 
     @Test
 	public void testHasBlue () {
 		System.out.println("@Test(): hasBlue()");
+		
+		token.addToken("Blue");
 		
 		assertEquals(Boolean.TRUE, token.hasBlue());
     }
@@ -101,12 +105,16 @@ public class TestToken {
 	public void testHasYellow () {
 		System.out.println("@Test(): hasYellow()");
 		
+		token.addToken("Yellow");
+		
 		assertEquals(Boolean.TRUE, token.hasYellow());
     }
 
     @Test
 	public void testHasWhite () {
 		System.out.println("@Test(): hasWhite()");
+		
+		token.addToken("White");
 		
 		assertEquals(Boolean.TRUE, token.hasWhite());
     }
