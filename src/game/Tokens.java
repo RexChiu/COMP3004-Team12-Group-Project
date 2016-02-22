@@ -10,8 +10,8 @@ public class Tokens {
 	
 	public Tokens(String token) {
 		// TODO Auto-generated constructor stub
-		tokens = new HashMap<String, Token>();
-		tokens.put(token, new Token(token));
+		this.tokens = new HashMap<String, Token>();
+		this.tokens.put(token, new Token(token));
 	}
 
 	public void 	addToken(String token)		{ this.tokens.put(token, new Token(token)); }

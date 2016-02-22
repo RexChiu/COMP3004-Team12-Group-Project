@@ -5,6 +5,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import game.Display;
+
 public class TestDisplay {
 	Display display;
 	

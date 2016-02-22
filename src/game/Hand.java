@@ -10,7 +10,7 @@ public class Hand {
 	
 	public Hand() {
 		// TODO Auto-generated constructor stub
-		hand = new ArrayList<Card>();
+		this.hand = new ArrayList<Card>();
 	}
 	
 	// Check there is only last card in the hand
