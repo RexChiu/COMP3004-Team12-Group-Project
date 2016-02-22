@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import game.Token;
 import game.Tokens;
 
 public class TestToken {
@@ -39,5 +40,14 @@ public class TestToken {
 		System.out.println("@Test(): getSize()");
 		
 		assertEquals(1, token.getSize());
+    }
+
+    @Test
+	public void testGetToken () {
+		System.out.println("@Test(): getToken(String token)");
+		
+		Token purpleToken = new Token("Purple");
+		
+		assertEquals(purpleToken.getName(), token.getToken("Purple").getName());
     }
 }
