@@ -218,4 +218,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isDisgrace());
     }
+    
+    @Test
+	public void testIsAdapt () {
+		System.out.println("@Test(): isAdapt()");
+		card = new Card("Adapt", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isAdapt());
+    }
 }
