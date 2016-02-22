@@ -5,30 +5,29 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import game.Hand;
-import game.Tokens;
 
-public class TestHand {
-	Hand hand;
+public class TestCard {
+	Card card;
 	
     @BeforeClass
     public static void BeforeClass() {
-        System.out.println("@BeforeClass: TestHand");
+        System.out.println("@BeforeClass: TestCard");
     }
     
     @Before
     public void setUp() {
-		System.out.println("@Before: TestHand");
-		hand = new Hand();
+		System.out.println("@Before: TestCard");
+		card = new Card("Ivanhoe", "Action Card", 0);
 	}
 	
     @After
     public void tearDown () {
-		System.out.println("@After(): TestHand");
+		System.out.println("@After(): TestCard");
 	}
 	
     @AfterClass
     public static void afterClass () {
-    	 System.out.println("@AfterClass: TestHand");
+    	 System.out.println("@AfterClass: TestCard");
     }
+
 }

@@ -9,6 +9,7 @@ import org.junit.runners.Suite;
    TestIvanhoeRequests.class,
    TestIvanhoeResponses.class,
    TestToken.class,
+   TestCard.class,
    TestHand.class
 })
 

@@ -128,7 +128,7 @@ public class GAMEConfig {
 	public static final int		VALUE_SQUIRE_THREE 		= 3;	
 	public static final int		VALUE_MAIDEN_SIX 		= 6;
 	
-	public static final int		VALUE_ACTION_CARD_ZERO	= 6;
+	public static final int		VALUE_ACTION_CARD_ZERO	= 0;
 	
 	public static final boolean compareObject(String objOne, String objTwo) { 
 		return objOne.toUpperCase().equals(objTwo.toUpperCase());
