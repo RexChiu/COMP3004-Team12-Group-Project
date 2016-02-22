@@ -154,4 +154,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isBreakLance());
     }
+    
+    @Test
+	public void testIsRiposte () {
+		System.out.println("@Test(): isRiposte()");
+		card = new Card("Riposte", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isRiposte());
+    }
 }
