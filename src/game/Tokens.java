@@ -13,6 +13,7 @@ public class Tokens {
 	}
 
 	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
+	public boolean 	checkToken(String token)	{ return tokens.containsKey(token); 		}
 	
 	public int		getSize()	{ return tokens.size(); }
 }
