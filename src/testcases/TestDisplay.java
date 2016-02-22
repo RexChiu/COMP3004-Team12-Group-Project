@@ -47,4 +47,14 @@ public class TestDisplay {
 		display.addCard(newCard);
 		assertEquals(3, display.getTotal());
     }
+    
+    @Test
+	public void testGetCard () {
+		System.out.println("@Test(): getCard(int index)");
+
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		display.addCard(card);
+		
+		assertEquals(card, display.getCard(0));
+    }
 }
