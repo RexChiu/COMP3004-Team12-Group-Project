@@ -150,7 +150,7 @@ public class TestCard {
     @Test
 	public void testIsBreakLance () {
 		System.out.println("@Test(): isBreakLance()");
-		card = new Card("BreakLance", "Action Card", 0);
+		card = new Card("Break Lance", "Action Card", 0);
 		
 		assertEquals(Boolean.TRUE, card.isBreakLance());
     }

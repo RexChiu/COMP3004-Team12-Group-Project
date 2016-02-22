@@ -38,4 +38,7 @@ public class Card implements Cloneable{
 	public boolean 	isIvanhoe()			{ return this.name.equalsIgnoreCase(GAMEConfig.IVANHOE);		}
 	public boolean 	isShield()			{ return this.name.equalsIgnoreCase(GAMEConfig.SHIELD);			}
 	public boolean 	isStunned()			{ return this.name.equalsIgnoreCase(GAMEConfig.STUNNED);		}
+	
+	// Affect Display of Action Card
+	public boolean 	isBreakLance()		{ return this.name.equalsIgnoreCase(GAMEConfig.BREAK_LANCE);	}
 }
