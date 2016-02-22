@@ -133,4 +133,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a outmaneuver
+	public boolean hasActionOutmaneuver(){
+		for (Card card : hand){
+			if (card.isOutmaneuver())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
