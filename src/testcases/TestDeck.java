@@ -122,7 +122,7 @@ public class TestDeck {
     @Test
 	public void testCloneDeck () 
     {
-		System.out.println("@Test(): cleanDeck()");
+		System.out.println("@Test(): clone()");
 		
 		Card card 	= new Card(GAMEConfig.SQUIRE, 			GAMEConfig.SUPPORTERS_WHITE, 	GAMEConfig.VALUE_SQUIRE_TWO);
 		Card card2 	= new Card(GAMEConfig.NO_WEAPON, 		GAMEConfig.COLOR_GREEN, 		GAMEConfig.VALUE_NO_WEAPON_ONE);
@@ -141,5 +141,21 @@ public class TestDeck {
 		deck2 = deck.getDeck();
 		
 		assertTrue(deck.equals(deck2));
+    }
+    
+    @Test
+	public void testAddCards () 
+    {
+		System.out.println("@Test(): addCards(Card card, int count)");
+		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		
+		deck.addCards(card, 3);
+		
+		for (int i = 0; i < deck.getSize(); i++)
+		{
+			assertEquals("Ivanhoe", deck.getCard(i).getName());
+			assertEquals("Action Card", deck.getCard(i).getColor());
+		}
     }
 }
