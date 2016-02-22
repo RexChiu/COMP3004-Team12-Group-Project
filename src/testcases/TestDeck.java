@@ -46,4 +46,18 @@ public class TestDeck {
 				
 		assertEquals(card, deck.getCard(0));
     }
+    
+    @Test
+	public void testRemoveCard () 
+    {
+		System.out.println("@Test(): removeCard(Card card)");
+		
+		Card card = new Card("Ivanhoe", "Action Card", 0);
+		
+		deck.addCard(card);
+				
+		deck.removeCard(card);
+		
+		assertTrue(deck.isEmpty());
+    }
 }
