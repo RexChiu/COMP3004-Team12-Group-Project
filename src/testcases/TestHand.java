@@ -315,4 +315,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasYellow());
     }
+    
+    @Test
+	public void testHasGreen () {
+		System.out.println("@Test(): hasGreen()");
+
+		Card card = new Card("No Weapon", "Green", 2);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasGreen());
+    }
 }
