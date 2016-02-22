@@ -11,6 +11,8 @@ public class Tokens {
 		tokens = new HashMap<String, Token>();
 		tokens.put(token, new Token(token));
 	}
+
+	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
 	
 	public int		getSize()	{ return tokens.size(); }
 }
