@@ -61,13 +61,16 @@ public class TestHand {
     @Test
 	public void testPlayCard () {
 		System.out.println("@Test(): playCard(Card card)");
-		
+
 		Card card = new Card("Ivanhoe", "Action Card", 0);
 
 		assertEquals(Boolean.FALSE, hand.playCard(card));
 		
 		hand.drawCard(card);
+		
+		Card newCard = new Card("Maiden", "White", 6);
+		hand.drawCard(newCard);
 				
-		assertEquals(Boolean.TRUE, hand.playCard(card));
+		assertEquals(Boolean.TRUE, hand.playCard(newCard));
     }
 }
