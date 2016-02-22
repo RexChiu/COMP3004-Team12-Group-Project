@@ -150,4 +150,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasStunned());
     }
+    
+    @Test
+	public void testHasActionBraekLance () {
+		System.out.println("@Test(): hasActionBraekLance()");
+
+		Card card = new Card("Braek Lance", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionBraekLance());
+    }
 }
