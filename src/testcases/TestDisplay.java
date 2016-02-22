@@ -144,4 +144,15 @@ public class TestDisplay {
 		
 		assertEquals("Green", display.getTournament());
     }
+    
+    @Test
+	public void testHasMaiden () {
+		System.out.println("@Test(): hasMaiden()");
+		
+		Card card = new Card("Maiden", "White", 6);
+		
+		display.addCard(card);
+		
+		assertEquals(Boolean.TRUE, display.hasMaiden());
+    }
 }
