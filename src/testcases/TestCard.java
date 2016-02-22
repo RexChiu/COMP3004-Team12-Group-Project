@@ -110,8 +110,16 @@ public class TestCard {
     @Test
 	public void testIsMaiden () {
 		System.out.println("@Test(): isMaiden()");
-		card = new Card("Maiden", "White", 2);
+		card = new Card("Maiden", "White", 6);
 		
 		assertEquals(Boolean.TRUE, card.isMaiden());
+    }
+    
+    @Test
+	public void testIsSquire () {
+		System.out.println("@Test(): isSquire()");
+		card = new Card("Squire", "White", 2);
+		
+		assertEquals(Boolean.TRUE, card.isSquire());
     }
 }

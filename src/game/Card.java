@@ -29,4 +29,7 @@ public class Card implements Cloneable{
 	public boolean 	isBlue()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_BLUE);	}
 	public boolean 	isYellow()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_YELLOW);	}
 	public boolean 	isGreen()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_GREEN);	}
+	
+	// Simple Card of Supporter (White Card)
+	public boolean 	isMaiden() 			{ return this.name.equalsIgnoreCase(GAMEConfig.MAIDEN);			}
 }
