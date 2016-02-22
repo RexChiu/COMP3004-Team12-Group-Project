@@ -38,11 +38,13 @@ public class TestDisplay {
     @Test
 	public void testGetTotal () {
 		System.out.println("@Test(): getTotal()");
-		
+
 		Card card = new Card("Ivanhoe", "Action Card", 0);
-		
 		display.addCard(card);
-				
-		assertEquals(1, display.getTotal());
+		assertEquals(0, display.getTotal());
+		
+		Card newCard = new Card("Jousting", "Purple", 3);
+		display.addCard(newCard);
+		assertEquals(3, display.getTotal());
     }
 }
