@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import game.Card;
 import game.Deck;
+import config.GAMEConfig;
 
 public class TestDeck {
 	Deck deck;
@@ -71,5 +72,36 @@ public class TestDeck {
 		deck.addCard(card);
 		
 		assertEquals(1, deck.getSize());
+    }
+    
+    @Test
+	public void testShuffleDeck () 
+    {
+		System.out.println("@Test(): shuffleDeck()");
+		
+		Deck deck2 = new Deck();
+		
+		Card card 	= new Card(GAMEConfig.SQUIRE, 			GAMEConfig.SUPPORTERS_WHITE, 	GAMEConfig.VALUE_SQUIRE_TWO);
+		Card card2 	= new Card(GAMEConfig.NO_WEAPON, 		GAMEConfig.COLOR_GREEN, 		GAMEConfig.VALUE_NO_WEAPON_ONE);
+		Card card3 	= new Card(GAMEConfig.MAIDEN, 			GAMEConfig.SUPPORTERS_WHITE, 	GAMEConfig.VALUE_MAIDEN_SIX);
+		Card card4 	= new Card(GAMEConfig.UNHORSE, 			GAMEConfig.ACTION_CARD, 		GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		Card card5 	= new Card(GAMEConfig.CHANGE_WEAPON, 	GAMEConfig.ACTION_CARD, 		GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		
+		deck.addCard(card);
+		deck.addCard(card2);
+		deck.addCard(card3);
+		deck.addCard(card4);
+		deck.addCard(card5);
+		
+		deck2.addCard(card);
+		deck2.addCard(card2);
+		deck2.addCard(card3);
+		deck2.addCard(card4);
+		deck2.addCard(card5);
+		
+		deck2.shuffleDeck();
+		
+		assertEquals(deck.getSize(), deck2.getSize());
+		assertTrue(!(deck.equals(deck2)));
     }
 }
