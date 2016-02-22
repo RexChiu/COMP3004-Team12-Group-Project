@@ -98,4 +98,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isYellow());
     }
+    
+    @Test
+	public void testIsGreen () {
+		System.out.println("@Test(): isGreen()");
+		card = new Card("No Weapon", "Green", 1);
+		
+		assertEquals(Boolean.TRUE, card.isGreen());
+    }
 }
