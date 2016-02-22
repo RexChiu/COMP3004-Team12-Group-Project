@@ -66,7 +66,6 @@ public class TestDisplay {
 
 		display.setStatus("Shield");
 		assertEquals("Shield", display.getStatus());
-		
 		display.setStatus("Stunned");
 		assertEquals("Stunned", display.getStatus());
     }

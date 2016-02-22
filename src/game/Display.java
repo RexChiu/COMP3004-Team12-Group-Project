@@ -17,10 +17,14 @@ public class Display {
 		this.status 	= "";
 		this.total 	= 0;
 	}
+
+	// Collection of setter 
+	public void		setStatus(String status) 	{ this.status += status; 	}
 	
 	// Collection of Getter
-	public int 		getTotal() 			{ return this.total; 	}
-	public Card 	getCard(int index) 	{ return this.display.get(index); 								}
+	public int 		getTotal() 					{ return this.total; 	}
+	public Card 	getCard(int index) 			{ return this.display.get(index);		}
+	public String	getStatus()					{ return this.status; 					}
 	
 	// Add one card to display
 	public void addCard(Card card) { 
