@@ -106,4 +106,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a
+	public boolean hasActionDodge(){
+		for (Card card : hand){
+			if (card.isDodge())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
