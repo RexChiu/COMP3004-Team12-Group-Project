@@ -61,4 +61,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+	
+	// Check the hand is there a Square
+	public boolean hasSquire(){
+		for (Card card : hand){
+			if (card.isSquire())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
