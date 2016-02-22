@@ -98,7 +98,7 @@ public class Hand {
 		return Boolean.FALSE;
 	}
 
-	// Check the hand is there a
+	// Check the hand is there a Riposte
 	public boolean hasActionRiposte(){
 		for (Card card : hand){
 			if (card.isRiposte())
@@ -107,10 +107,19 @@ public class Hand {
 		return Boolean.FALSE;
 	}
 
-	// Check the hand is there a
+	// Check the hand is there a Dodge
 	public boolean hasActionDodge(){
 		for (Card card : hand){
 			if (card.isDodge())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
+
+	// Check the hand is there a Retreat
+	public boolean hasActionRetreat(){
+		for (Card card : hand){
+			if (card.isRetreat())
 				return Boolean.TRUE;	
 		}
 		return Boolean.FALSE;
