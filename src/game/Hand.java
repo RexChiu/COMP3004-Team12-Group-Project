@@ -169,4 +169,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a adapt
+	public boolean hasActionAdapt(){
+		for (Card card : hand){
+			if (card.isAdapt())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
