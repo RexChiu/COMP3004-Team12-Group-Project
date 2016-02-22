@@ -17,4 +17,6 @@ public class Deck {
 	
 	public void 	addCard(Card card)		{ this.deck.add(card); 				}
 	public Card 	getCard(int index)		{ return this.deck.get(index);		}
+	public boolean 	removeCard(Card card)	{ return this.deck.remove(card); 	}
+	public boolean 	isEmpty()				{ return this.deck.isEmpty(); 		}
 }
