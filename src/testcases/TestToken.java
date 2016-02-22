@@ -82,4 +82,32 @@ public class TestToken {
 		
 		assertEquals(Boolean.TRUE, token.hasPurple());
     }
+
+    @Test
+	public void testHasRed () {
+		System.out.println("@Test(): hasRed()");
+		
+		assertEquals(Boolean.TRUE, token.hasRed());
+    }
+
+    @Test
+	public void testHasBlue () {
+		System.out.println("@Test(): hasBlue()");
+		
+		assertEquals(Boolean.TRUE, token.hasBlue());
+    }
+
+    @Test
+	public void testHasYellow () {
+		System.out.println("@Test(): hasYellow()");
+		
+		assertEquals(Boolean.TRUE, token.hasYellow());
+    }
+
+    @Test
+	public void testHasWhite () {
+		System.out.println("@Test(): hasWhite()");
+		
+		assertEquals(Boolean.TRUE, token.hasWhite());
+    }
 }
