@@ -25,15 +25,16 @@ public class Display {
 	public void 	setTournament(String tournament) { this.tournament = tournament; }
 	
 	// Collection of Getter
-	public int 		getTotal() 			{ return this.total; 				}
-	public Card 	getCard(int index) 	{ return this.display.get(index);	}
-	public String	getStatus()			{ return this.status; 				}
-	public String 	getTournament() 	{ return this.tournament; 			}
+	public int 		getTotal() 			{ return ( isGreenTournament() ? display.size() : this.total); 	}
+	public Card 	getCard(int index) 	{ return this.display.get(index);								}
+	public String	getStatus()			{ return this.status; 											}
+	public String 	getTournament() 	{ return this.tournament; 										}
 	
 	// Add one card to display
 	public void addCard(Card card) { 
 		this.display.add(card); 
 		this.total += card.getValue();
+		updateDisplay();
 	}
 	
 	// Check the supporter maiden
@@ -44,7 +45,17 @@ public class Display {
 		}
 		return Boolean.FALSE;
 	}
-
+	
+	// Update the status of the display eithe shield or stunned
+	public void updateDisplay(){
+		int index = display.size() - 1;
+		if (display.get(index).isShield())	
+			this.status += ( isShield() ? "" : GAMEConfig.STATUS_SHIELD);
+		
+		if (display.get(index).isStunned()) 
+			this.status += ( isShield() ? "" : GAMEConfig.STATUS_STUNNED);
+	}
+	
 	//UNHORSE: The tournament color changes from purple to red, blue or yellow
 	public void 	unhorse(String tournament) 		{ this.tournament = tournament; 							}
 	
