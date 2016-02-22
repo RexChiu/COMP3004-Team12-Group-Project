@@ -249,4 +249,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionDisgrace());
     }
+    
+    @Test
+	public void testHasActionAdapt () {
+		System.out.println("@Test(): hasActionAdapt()");
+
+		Card card = new Card("Adapt", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionAdapt());
+    }
 }
