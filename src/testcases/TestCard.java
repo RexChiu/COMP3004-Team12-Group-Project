@@ -226,4 +226,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isAdapt());
     }
+    
+    @Test
+	public void testIsOutwit () {
+		System.out.println("@Test(): isOutwitt()");
+		card = new Card("Outwit", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isOutwit());
+    }
 }
