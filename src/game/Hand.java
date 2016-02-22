@@ -205,4 +205,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there any blue card
+	public boolean hasBlue(){
+		for (Card card : hand){
+			if (card.isBlue())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
