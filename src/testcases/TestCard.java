@@ -70,7 +70,7 @@ public class TestCard {
     @Test
 	public void testIsPurple () {
 		System.out.println("@Test(): isPurple()");
-		card = new Card("Jousting", "Purple", 0);
+		card = new Card("Jousting", "Purple", 3);
 		
 		assertEquals(Boolean.TRUE, card.isPurple());
     }
@@ -78,7 +78,7 @@ public class TestCard {
     @Test
 	public void testIsRed () {
 		System.out.println("@Test(): isRed()");
-		card = new Card("Sword", "Red", 0);
+		card = new Card("Sword", "Red", 3);
 		
 		assertEquals(Boolean.TRUE, card.isRed());
     }
@@ -86,7 +86,7 @@ public class TestCard {
     @Test
 	public void testIsBlue () {
 		System.out.println("@Test(): isBlue()");
-		card = new Card("Axe", "Blue", 0);
+		card = new Card("Axe", "Blue", 2);
 		
 		assertEquals(Boolean.TRUE, card.isBlue());
     }
