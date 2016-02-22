@@ -24,6 +24,10 @@ public class Deck {
 	
 	public boolean equals (Deck other)
 	{
+		if (this.getSize() != other.getSize())
+		{
+			return false;
+		}
 		for (int i = 0; i < this.deck.size(); i++)
 		{
 			if (this.getCard(i).getName() != other.getCard(i).getName())
