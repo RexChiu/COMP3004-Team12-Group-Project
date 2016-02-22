@@ -194,4 +194,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isOutmaneuver());
     }
+    
+    @Test
+	public void testIsCharge () {
+		System.out.println("@Test(): isCharge()");
+		card = new Card("Charge", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isCharge());
+    }
 }
