@@ -18,4 +18,13 @@ public class Display {
 		this.total 	= 0;
 	}
 	
+	// Collection of Getter
+	public int 		getTotal() 			{ return this.total; 	}
+	
+	// Add one card to display
+	public void addCard(Card card) { 
+		this.display.add(card); 
+		this.total += card.getValue();
+	}
+	
 }
