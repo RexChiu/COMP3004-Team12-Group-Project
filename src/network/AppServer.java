@@ -4,7 +4,6 @@ import java.net.*;
 import java.util.HashMap;
 import java.util.Set;
 
-import config.Filter;
 import config.LANConfig;
 import gui.HostPanel;
 
@@ -12,7 +11,6 @@ import java.io.*;
 
 public class AppServer implements Runnable {
 	int clientCount = 0;
-	private Filter filter;
 	private Thread thread = null;
 	private ServerSocket server = null;
 	private HashMap<Integer, ServerThread> clients;
@@ -21,8 +19,6 @@ public class AppServer implements Runnable {
 	public AppServer(int port, HostPanel host) {
 		try {
 			this.host = host;
-			filter = new Filter();
-
 			host.writeMessage("Binding to port " + port + ", please wait  ...");
 			clients = new HashMap<Integer, ServerThread>();
 			server 	= new ServerSocket(port);
@@ -33,9 +29,7 @@ public class AppServer implements Runnable {
 	}
 	
 	public AppServer(int port) {
-		try {
-			filter = new Filter();
-			
+		try {			
 			System.out.println("Binding to port " + port + ", please wait  ...");
 			clients = new HashMap<Integer, ServerThread>();
 			server 	= new ServerSocket(port);

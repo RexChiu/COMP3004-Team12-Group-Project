@@ -5,10 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +19,10 @@ import config.GUIConfig;
 import config.LANConfig;
 public class HostPanel extends JFrame {
 	
+	/**
+	 * Host Panel for the Server Ivanhoe
+	 */
+	private static final long serialVersionUID = -2462830087150288101L;
 	private static final String HOST_TITLE = "Host of Ivanhoe";
 	private boolean start = Boolean.FALSE;
 	private static JTextArea displayMessage;

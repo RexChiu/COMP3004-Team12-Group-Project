@@ -11,6 +11,11 @@ import java.util.HashMap;
 
 public class ClientPanel extends JFrame implements ActionListener{
 	
+	/**
+	 * Client Panel for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = -4161260668908177011L;
+
 	private static final String GAME_TITLE = "Ivanhoe";
 	
 	public static final String MENU_STRINGS = "Server Status Start Server Stop Server Client Join Client"

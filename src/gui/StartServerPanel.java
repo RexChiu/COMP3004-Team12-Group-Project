@@ -10,6 +10,11 @@ import config.GUIConfig;
 
 public class StartServerPanel extends JDialog {
 
+	/**
+	 * Start Serevr Panel for the Server Ivanhoe
+	 */
+	private static final long serialVersionUID = 4474735495503707285L;
+
 	public StartServerPanel(JFrame owner, String title){
 		super(owner, title);
 		

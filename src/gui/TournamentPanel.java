@@ -7,6 +7,11 @@ import config.GUIConfig;
 
 public class TournamentPanel extends JPanel{
 
+	/**
+	 * Tournament Panel for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = -6487157126971866036L;
+
 	public TournamentPanel() { 
 		setLayout(null);
 

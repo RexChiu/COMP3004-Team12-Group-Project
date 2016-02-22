@@ -12,6 +12,10 @@ import config.LANConfig;
 
 public class HostSetting extends JFrame {
 	
+	/**
+	 * Host Setting for the Server Ivanhoe
+	 */
+	private static final long serialVersionUID = 507060002943025833L;
 	private JTextField numPlayerText;
 	private JTextField IPText;
 	private JTextField portText;

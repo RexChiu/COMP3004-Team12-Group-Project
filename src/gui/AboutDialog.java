@@ -10,6 +10,11 @@ import config.GUIConfig;
 
 public class AboutDialog extends JDialog {
 
+	/**
+	 * About Dialog for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = -3538502224097519592L;
+
 	public AboutDialog(JFrame owner, String title, String msg){
 		super(owner, title);
 		

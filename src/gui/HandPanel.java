@@ -1,16 +1,15 @@
 package gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicArrowButton;
-
-import config.GUIConfig; 
 
 public class HandPanel extends JFrame{
 
+	/**
+	 * Hand Panel for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = 2634805864040454133L;
 	CardLayout layoutManager;
 	JPanel slides;
 	

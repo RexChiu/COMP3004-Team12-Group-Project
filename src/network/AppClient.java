@@ -4,8 +4,6 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-import config.LANConfig;
-
 public class AppClient implements Runnable{
    
    private int ID = 0;

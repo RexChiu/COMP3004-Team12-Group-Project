@@ -1,11 +1,14 @@
 package gui;
 
-import java.awt.*; 
 import javax.swing.*;
 
 import config.GUIConfig; 
 
 public class PoolPanel extends JPanel{
+	/**
+	 * Pool Panel for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = 8310057646687805959L;
 	JButton deckButton, discardButton, tokenButton, tournamentButton;
 	
 	

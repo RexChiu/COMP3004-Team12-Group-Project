@@ -1,16 +1,17 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import config.GUIConfig;
 
 public class PlayerPanel extends JPanel{
 
+	/**
+	 * Player Panel for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = -3143066852083636376L;
 	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton, handButton;
 	
 	public PlayerPanel(int playerID) { 

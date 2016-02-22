@@ -1,11 +1,15 @@
 package gui;
 
-import java.awt.*; 
 import javax.swing.*;
 
 import config.GUIConfig; 
 
 public class UserPanel extends JPanel{
+
+	/**
+	 * User Panel for the Client Ivanhoe
+	 */
+	private static final long serialVersionUID = -449738241414461419L;
 
 	public UserPanel() { 
 		setLocation(GUIConfig.USER_PANEL_LOCATION_X, GUIConfig.USER_PANEL_LOCATION_Y);

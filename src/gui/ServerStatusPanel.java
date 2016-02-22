@@ -12,6 +12,10 @@ import config.LANConfig;
 
 public class ServerStatusPanel extends JFrame {
 	
+	/**
+	 * Server Status Panel for the Server Ivanhoe
+	 */
+	private static final long serialVersionUID = 3843930649916507030L;
 	private JTextField numPlayerText;
 	private JTextField IPText;
 	private JTextField portText;
