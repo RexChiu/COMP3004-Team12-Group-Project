@@ -79,4 +79,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a stunned
+	public boolean hasStunned(){
+		for (Card card : hand){
+			if (card.isStunned())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
