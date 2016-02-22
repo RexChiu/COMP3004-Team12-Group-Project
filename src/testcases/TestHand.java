@@ -43,7 +43,7 @@ public class TestHand {
 		Card card = new Card("Ivanhoe", "Action Card", 0);
 		
 		hand.drawCard(card);
-		
-		assertEquals(card, card.getCard(0));
+				
+		assertEquals(card, hand.getCard(0));
     }
 }
