@@ -41,4 +41,7 @@ public class Display {
 	
 	// Check the status whether is shield of not
 	public boolean 	isShield() 			{ return GAMEConfig.containsKey(this.status, GAMEConfig.STATUS_SHIELD); }
+
+	// Check the status whether is stunned of not
+	public boolean 	isStunned() 		{ return GAMEConfig.containsKey(this.status, GAMEConfig.STATUS_STUNNED);}
 }
