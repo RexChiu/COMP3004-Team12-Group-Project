@@ -124,4 +124,13 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+
+	// Check the hand is there a knock down
+	public boolean hasActionKnockDown(){
+		for (Card card : hand){
+			if (card.isKnockDown())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
