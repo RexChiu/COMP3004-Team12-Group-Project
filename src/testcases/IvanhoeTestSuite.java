@@ -10,7 +10,8 @@ import org.junit.runners.Suite;
    TestIvanhoeResponses.class,
    TestToken.class,
    TestCard.class,
-   TestHand.class
+   TestHand.class,
+   TestDisplay.class
 })
 
 public class IvanhoeTestSuite {

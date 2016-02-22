@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import game.Card;
 import game.Hand;
-import game.Tokens;
 
 public class TestHand {
 	Hand hand;
