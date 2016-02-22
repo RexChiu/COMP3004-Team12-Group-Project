@@ -216,4 +216,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionOutmaneuver());
     }
+    
+    @Test
+	public void testHasActionCharge () {
+		System.out.println("@Test(): hasActionCharge()");
+
+		Card card = new Card("Charge", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionCharge());
+    }
 }
