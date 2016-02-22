@@ -87,4 +87,13 @@ public class TestDisplay {
 		
 		assertEquals(Boolean.TRUE, display.isGreenTournament());
     }
+    
+    @Test
+	public void testIsShield () {
+		System.out.println("@Test(): isShield()");
+
+		display.setStatus("Shield");
+		
+		assertEquals(Boolean.TRUE, display.isShield());
+    }
 }
