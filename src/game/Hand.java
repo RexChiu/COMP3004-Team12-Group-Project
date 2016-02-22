@@ -43,4 +43,13 @@ public class Hand {
 		}
 		return Boolean.TRUE;
 	}
+	
+	// Check the hand is there an Ivanhoe
+	public boolean hasIvanhoe(){
+		for (Card card : hand){
+			if (card.isIvanhoe())
+				return Boolean.TRUE;	
+		}
+		return Boolean.FALSE;
+	}
 }
