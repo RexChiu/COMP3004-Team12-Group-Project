@@ -37,10 +37,13 @@ public class Display {
 	}
 
 	//UNHORSE: The tournament color changes from purple to red, blue or yellow
-	public void 	unhorse(String tournament) 		{ this.tournament = tournament; }
+	public void 	unhorse(String tournament) 		{ this.tournament = tournament; 							}
 	
 	//CHANGE WEAPON: The tournament color changes from red, blue or yellow to a differ
-	public void 	changeWeapon(String tournament) { this.tournament = tournament; }
+	public void 	changeWeapon(String tournament) { this.tournament = tournament; 							}
+	
+	//DROP WEAPON: The tournament color changes from red, blue or yellow to green.
+	public void 	dropWeapon() 					{ this.tournament = GAMEConfig.GREEN_CARD; 					}
 
 	// Check the green tournament
 	public boolean 	isGreenTournament() { return this.tournament.equalsIgnoreCase(GAMEConfig.COLOR_GREEN); 		}
