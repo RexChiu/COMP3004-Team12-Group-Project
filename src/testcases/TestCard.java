@@ -58,4 +58,12 @@ public class TestCard {
 		
 		assertEquals(6, card.getValue());
     }
+    
+    @Test
+	public void testIsAction () {
+		System.out.println("@Test(): isAction()");
+		card = new Card("Ivanhoe", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isAction());
+    }
 }
