@@ -11,7 +11,8 @@ import org.junit.runners.Suite;
    TestToken.class,
    TestCard.class,
    TestHand.class,
-   TestDisplay.class
+   TestDisplay.class,
+   TestDeck.class
 })
 
 public class IvanhoeTestSuite {
