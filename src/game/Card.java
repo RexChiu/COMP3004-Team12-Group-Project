@@ -17,4 +17,5 @@ public class Card implements Cloneable{
 	
 	// Collection of getter 
 	public String 	getName() 			{ return this.name;  }
+	public String 	getColor() 			{ return this.color; }
 }
