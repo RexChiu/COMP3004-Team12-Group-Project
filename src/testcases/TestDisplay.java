@@ -78,4 +78,13 @@ public class TestDisplay {
 		
 		assertEquals("Purple", display.getTournament());
     }
+    
+    @Test
+	public void testIsGreenTournament () {
+		System.out.println("@Test(): isGreenTournament()");
+
+		display.setTournament("Green");
+		
+		assertEquals(Boolean.TRUE, display.isGreenTournament());
+    }
 }
