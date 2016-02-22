@@ -35,6 +35,15 @@ public class Display {
 		this.display.add(card); 
 		this.total += card.getValue();
 	}
+	
+	// Check the supporter maiden
+	public boolean hasMaiden()	{
+		for (Card card : display){
+			if (card.isMaiden())
+				return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 
 	//UNHORSE: The tournament color changes from purple to red, blue or yellow
 	public void 	unhorse(String tournament) 		{ this.tournament = tournament; 							}
