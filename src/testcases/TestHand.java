@@ -260,4 +260,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasActionAdapt());
     }
+    
+    @Test
+	public void testHasActionOutwit () {
+		System.out.println("@Test(): hasActionOutwit()");
+
+		Card card = new Card("Outwit", "Action Card", 0);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasActionOutwit());
+    }
 }
