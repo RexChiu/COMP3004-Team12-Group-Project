@@ -138,4 +138,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isShield());
     }
+    
+    @Test
+	public void testIsStunned () {
+		System.out.println("@Test(): isStunned()");
+		card = new Card("Stunned", "Action Card", 0);
+		
+		assertEquals(Boolean.TRUE, card.isStunned());
+    }
 }
