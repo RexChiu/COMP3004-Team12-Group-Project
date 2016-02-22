@@ -42,4 +42,12 @@ public class TestCard {
 		
 		assertEquals("Maiden", card.getName());
     }
+    
+    @Test
+	public void testGetColor () {
+		System.out.println("@Test(): getColor()");
+		card = new Card("Maiden", "White", 6);
+		
+		assertEquals("White", card.getColor());
+    }
 }
