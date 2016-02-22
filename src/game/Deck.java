@@ -14,6 +14,13 @@ public class Deck {
 		// TODO Auto-generated constructor stub
 		this.deck = new ArrayList<Card>();
 	}
+	
+	// Help function to add many same card
+	public  void addCards(Card card, int count){
+		for (int i = 0; i < count; i++){
+			addCard(card);
+		}
+	}
 
 	public void 	addCard(Card card)		{ this.deck.add(card); 				}
 	public boolean 	removeCard(Card card)	{ return this.deck.remove(card); 	}
@@ -22,7 +29,11 @@ public class Deck {
 	public void 	shuffleDeck()			{ Collections.shuffle(this.deck);	}
 	public boolean 	isEmpty()				{ return this.deck.isEmpty(); 		}
 	public void 	cleanDeck()				{ this.deck.clear(); 				}
-	public Deck		getDeck()				{ return (Deck)this.clone();		}		}
+	
+	public Deck	getDeck() throws CloneNotSupportedException	
+	{ 
+		return (Deck)this.clone();
+	}
 
 	// Clone deep copy the deck
 	@Override
