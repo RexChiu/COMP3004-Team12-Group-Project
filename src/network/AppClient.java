@@ -69,6 +69,8 @@ public class AppClient implements Runnable{
          stop();
       } else {
          System.out.println(msg);
+         // Handle the message from the server.         
+         
       }
    }
 
@@ -86,13 +88,7 @@ public class AppClient implements Runnable{
          this.keyboard = null;
          this.streamIn = null;
          this.streamOut = null;       
-      } catch(IOException ioe) {  
-      }
+      } catch(IOException ioe) {  }
       client.close();  
-   }
-
-   @SuppressWarnings("unused")
-   public static void main(String args[]) {  
-      AppClient client = new AppClient(LANConfig.DEFAULT_HOST, LANConfig.DEFAULT_PORT); 
    }
 }

@@ -7,7 +7,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
    TestIvanhoe.class,
    TestIvanhoeRequests.class,
-   TestIvanhoeResponses.class
+   TestIvanhoeResponses.class,
+   TestToken.class
 })
 
 public class IvanhoeTestSuite {

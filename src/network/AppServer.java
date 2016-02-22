@@ -6,6 +6,7 @@ import java.util.Set;
 
 import config.Filter;
 import config.LANConfig;
+import gui.HostPanel;
 
 import java.io.*;
 
@@ -15,7 +16,22 @@ public class AppServer implements Runnable {
 	private Thread thread = null;
 	private ServerSocket server = null;
 	private HashMap<Integer, ServerThread> clients;
+	private HostPanel host;
+	
+	public AppServer(int port, HostPanel host) {
+		try {
+			this.host = host;
+			filter = new Filter();
 
+			host.writeMessage("Binding to port " + port + ", please wait  ...");
+			clients = new HashMap<Integer, ServerThread>();
+			server 	= new ServerSocket(port);
+			server.setReuseAddress(true);
+			start();
+		} catch (IOException ioe) {
+		}
+	}
+	
 	public AppServer(int port) {
 		try {
 			filter = new Filter();
@@ -54,6 +70,7 @@ public class AppServer implements Runnable {
 				serverThread.open();
 				serverThread.start();
 				clients.put(serverThread.getID(), serverThread);
+				host.writeMessage(String.format("%5d: %s", serverThread.getID(), "Join the game."));
 				this.clientCount++;
 			} catch (IOException e) {
 			}
@@ -72,16 +89,11 @@ public class AppServer implements Runnable {
 		if (input.equals("shutdown!")) { shutdown(); }
 		else 
 		{
-			ServerThread from = clients.get(ID);
+			//ServerThread from = clients.get(ID);
+			host.writeMessage(String.format("%5d: %s", ID, input));
 			for (ServerThread to : clients.values()) {
 				if (to.getID() != ID) {
-					if (!filter.filter(from, input)) {
-						from.send("Welcome\n");
-						from.send("Game Ready\n");
-					}
-					else {
-						to.send(String.format("%5d: %s", ID, input));
-					}
+					to.send(String.format("%5d: %s", ID, input));
 				}
 			}
 		}
@@ -89,6 +101,7 @@ public class AppServer implements Runnable {
 
 	public synchronized void remove(int ID) {
 		if (clients.containsKey(ID)) {
+			host.writeMessage(String.format("%5d: %s", ID, "Quit the game"));
 			ServerThread toTerminate = clients.get(ID);
 			clients.remove(ID);
 			clientCount--;
@@ -112,8 +125,7 @@ public class AppServer implements Runnable {
 			}
 			clients.clear();
 			server.close();
-		} catch (IOException e) {
-		}
+		} catch (IOException e) { }
 	}
 	
 }

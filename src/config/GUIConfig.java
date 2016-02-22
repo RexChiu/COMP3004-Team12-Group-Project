@@ -16,8 +16,8 @@ public class GUIConfig {
 	public static final int		HOST_WINDOW_WIDTH				= 960;
 
 	public static final int		CONTROL_PANEL_HEIGHT			= 50;
-	public static final int		CONTROL_PANEL_WIDTH				= 200;
-	public static final int		CONTROL_PANEL_LOCATION_X		= 420;
+	public static final int		CONTROL_PANEL_WIDTH				= 300;
+	public static final int		CONTROL_PANEL_LOCATION_X		= 320;
 	public static final int		CONTROL_PANEL_LOCATION_Y		= 570;
 	public static final int		CONTROL_START_HEIGHT			= 40;
 	public static final int		CONTROL_START_WIDTH				= 95;
@@ -27,6 +27,10 @@ public class GUIConfig {
 	public static final int		CONTROL_STOP_WIDTH				= 95;
 	public static final int		CONTROL_STOP_LOCATION_X			= 100;
 	public static final int		CONTROL_STOP_LOCATION_Y			= 5;
+	public static final int		CONTROL_SETTING_HEIGHT			= 40;
+	public static final int		CONTROL_SETTING_WIDTH			= 100;
+	public static final int		CONTROL_SETTING_LOCATION_X		= 195;
+	public static final int		CONTROL_SETTING_LOCATION_Y		= 5;
 
 	public static final int		TITLE_PANEL_HEIGHT				= 100;
 	public static final int		TITLE_PANEL_WIDTH				= 240;
@@ -75,6 +79,7 @@ public class GUIConfig {
 	
 	public static final String  HOST_START						= "Start";
 	public static final String	HOST_STOP						= "Stop";
+	public static final String	HOST_SETTING					= "Setting";
 		
 	// Ivanhoe Client Panel
 	public static final int 	CLIENT_WINDOW_HEIGHT 			= 780;

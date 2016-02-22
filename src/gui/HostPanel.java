@@ -22,17 +22,14 @@ import config.LANConfig;
 public class HostPanel extends JFrame {
 	
 	private static final String HOST_TITLE = "Host of Ivanhoe";
-	private static JButton startServer, stopServer;
+	private boolean start = Boolean.FALSE;
 	private static JTextArea displayMessage;
-	private static HashMap<String, JComponent> hostComponents;
 		
 	public HostPanel(){
 		super(HOST_TITLE);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(Color.DARK_GRAY);
-		
-		hostComponents = new HashMap<String, JComponent>();
-		
+				
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(null);
 		titlePanel.setLocation(GUIConfig.TITLE_PANEL_LOCATION_X, GUIConfig.TITLE_PANEL_LOCATION_Y);
@@ -48,6 +45,7 @@ public class HostPanel extends JFrame {
 		controlPanel.setBackground(Color.BLACK);
 		addStart(controlPanel);
 		addStop(controlPanel);
+		addSetting(controlPanel);
 		add(controlPanel);
 
 		JPanel messagePanel = new JPanel();
@@ -70,7 +68,6 @@ public class HostPanel extends JFrame {
 		infoPanel.setBackground(Color.LIGHT_GRAY);
 		add(infoPanel);
 
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	    setSize(GUIConfig.HOST_WINDOW_WIDTH, GUIConfig.HOST_WINDOW_HEIGHT);
 	    setResizable(Boolean.FALSE);	
 	}
@@ -136,14 +133,13 @@ public class HostPanel extends JFrame {
 	
 	
 	private void addDisplay(JPanel panel){
-		displayMessage = new JTextArea("\t\tDisplay Message");
+		displayMessage = new JTextArea("\t\t      Display Message");
 		displayMessage.setForeground(Color.WHITE);
 		displayMessage.setBackground(Color.BLACK);
 		displayMessage.setOpaque(Boolean.TRUE);
 		displayMessage.setLineWrap(Boolean.TRUE);
 		displayMessage.setEditable(Boolean.FALSE);
-		for (int i = 0; i < 20; i++)
-			displayMessage.append("\n >> Display Message" + i);
+		displayMessage.append("\n >> Welcomd to the Ivanhoe");
 		JScrollPane display = new JScrollPane(displayMessage);
 		display.setLocation(GUIConfig.DISPLAY_LOCATION_X, GUIConfig.DISPLAY_LOCATION_Y);
 		display.setSize(GUIConfig.DISPLAY_WIDTH, GUIConfig.DISPLAY_HEIGHT);
@@ -163,38 +159,54 @@ public class HostPanel extends JFrame {
 	}
 	
 	private void addStart(JPanel panel){
-		startServer = new JButton(GUIConfig.HOST_START);
+		JButton startServer = new JButton(GUIConfig.HOST_START);
 		startServer.setLocation(GUIConfig.CONTROL_START_LOCATION_X, GUIConfig.CONTROL_START_LOCATION_Y);
 		startServer.setSize(GUIConfig.CONTROL_START_WIDTH, GUIConfig.CONTROL_START_HEIGHT);
 		
 		startServer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null,
+				if (!start)
+					if (JOptionPane.showConfirmDialog(null,
 				                            "Do you want start the host of Ivanhoe?",
 				                            "Start Ivanhoe",
-				                            JOptionPane.YES_NO_OPTION) == 0) startHost();
+				                            JOptionPane.YES_NO_OPTION) == 0) { startHost(); }
 			}});
 				
 		panel.add(startServer);
 	}
 	
 	private void addStop(JPanel panel){
-		stopServer = new JButton(GUIConfig.HOST_STOP);
+		JButton stopServer = new JButton(GUIConfig.HOST_STOP);
 		stopServer.setLocation(GUIConfig.CONTROL_STOP_LOCATION_X, GUIConfig.CONTROL_STOP_LOCATION_Y);
 		stopServer.setSize(GUIConfig.CONTROL_STOP_WIDTH, GUIConfig.CONTROL_STOP_HEIGHT);
 		
 		stopServer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null,
+				if (start)
+					if (JOptionPane.showConfirmDialog(null,
 				                            "Do you want stop the host of Ivanhoe?",
 				                            "Stop Ivanhoe",
-				                            JOptionPane.YES_NO_OPTION) == 0) stopHost();
+				                            JOptionPane.YES_NO_OPTION) == 0) { stopHost(); }
 			}});
 		 		
 		panel.add(stopServer);
 	}
+	
+	private void addSetting(JPanel panel){
+		JButton settingServer = new JButton(GUIConfig.HOST_SETTING);
+		settingServer.setLocation(GUIConfig.CONTROL_SETTING_LOCATION_X, GUIConfig.CONTROL_SETTING_LOCATION_Y);
+		settingServer.setSize(GUIConfig.CONTROL_SETTING_WIDTH, GUIConfig.CONTROL_SETTING_HEIGHT);
+		
+		settingServer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				new ServerStatusPanel("Server Status").setVisible(Boolean.TRUE);
+			}});
+		 		
+		panel.add(settingServer);
+	}
 
-	public void addMessage(String message)	{ displayMessage.append("\n >> " + message);	}
-	private void startHost()				{ addMessage("Hello World!");	}
-	private void stopHost()					{ dispose(); 					}
+	public void 	writeMessage(String message){ displayMessage.append("\n >> " + message);	}
+	public Boolean	isStart()					{ return this.start; 			}
+	private void 	startHost()					{ this.start = Boolean.TRUE;	}
+	private void 	stopHost()					{ this.start = Boolean.FALSE;	}
 }

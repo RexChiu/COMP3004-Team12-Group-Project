@@ -1,14 +1,12 @@
 package gui;
 
 import config.GUIConfig;
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
+import config.LANConfig;
+import network.AppClient;
 
 import java.awt.*; 
 import javax.swing.*;
-import javax.swing.GroupLayout.Alignment;
-
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ClientPanel extends JFrame implements ActionListener{
@@ -108,7 +106,10 @@ public class ClientPanel extends JFrame implements ActionListener{
 				new StartServerPanel(this, "Start Server").setVisible(Boolean.TRUE);
 				break;
 			case "Server Status":
-				new ServerStatusPanel(this, "Server Status").setVisible(Boolean.TRUE);
+				new ServerStatusPanel("Server Status").setVisible(Boolean.TRUE);
+				break;
+			case "Client Join":
+				new AppClient(LANConfig.DEFAULT_HOST, LANConfig.DEFAULT_PORT); 
 				break;
 			case "About Game":
 				new AboutDialog(this, "About Ivanhoe", "About Ivanhoe").setVisible(Boolean.TRUE);

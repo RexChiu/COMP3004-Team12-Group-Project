@@ -10,13 +10,13 @@ import javax.swing.*;
 import config.GUIConfig;
 import config.LANConfig;
 
-public class ServerStatusPanel extends JFrame {
+public class HostSetting extends JFrame {
 	
 	private JTextField numPlayerText;
 	private JTextField IPText;
 	private JTextField portText;
 	
-	public ServerStatusPanel(String title){
+	public HostSetting(String title){
 		super(title);
 		GridBagLayout layout = new GridBagLayout();
 		setLayout(layout);
@@ -45,11 +45,6 @@ public class ServerStatusPanel extends JFrame {
 
 		setResizable(Boolean.FALSE);		 
 		setSize(GUIConfig.START_SERVER_WINDOW_HEIGHT, GUIConfig.START_SERVER_WINDOW_WIDTH);
-		//setLocationRelativeTo(owner);
-	}
-	
-	public void startServer(){
-		//new StartServer();
 	}
 		
 	public void addNumPlayer(JPanel panel){
@@ -115,9 +110,7 @@ public class ServerStatusPanel extends JFrame {
 		LANConfig.DEFAULT_HOST 	= IPText.getText();
 		LANConfig.DEFAULT_PORT 	= port;
 		LANConfig.SERVER_ON 	= Boolean.TRUE;
-		
-		startServer();
-		
+				
 		return Boolean.TRUE;
 	}
 }
