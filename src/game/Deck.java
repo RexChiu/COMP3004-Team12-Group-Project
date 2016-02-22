@@ -16,4 +16,5 @@ public class Deck {
 	}
 	
 	public void 	addCard(Card card)		{ this.deck.add(card); 				}
+	public Card 	getCard(int index)		{ return this.deck.get(index);		}
 }
