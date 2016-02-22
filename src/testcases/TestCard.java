@@ -74,4 +74,12 @@ public class TestCard {
 		
 		assertEquals(Boolean.TRUE, card.isPurple());
     }
+    
+    @Test
+	public void testIsRed () {
+		System.out.println("@Test(): isRed()");
+		card = new Card("Sword", "Red", 0);
+		
+		assertEquals(Boolean.TRUE, card.isRed());
+    }
 }
