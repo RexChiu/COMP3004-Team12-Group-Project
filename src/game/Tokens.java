@@ -20,6 +20,9 @@ public class Tokens {
 	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
 	
 	public int		getSize()	{ return tokens.size(); }
+
+	// Check total token that reach to winning requirement
+	public boolean 	hasFour() 	{ return tokens.size() == GAMEConfig.ANY_FOUR_TOKENS; 		}
 	
 	// Check the token whether there is one or not
 	public boolean 	hasPurple() { return tokens.containsKey(GAMEConfig.COLOR_PURPLE); 		}
