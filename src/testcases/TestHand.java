@@ -106,4 +106,15 @@ public class TestHand {
 		
 		assertEquals(Boolean.TRUE, hand.hasIvanhoe());
     }
+    
+    @Test
+	public void testHasMaiden () {
+		System.out.println("@Test(): hasMaiden()");
+
+		Card card = new Card("Maiden", "White", 6);
+
+		hand.drawCard(card);
+		
+		assertEquals(Boolean.TRUE, hand.hasMaiden());
+    }
 }
