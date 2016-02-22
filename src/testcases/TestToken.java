@@ -66,4 +66,13 @@ public class TestToken {
 
 		assertEquals(Boolean.TRUE, token.checkToken("Blue"));
     }
+
+    @Test
+	public void testRemoveToken () {
+		System.out.println("@Test(): removeToken(String token)");
+		
+		token.removeToken("Blue");
+
+		assertEquals(Boolean.FALSE, token.checkToken("Blue"));
+    }
 }
