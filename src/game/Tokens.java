@@ -12,8 +12,9 @@ public class Tokens {
 		tokens.put(token, new Token(token));
 	}
 
-	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
+	public void 	addToken(String token)		{ this.tokens.put(token, new Token(token)); }
 	public boolean 	checkToken(String token)	{ return tokens.containsKey(token); 		}
+	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
 	
 	public int		getSize()	{ return tokens.size(); }
 }
