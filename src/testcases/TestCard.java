@@ -1,9 +1,14 @@
 package testcases;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
+
+import game.Card;
 
 
 public class TestCard {
@@ -29,5 +34,12 @@ public class TestCard {
     public static void afterClass () {
     	 System.out.println("@AfterClass: TestCard");
     }
-
+    
+    @Test
+	public void testGetName () {
+		System.out.println("@Test(): getName()");
+		card = new Card("Maiden", "White", 6);
+		
+		assertEquals("Maiden", card.getName());
+    }
 }
