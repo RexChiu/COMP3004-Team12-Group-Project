@@ -23,6 +23,7 @@ public class Tokens {
 
 	// Check total token that reach to winning requirement
 	public boolean 	hasFour() 	{ return tokens.size() == GAMEConfig.ANY_FOUR_TOKENS; 		}
+	public boolean 	hasFive() 	{ return tokens.size() == GAMEConfig.ALL_FIVE_TOKENS; 		}
 	
 	// Check the token whether there is one or not
 	public boolean 	hasPurple() { return tokens.containsKey(GAMEConfig.COLOR_PURPLE); 		}
