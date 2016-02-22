@@ -96,4 +96,13 @@ public class TestDisplay {
 		
 		assertEquals(Boolean.TRUE, display.isShield());
     }
+    
+    @Test
+	public void testIsStunned () {
+		System.out.println("@Test(): isStunned()");
+
+		display.setStatus("Stunned");
+		
+		assertEquals(Boolean.TRUE, display.isStunned());
+    }
 }
