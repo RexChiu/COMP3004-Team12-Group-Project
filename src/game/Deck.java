@@ -21,6 +21,7 @@ public class Deck {
 	public int 		getSize()				{ return this.deck.size();			}
 	public void 	shuffleDeck()			{ Collections.shuffle(this.deck);	}
 	public boolean 	isEmpty()				{ return this.deck.isEmpty(); 		}
+	public void 	cleanDeck()				{ this.deck.clear(); 				}
 	
 	public boolean equals (Deck other)
 	{
