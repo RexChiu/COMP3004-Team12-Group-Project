@@ -19,9 +19,14 @@ public class Card implements Cloneable{
 	public String 	getName() 			{ return this.name;  }
 	public String 	getColor() 			{ return this.color; }
 	public int 		getValue() 			{ return this.value; }
-
+	
+	// Compare two card and return true if they are equals
+	public boolean	equals(Card card)	{ 
+	    return (this.name.equals(card.name) && this.color.equals(card.color) && value == card.value);    
+	}
+	
 	// Check the card is action card
-	public boolean 	isAction()			{ return this.color.equalsIgnoreCase(GAMEConfig.ACTION_CARD); }
+	public boolean 	isAction()			{ return this.color.equalsIgnoreCase(GAMEConfig.ACTION_CARD); 	}
 	
 	// Simple Card of Color Card
 	public boolean 	isPurple()			{ return this.color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE);	}

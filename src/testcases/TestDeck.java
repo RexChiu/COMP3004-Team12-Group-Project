@@ -168,7 +168,7 @@ public class TestDeck {
 		
 		Deck deck2 = new Deck();
 
-		deck2.addCards(new Card("Jousting",	"Purple", 4), 4);
+		deck2.addCards(new Card("Jousting",	"Purple", 3), 4);
 		deck2.addCards(new Card("Jousting",	"Purple", 4), 4);
 		deck2.addCards(new Card("Jousting",	"Purple", 5), 4);
 		deck2.addCards(new Card("Jousting",	"Purple", 7), 2);
@@ -209,7 +209,7 @@ public class TestDeck {
 		deck2.addCards(new Card("Disgrace", 		"Action Card", 0), 	1);
 		deck2.addCards(new Card("Adapt", 			"Action Card", 0), 	1);
 		deck2.addCards(new Card("Outwit", 			"Action Card", 0), 	1);
-    
+		
 		assertTrue(deck.equals(deck2));
     }
 }

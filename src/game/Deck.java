@@ -81,20 +81,14 @@ public class Deck {
 		return cloned;
 	}
 
-	public boolean equals (Deck other)
-	{
-		if (this.getSize() != other.getSize())
-		{
-			return false;
+	public boolean equals (Deck deck){
+		if (this == deck) return Boolean.TRUE;
+		
+		for (int i = 0; i < this.deck.size(); i++){
+			if (!getCard(i).equals(deck.getCard(i)) )
+				return Boolean.FALSE;
 		}
-		for (int i = 0; i < this.deck.size(); i++)
-		{
-			if (this.getCard(i).getName() != other.getCard(i).getName())
-			{
-				return false;
-			}
-		}
-
-		return true;
+		
+		return Boolean.TRUE;
 	}
 }
