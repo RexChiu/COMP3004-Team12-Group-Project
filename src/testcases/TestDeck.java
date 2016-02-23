@@ -138,7 +138,7 @@ public class TestDeck {
 		
 		Deck deck2 = new Deck();
 		
-		deck2 = deck.getDeck();
+		deck2 = deck;
 		
 		assertTrue(deck.equals(deck2));
     }
