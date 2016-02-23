@@ -74,11 +74,6 @@ public class Deck {
 	public boolean 	isEmpty()				{ return this.deck.isEmpty(); 		}
 	public void 	cleanDeck()				{ this.deck.clear(); 				}
 
-	public Deck	getDeck() throws CloneNotSupportedException	
-	{ 
-		return (Deck)this.clone();
-	}
-
 	// Clone deep copy the deck
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
