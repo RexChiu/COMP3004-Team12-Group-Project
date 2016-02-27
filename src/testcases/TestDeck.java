@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import game.Card;
 import game.Deck;
-import config.GAMEConfig;
 
 public class TestDeck {
 	Deck deck;
