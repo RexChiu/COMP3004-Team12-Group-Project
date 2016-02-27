@@ -16,19 +16,19 @@ public class ServerIvanhoe {
 	public static void main(String args[]) { 
 		host = new HostPanel();
 		host.setVisible(Boolean.TRUE);
-		
+
 		do {
 			System.out.print("");
 			if (host.isStart() && !started){
-				host.writeMessage("Starting server ...");
+				host.writeMessage(LANConfig.SERVER_STATUS_START);
 				appServer = new AppServer(LANConfig.DEFAULT_PORT, host);
 				started = Boolean.TRUE;
 			}
 			
 			if (!host.isStart() && started){
-				host.writeMessage("Shutting server down ...");
 				appServer.shutdown();
 				started = Boolean.FALSE;
+				host.writeMessage(LANConfig.SERVER_STATUS_SHUTDOWN);
 			}
 			if (!host.isVisible()){
 				done = Boolean.TRUE;

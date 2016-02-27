@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -135,7 +137,7 @@ public class HostPanel extends JFrame {
 	
 	
 	private void addDisplay(JPanel panel){
-		displayMessage = new JTextArea("\t\t      Display Message");
+		displayMessage = new JTextArea("\t\t      Display LOG of Ivanhoe");
 		displayMessage.setForeground(Color.WHITE);
 		displayMessage.setBackground(Color.BLACK);
 		displayMessage.setOpaque(Boolean.TRUE);
@@ -143,6 +145,12 @@ public class HostPanel extends JFrame {
 		displayMessage.setEditable(Boolean.FALSE);
 		displayMessage.append("\n >> Welcomd to the Ivanhoe");
 		JScrollPane display = new JScrollPane(displayMessage);
+		display.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) { 
+	        	e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    }); 
+		display.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		display.setLocation(GUIConfig.DISPLAY_LOCATION_X, GUIConfig.DISPLAY_LOCATION_Y);
 		display.setSize(GUIConfig.DISPLAY_WIDTH, GUIConfig.DISPLAY_HEIGHT);
 		panel.add(display);
@@ -167,11 +175,12 @@ public class HostPanel extends JFrame {
 		
 		startServer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if (!start)
-					if (JOptionPane.showConfirmDialog(null,
-				                            "Do you want start the host of Ivanhoe?",
-				                            "Start Ivanhoe",
-				                            JOptionPane.YES_NO_OPTION) == 0) { startHost(); }
+				if (!start){
+					if (JOptionPane.showConfirmDialog(null, LANConfig.START_SERVER_REQUEST,
+							LANConfig.START_SERVER, JOptionPane.YES_NO_OPTION) == 0) { startHost(); } 
+				}else{
+					JOptionPane.showMessageDialog(null, LANConfig.SERVER_RUNNING, LANConfig.SERVER_ERROR, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}});
 				
 		panel.add(startServer);
@@ -184,11 +193,12 @@ public class HostPanel extends JFrame {
 		
 		stopServer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				if (start)
-					if (JOptionPane.showConfirmDialog(null,
-				                            "Do you want stop the host of Ivanhoe?",
-				                            "Stop Ivanhoe",
-				                            JOptionPane.YES_NO_OPTION) == 0) { stopHost(); }
+				if (start){
+					if (JOptionPane.showConfirmDialog(null, LANConfig.STOP_SERVER_REQUEST,
+							LANConfig.STOP_SERVER, JOptionPane.YES_NO_OPTION) == 0) { stopHost(); }
+				}else{
+					JOptionPane.showMessageDialog(null, LANConfig.SERVER_NOT_RUNNING, LANConfig.SERVER_ERROR, JOptionPane.INFORMATION_MESSAGE);
+				}
 			}});
 		 		
 		panel.add(stopServer);
@@ -201,7 +211,7 @@ public class HostPanel extends JFrame {
 		
 		settingServer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				new ServerStatusPanel("Server Status").setVisible(Boolean.TRUE);
+				new HostSetting("Server Status").setVisible(Boolean.TRUE);
 			}});
 		 		
 		panel.add(settingServer);

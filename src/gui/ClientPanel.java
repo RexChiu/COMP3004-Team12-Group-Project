@@ -10,6 +10,7 @@ import javax.imageio.IIOException;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.util.HashMap;
 
 public class ClientPanel extends JFrame implements ActionListener{
@@ -20,12 +21,11 @@ public class ClientPanel extends JFrame implements ActionListener{
 	private static final long serialVersionUID = -4161260668908177011L;
 
 	private static final String GAME_TITLE = "Ivanhoe";
+	private AppClient client;
+	private boolean clientJoined = Boolean.FALSE;
 	
 	public HashMap<String, JMenuItem> listJMI = new HashMap<String, JMenuItem>();
 	public HashMap<String, String[]> listMENU = new HashMap<String, String[]>();
-	
-	private AppClient client;
-	private boolean clientJoined = Boolean.FALSE;
 	
 	public ClientPanel(){
 		super(GAME_TITLE);
@@ -104,21 +104,29 @@ public class ClientPanel extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		String text = e.getActionCommand();
-		
 		switch(text){
 			case GUIConfig.CLIENT_JOIN:
+				System.out.println();
 				if (!clientJoined){
-					client = new AppClient(LANConfig.DEFAULT_HOST, LANConfig.DEFAULT_PORT);
-					clientJoined = !clientJoined;
-					listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.FALSE);					
+					try{
+						client = new AppClient(LANConfig.DEFAULT_HOST, LANConfig.DEFAULT_PORT, this);
+						clientJoined = !clientJoined;
+						listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.FALSE);	
+						JOptionPane.showMessageDialog(new JFrame(), LANConfig.JOIN_SEREVR, LANConfig.CONNNECT_SERVER, JOptionPane.INFORMATION_MESSAGE);
+					} catch (IOException ioe) {
+						JOptionPane.showMessageDialog(new JFrame(), LANConfig.SERVER_NOT_RUNNING, LANConfig.SERVER_ERROR, JOptionPane.ERROR_MESSAGE);
+					}					
 				}
 				break;
 			case GUIConfig.CLIENT_QUIT:
 				if (clientJoined){
 					client.stop();
 					client = null;
-					listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
 					clientJoined = !clientJoined;
+					listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
+					JOptionPane.showMessageDialog(new JFrame(), LANConfig.QUIT_SERVER, LANConfig.DISCONNECT_SERVER, JOptionPane.INFORMATION_MESSAGE);
+				}else{
+					JOptionPane.showMessageDialog(new JFrame(), LANConfig.CLIENT_NOT_JOINED, LANConfig.CLIENT_ERROR, JOptionPane.ERROR_MESSAGE);					
 				}
 				break;
 			case GUIConfig.VIEW_PLAYER:
@@ -134,4 +142,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 				break;
 		}
 	}
+	
+
+	public void setClientJoined(boolean status) { this.clientJoined = status; }
 }

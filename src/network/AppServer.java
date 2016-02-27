@@ -14,23 +14,15 @@ public class AppServer implements Runnable {
 	private Thread thread = null;
 	private ServerSocket server = null;
 	private HashMap<Integer, ServerThread> clients;
-	private HostPanel host;
+	private HostPanel UI;
 	
-	public AppServer(int port, HostPanel host) {
+	public AppServer(int port, HostPanel UI) {
 		try {
-			this.host = host;
-			host.writeMessage("Binding to port " + port + ", please wait  ...");
-			clients = new HashMap<Integer, ServerThread>();
-			server 	= new ServerSocket(port);
-			server.setReuseAddress(true);
-			start();
-		} catch (IOException ioe) {
-		}
-	}
-	
-	public AppServer(int port) {
-		try {			
-			System.out.println("Binding to port " + port + ", please wait  ...");
+			this.UI = UI;
+			UI.writeMessage("Serer Host IP:" + LANConfig.DEFAULT_HOST);
+			UI.writeMessage("Binding to port " + port + ", please wait  ...");
+			UI.writeMessage("Max Clients of Serevr: " + LANConfig.NUM_CLIENTS);
+			UI.writeMessage("Wariting for Client ...");
 			clients = new HashMap<Integer, ServerThread>();
 			server 	= new ServerSocket(port);
 			server.setReuseAddress(true);
@@ -56,7 +48,7 @@ public class AppServer implements Runnable {
 	}
 
 	private void addThread(Socket socket) {
-		if (clientCount < LANConfig.MAX_CLIENTS) {
+		if (clientCount < LANConfig.NUM_CLIENTS) {
 			try {
 				/** Create a separate server thread for each client */
 				ServerThread serverThread = new ServerThread(this, socket);
@@ -64,27 +56,35 @@ public class AppServer implements Runnable {
 				serverThread.open();
 				serverThread.start();
 				clients.put(serverThread.getID(), serverThread);
-				host.writeMessage(String.format("%5d: %s", serverThread.getID(), "Join the game."));
+				UI.writeMessage(String.format("%5d: %s", serverThread.getID(), LANConfig.REQUEST_JOIN));
 				this.clientCount++;
 			} catch (IOException e) {
 			}
-		} else {
+		}else{
+			try {
+				ServerThread serverThread = new ServerThread(this, socket);
+				serverThread.open();
+				serverThread.start();
+				serverThread.send(LANConfig.CONNECTION_FULL);
+				serverThread.close();
+			} catch(IOException e){
+			}
 		}
 	}
 
 	public synchronized void handle(int ID, String input) {
-		if (input.equals("quit!")) 
+		if (input.equals(LANConfig.CLIENT_QUIT)) 
 		{
 			if (clients.containsKey(ID)) {
-				clients.get(ID).send("quit!");
+				clients.get(ID).send(LANConfig.CLIENT_QUIT);
 				remove(ID);
 			}
 		}
-		if (input.equals("shutdown!")) { shutdown(); }
+		if (input.equals(LANConfig.SERVER_SHUTDOWN)) { shutdown(); }
 		else 
 		{
 			//ServerThread from = clients.get(ID);
-			host.writeMessage(String.format("%5d: %s", ID, input));
+			UI.writeMessage(String.format("%5d: %s", ID, input));
 			for (ServerThread to : clients.values()) {
 				if (to.getID() != ID) {
 					to.send(String.format("%5d: %s", ID, input));
@@ -95,7 +95,7 @@ public class AppServer implements Runnable {
 
 	public synchronized void remove(int ID) {
 		if (clients.containsKey(ID)) {
-			host.writeMessage(String.format("%5d: %s", ID, "Quit the game"));
+			UI.writeMessage(String.format("%5d: %s", ID, LANConfig.REQUEST_QUIT));
 			ServerThread toTerminate = clients.get(ID);
 			clients.remove(ID);
 			clientCount--;
@@ -107,13 +107,17 @@ public class AppServer implements Runnable {
 
 	public void shutdown() {
 		Set<Integer> keys = clients.keySet();
-
+		
 		if (thread != null) {
 			thread = null;
 		}
 
+		clientCount = 0;
+		
 		try {
 			for (Integer key : keys) {
+				UI.writeMessage(String.format("%5d: %s", key, LANConfig.REQUEST_QUIT));
+				clients.get(key).send(LANConfig.CLIENT_QUIT);
 				clients.get(key).close();
 				clients.put(key, null);
 			}

@@ -5,10 +5,10 @@ import java.io.*;
 
 public class ServerThread extends Thread {
 	private int ID = -1;
-	private Socket 			socket 		= null;
-	private AppServer 		server 		= null;
-   private DataInputStream 	streamIn    = null;
-   private DataOutputStream streamOut	= null;
+	private Socket 				socket 		= null;
+	private AppServer 			server 		= null;
+	private DataInputStream 	streamIn    = null;
+   	private DataOutputStream	streamOut	= null;
 	
 	private String clientAddress = null;;
 
@@ -39,7 +39,8 @@ public class ServerThread extends Thread {
 			try {
 				server.handle(ID, streamIn.readUTF());
 			} catch (IOException ioe) {
-				server.remove(ID);
+				if(server.clientCount > 0)
+					server.remove(ID);
 				break;
 			}
 		}

@@ -25,7 +25,7 @@ public class HostSetting extends JFrame {
 		GridBagLayout layout = new GridBagLayout();
 		setLayout(layout);
 		GridBagConstraints constraints = new GridBagConstraints();
-
+		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridLayout(3, 2));
 		
@@ -82,11 +82,13 @@ public class HostSetting extends JFrame {
 	}
 	
 	public void addStart(JPanel panel){
-		JButton startButton = new JButton(GUIConfig.START);
+		JButton startButton = new JButton(GUIConfig.CONFIRM);
 		 
 		startButton.addActionListener(new ActionListener(){
 			 public void actionPerformed(ActionEvent e){ 
-				 if (valid_input()) { dispose(); } 
+				 if (valid_input()) { 
+					 LANConfig.NUM_CLIENTS 	= Integer.parseInt(numPlayerText.getText());
+					 dispose(); } 
 		}});
 		
 		panel.add(startButton);
@@ -113,7 +115,6 @@ public class HostSetting extends JFrame {
 		LANConfig.NUM_CLIENTS  	= num;
 		LANConfig.DEFAULT_HOST 	= IPText.getText();
 		LANConfig.DEFAULT_PORT 	= port;
-		LANConfig.SERVER_ON 	= Boolean.TRUE;
 				
 		return Boolean.TRUE;
 	}

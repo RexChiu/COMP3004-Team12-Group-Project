@@ -4,26 +4,37 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import config.GUIConfig;
+import config.LANConfig;
+import gui.ClientPanel;
+
 public class AppClient implements Runnable{
    
-   private int ID = 0;
-   private Socket             socket    = null;
-   private Thread             thread    = null;
-   private ClientThread       client    = null;
-   private Scanner            keyboard  = null;
-   private DataInputStream    streamIn  = null;
-   private DataOutputStream   streamOut = null;
-
-   public AppClient(String serverName, int serverPort){
-      System.out.println(ID + ": Establishing connection. Please wait ...");
+   private int 				ID			= 0;
+   private Socket           socket    	= null;
+   private Thread           thread   	= null;
+   private ClientThread     client   	= null;
+   private Scanner          keyboard  	= null;
+   private DataInputStream  streamIn  	= null;
+   private DataOutputStream	streamOut 	= null;
+   private ClientPanel		UI;
+   
+   public AppClient(String serverName, int serverPort, ClientPanel UI) throws IOException{
       
       try{
          this.socket = new Socket(serverName, serverPort);
-         this.ID     = socket.getLocalPort();
+         System.out.println(ID + ": Establishing connection. Please wait ...");
+         this.ID    = socket.getLocalPort();
+         this.UI 	= UI;
          System.out.println(ID + ": Connected to server: " + socket.getInetAddress());
          System.out.println(ID + ": Connected to portid: " + socket.getLocalPort());
          this.start();
-      }catch(IOException e){ e.printStackTrace(); }
+      }catch(IOException e){ 
+    	  throw new IOException();
+      }
    }
 
    public int getID(){ return this.ID; }
@@ -45,7 +56,7 @@ public class AppClient implements Runnable{
    }
 
    public void run(){
-      System.out.println(ID + ": Client Started...");
+      System.out.println(ID + ": " + LANConfig.CLIENT_STATUS_START);
       while (thread != null) {  
          /*try {  
             if (streamOut != null) {
@@ -58,7 +69,7 @@ public class AppClient implements Runnable{
             stop();
          }*/
       }
-      System.out.println(ID + ": Client Stopped...");
+      System.out.println(ID + ": " + LANConfig.CLIENT_STATUS_SHUTDOWN);
    }
    
    public void send(String message){
@@ -66,7 +77,7 @@ public class AppClient implements Runnable{
            if (streamOut != null) {
               streamOut.writeUTF(message);
            } else {
-              System.out.println(ID + ": Stream Closed");
+              System.out.println(ID + ": " + LANConfig.CLIENT_STREAM_CLOSE);
            }
         }
         catch(IOException e) {  
@@ -75,12 +86,18 @@ public class AppClient implements Runnable{
    }
 
    public void handle (String msg) {
-      if (msg.equalsIgnoreCase("quit!")) {  
-         stop();
+      if (msg.equalsIgnoreCase(LANConfig.CLIENT_QUIT)) {  
+    	  UI.setClientJoined(Boolean.FALSE);
+    	  UI.listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
+    	  JOptionPane.showMessageDialog(new JFrame(), LANConfig.SERVER_DOWN, LANConfig.SERVER_ERROR, JOptionPane.INFORMATION_MESSAGE);
+    	  stop();
+      } else if (msg.equalsIgnoreCase(LANConfig.CONNECTION_FULL)){
+    	  UI.setClientJoined(Boolean.FALSE);
+    	  UI.listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
+    	  JOptionPane.showMessageDialog(new JFrame(), LANConfig.SERVER_FULL_CLIENTS, LANConfig.SERVER_ERROR, JOptionPane.INFORMATION_MESSAGE);    	  
       } else {
-         System.out.println(msg);
-         // Handle the message from the server.         
-         
+          System.out.println(msg);
+          // Handle the message from the server.         
       }
    }
 
@@ -100,6 +117,6 @@ public class AppClient implements Runnable{
          this.streamOut = null;       
       } catch(IOException ioe) {  }
       client.close();  
-      System.out.println(ID + ": Client Stopped...");
+      System.out.println(ID + ": " + LANConfig.CLIENT_STATUS_SHUTDOWN);
    }
 }

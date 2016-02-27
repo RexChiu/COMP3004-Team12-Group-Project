@@ -206,7 +206,7 @@ public class GUIConfig {
 	public static final String  NUMBER_PLAYER					= "Number of Player: ";
 	public static final String	IP								= "IP: ";
 	public static final String	PORT							= "Port: ";
-	public static final String	START							= "Start";
+	public static final String	CONFIRM							= "Confirm";
 	public static final String	CANCEL							= "Cancel";
 	
 	// About Dialog
