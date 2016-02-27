@@ -4,9 +4,12 @@ import config.GUIConfig;
 import config.LANConfig;
 import network.AppClient;
 
-import java.awt.*; 
+import java.awt.*;
+
+import javax.imageio.IIOException;
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class ClientPanel extends JFrame implements ActionListener{
@@ -18,12 +21,12 @@ public class ClientPanel extends JFrame implements ActionListener{
 
 	private static final String GAME_TITLE = "Ivanhoe";
 	
-	public static final String MENU_STRINGS = "Server Status Start Server Stop Server Client Join Client"
-    		+ "Quit View Player Edit Player About Game Help Game";
-	
 	public HashMap<String, JMenuItem> listJMI = new HashMap<String, JMenuItem>();
 	public HashMap<String, String[]> listMENU = new HashMap<String, String[]>();
-		
+	
+	private AppClient client;
+	private boolean clientJoined = Boolean.FALSE;
+	
 	public ClientPanel(){
 		super(GAME_TITLE);
 		getContentPane().setLayout(null);
@@ -43,6 +46,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 		
 	    setSize(GUIConfig.CLIENT_WINDOW_WIDTH, GUIConfig.CLIENT_WINDOW_HEIGHT);
 	    setResizable(Boolean.FALSE);
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void setup_poolPanel(){
@@ -75,12 +79,10 @@ public class ClientPanel extends JFrame implements ActionListener{
 	    JMenuBar myMenuBar = new JMenuBar();
 	    this.setJMenuBar(myMenuBar);
 
-	    listMENU.put("Server", GUIConfig.SERVER_TEXT);
 	    listMENU.put("Client", GUIConfig.CLIENT_TEXT);
 	    listMENU.put("Player", GUIConfig.PLAYER_TEXT);
 	    listMENU.put("About", GUIConfig.ABOUT_TEXT);
 	    
-	    myMenuBar.add(newMenu("Server"));
 	    myMenuBar.add(newMenu("Client"));
 	    myMenuBar.add(newMenu("Player"));
 	    myMenuBar.add(newMenu("About"));		
@@ -102,24 +104,31 @@ public class ClientPanel extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		String text = e.getActionCommand();
-		if (MENU_STRINGS.contains(text)){
-			System.out.println(listJMI.get(text).getText());
-		}
 		
 		switch(text){
-			case "Start Server":
-				new StartServerPanel(this, "Start Server").setVisible(Boolean.TRUE);
+			case GUIConfig.CLIENT_JOIN:
+				if (!clientJoined){
+					client = new AppClient(LANConfig.DEFAULT_HOST, LANConfig.DEFAULT_PORT);
+					clientJoined = !clientJoined;
+					listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.FALSE);					
+				}
 				break;
-			case "Server Status":
-				new ServerStatusPanel("Server Status").setVisible(Boolean.TRUE);
+			case GUIConfig.CLIENT_QUIT:
+				if (clientJoined){
+					client.stop();
+					client = null;
+					listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
+					clientJoined = !clientJoined;
+				}
 				break;
-			case "Client Join":
-				new AppClient(LANConfig.DEFAULT_HOST, LANConfig.DEFAULT_PORT); 
+			case GUIConfig.VIEW_PLAYER:
 				break;
-			case "About Game":
+			case GUIConfig.EDIT_PLAYER:
+				break;
+			case GUIConfig.ABOUT_GAME:
 				new AboutDialog(this, "About Ivanhoe", "About Ivanhoe").setVisible(Boolean.TRUE);
 				break;
-			case "Help Game":
+			case GUIConfig.HELP_GAME:
 				break;
 			default:
 				break;

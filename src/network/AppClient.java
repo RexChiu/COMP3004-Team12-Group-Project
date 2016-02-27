@@ -23,7 +23,7 @@ public class AppClient implements Runnable{
          System.out.println(ID + ": Connected to server: " + socket.getInetAddress());
          System.out.println(ID + ": Connected to portid: " + socket.getLocalPort());
          this.start();
-      }catch(IOException e){e.printStackTrace();}
+      }catch(IOException e){ e.printStackTrace(); }
    }
 
    public int getID(){ return this.ID; }
@@ -47,7 +47,7 @@ public class AppClient implements Runnable{
    public void run(){
       System.out.println(ID + ": Client Started...");
       while (thread != null) {  
-         try {  
+         /*try {  
             if (streamOut != null) {
                streamOut.writeUTF(keyboard.nextLine());
             } else {
@@ -56,14 +56,26 @@ public class AppClient implements Runnable{
          }
          catch(IOException e) {  
             stop();
-         }
+         }*/
       }
       System.out.println(ID + ": Client Stopped...");
+   }
+   
+   public void send(String message){
+       try {  
+           if (streamOut != null) {
+              streamOut.writeUTF(message);
+           } else {
+              System.out.println(ID + ": Stream Closed");
+           }
+        }
+        catch(IOException e) {  
+           stop();
+        }
    }
 
    public void handle (String msg) {
       if (msg.equalsIgnoreCase("quit!")) {  
-         System.out.println(ID + ": Good bye. Press RETURN to exit ...");
          stop();
       } else {
          System.out.println(msg);
@@ -76,7 +88,7 @@ public class AppClient implements Runnable{
    public void stop() {  
       try { 
          if (thread != null)     thread = null;
-         if (keyboard != null)    keyboard.close();
+         if (keyboard != null)   keyboard.close();
          if (streamIn != null)   streamIn.close();
          if (streamOut != null)  streamOut.close();
 
@@ -88,5 +100,6 @@ public class AppClient implements Runnable{
          this.streamOut = null;       
       } catch(IOException ioe) {  }
       client.close();  
+      System.out.println(ID + ": Client Stopped...");
    }
 }

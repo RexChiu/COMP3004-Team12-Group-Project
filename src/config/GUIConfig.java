@@ -217,7 +217,12 @@ public class GUIConfig {
 	public static final int 	TEXT_CENTER 					= 0;
 	
 	// Menu Text
-    public static final String [] 	SERVER_TEXT 	= {"Server Status", "Start Server", "Stop Server"};
+	public static final String CLIENT_JOIN 						= "Client Join";
+	public static final String CLIENT_QUIT 						= "Client Quit";
+	public static final String VIEW_PLAYER 						= "View Player";
+	public static final String EDIT_PLAYER 						= "Edit Player";
+	public static final String ABOUT_GAME 						= "About Game";
+	public static final String HELP_GAME 						= "Help Game";
     public static final String [] 	CLIENT_TEXT 	= {"Client Join", "Client Quit"};
     public static final String [] 	PLAYER_TEXT 	= {"View Player", "Edit Player"};
     public static final String [] 	ABOUT_TEXT	= {"About Game", "Help Game"};
