@@ -30,6 +30,15 @@ public class Ivanhoe {
 		players.add(new Player(ID)); 
 	}
 	
+	public void removePlayer(int ID){
+		for (int i = 0; i < players.size(); i++){
+			if (players.get(i).getID() == ID){
+				players.remove(i);
+				tokens.remove(i);
+			}
+		}
+	}
+	
 	public Player getPlayer(int ID){
 		for (Player player: players){
 			if (player.getID() == ID)

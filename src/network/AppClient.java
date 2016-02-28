@@ -7,8 +7,10 @@ import java.util.*;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import config.GAMEConfig;
 import config.GUIConfig;
 import config.LANConfig;
+import game.Player;
 import gui.ClientPanel;
 
 public class AppClient implements Runnable{
@@ -21,6 +23,8 @@ public class AppClient implements Runnable{
    private DataInputStream  streamIn  	= null;
    private DataOutputStream	streamOut 	= null;
    private ClientPanel		UI;
+   
+	private ArrayList<Player> players = new ArrayList<Player>();
    
    public AppClient(String serverName, int serverPort, ClientPanel UI) throws IOException{
       
@@ -101,20 +105,23 @@ public class AppClient implements Runnable{
     	  if (msg.equals(String.format("%s: %s",LANConfig.SERVER, LANConfig.GAME_READY))){
         	  JOptionPane.showMessageDialog(new JFrame(), LANConfig.GAME_READY, LANConfig.SERVER, JOptionPane.INFORMATION_MESSAGE);    	
     	  }else if (msg.substring(0, 6).equals(LANConfig.PAKECT)){
-    		  System.out.println(msg.substring(6));
-    		  String[] player = msg.substring(6).split("/");
-    		  String token 		= player[0].split(":")[1];
-    		  System.out.println(token);
-    		  String hand 		= player[0].split(":")[2];
-    		  System.out.println(hand);
-    		  String display 	= player[0].split(":")[3];
-    		  System.out.print(display);
-    		  
-    	  }else if (msg.equals(Integer.toString(this.ID))){
-        	  JOptionPane.showMessageDialog(new JFrame(), "According to purple token, you are dealer. Please click ok to Shuffle Deck and start game",
-        			  LANConfig.SERVER, JOptionPane.INFORMATION_MESSAGE);       		  
+    		  setup(msg.substring(LANConfig.PAKECT.length()));    		  
     	  }
       }
+   }
+         
+   public void setup(String data){
+	   String[] player = data.split("/");
+	   if (players.isEmpty()){
+		   for (int i = 0; i < player.length; i++){
+			   String ID 		= Player.getID(player[i]);
+			   String token 	= Player.getToken(player[i]);			   
+			   players.add(new Player(Integer.parseInt(ID)));
+			   players.get(i).setToken(token);
+		   }
+	   }
+	   
+	   UI.updateUI(data);
    }
 
 

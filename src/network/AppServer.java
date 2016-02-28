@@ -93,6 +93,7 @@ public class AppServer implements Runnable {
 		{
 			if (clients.containsKey(ID)) {
 				clients.get(ID).send(LANConfig.CLIENT_QUIT);
+				rEngine.removePlayer(ID);
 				remove(ID);
 			}
 		}

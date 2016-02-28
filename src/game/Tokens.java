@@ -31,7 +31,7 @@ public class Tokens {
 	public boolean 	hasBlue() 	{ return tokens.containsKey(GAMEConfig.COLOR_BLUE); 		}
 	public boolean 	hasYellow() { return tokens.containsKey(GAMEConfig.COLOR_YELLOW); 		}
 	public boolean 	hasWhite() 	{ return tokens.containsKey(GAMEConfig.SUPPORTERS_WHITE);	}
-	
+		
 	public String toString() {
 		String result = "[Token]";
 		if (tokens.isEmpty()) return result;
