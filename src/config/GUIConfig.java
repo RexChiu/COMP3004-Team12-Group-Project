@@ -149,6 +149,7 @@ public class GUIConfig {
 	public static final int 	USER_TOTAL_SIZE					= 50;
 	
 	// Player Panel	
+	public static final int 	USER_PLAYER_ID					= 1;
 	public static final int 	SECOND_PLAYER_ID				= 2;
 	public static final int 	THIRD_PLAYER_ID					= 3;
 	public static final int 	FOURTH_PLAYER_ID				= 4;

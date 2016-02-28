@@ -97,6 +97,7 @@ public class AppClient implements Runnable{
     	  JOptionPane.showMessageDialog(new JFrame(), LANConfig.SERVER_FULL_CLIENTS, LANConfig.SERVER_ERROR, JOptionPane.INFORMATION_MESSAGE);    	  
       } else {
           System.out.println(msg);
+          
           // Handle the message from the server.         
       }
    }

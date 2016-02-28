@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import config.LANConfig;
+import game.Ivanhoe;
 import gui.HostPanel;
 
 import java.io.*;
@@ -15,6 +16,7 @@ public class AppServer implements Runnable {
 	private ServerSocket server = null;
 	private HashMap<Integer, ServerThread> clients;
 	private HostPanel UI;
+	private Ivanhoe rEngine;
 	
 	public AppServer(int port, HostPanel UI) {
 		try {
@@ -23,6 +25,9 @@ public class AppServer implements Runnable {
 			UI.writeMessage("Binding to port " + port + ", please wait  ...");
 			UI.writeMessage("Max Clients of Serevr: " + LANConfig.NUM_CLIENTS);
 			UI.writeMessage("Wariting for Client ...");
+			
+			rEngine = new Ivanhoe();
+			
 			clients = new HashMap<Integer, ServerThread>();
 			server 	= new ServerSocket(port);
 			server.setReuseAddress(true);

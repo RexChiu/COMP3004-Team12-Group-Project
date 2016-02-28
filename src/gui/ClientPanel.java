@@ -26,6 +26,9 @@ public class ClientPanel extends JFrame implements ActionListener{
 	
 	public HashMap<String, JMenuItem> listJMI = new HashMap<String, JMenuItem>();
 	public HashMap<String, String[]> listMENU = new HashMap<String, String[]>();
+	public HashMap<Integer, JPanel> playerPanel = new HashMap<Integer, JPanel>();
+	public JPanel poolPanel;
+	public JPanel tournamentPanel;
 	
 	public ClientPanel(){
 		super(GAME_TITLE);
@@ -36,9 +39,11 @@ public class ClientPanel extends JFrame implements ActionListener{
 		titleLabel.setSize(GUIConfig.TITLE_TEXT_WIDTH, GUIConfig.TITLE_TEXT_HEIGHT);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBackground(Color.BLACK);
+		titleLabel.setEnabled(Boolean.FALSE);
 		getContentPane().add(titleLabel);
 		
-		setup_menuBar();		
+		setup_menuBar();	
+		
 		setup_poolPanel();
 		setup_tournamentPanel();
 		setup_playerPanel();
@@ -50,29 +55,29 @@ public class ClientPanel extends JFrame implements ActionListener{
 	}
 	
 	public void setup_poolPanel(){
-		JPanel poolPanel = new PoolPanel();
+		poolPanel = new PoolPanel();
 		getContentPane().add(poolPanel);			
 	}
 
 	public void setup_tournamentPanel(){
-		JPanel tournamentPanel = new TournamentPanel();		
+		tournamentPanel = new TournamentPanel();		
 		getContentPane().add(tournamentPanel);	
 	}
 	
 	public void setup_userPanel(){
-		JPanel userPanel = new UserPanel();
-		getContentPane().add(userPanel);	
+		playerPanel.put(GUIConfig.USER_PLAYER_ID, new UserPanel());
+		getContentPane().add(playerPanel.get(GUIConfig.USER_PLAYER_ID));
 	}
 	
 	public void setup_playerPanel(){
-		JPanel playerOnePanel = new PlayerPanel(GUIConfig.SECOND_PLAYER_ID);
-		getContentPane().add(playerOnePanel);	
-		JPanel playerTwoPanel = new PlayerPanel(GUIConfig.THIRD_PLAYER_ID);
-		getContentPane().add(playerTwoPanel);	
-		JPanel playerThreePanel = new PlayerPanel(GUIConfig.FOURTH_PLAYER_ID);
-		getContentPane().add(playerThreePanel);	
-		JPanel playerFourPanel = new PlayerPanel(GUIConfig.FIFTH_PLAYER_ID);
-		getContentPane().add(playerFourPanel);	
+		playerPanel.put(GUIConfig.SECOND_PLAYER_ID, new PlayerPanel(GUIConfig.SECOND_PLAYER_ID));
+		getContentPane().add(playerPanel.get(GUIConfig.SECOND_PLAYER_ID));
+		playerPanel.put(GUIConfig.THIRD_PLAYER_ID, new PlayerPanel(GUIConfig.THIRD_PLAYER_ID));
+		getContentPane().add(playerPanel.get(GUIConfig.THIRD_PLAYER_ID));	
+		playerPanel.put(GUIConfig.FOURTH_PLAYER_ID, new PlayerPanel(GUIConfig.FOURTH_PLAYER_ID));
+		getContentPane().add(playerPanel.get(GUIConfig.FOURTH_PLAYER_ID));	
+		playerPanel.put(GUIConfig.FIFTH_PLAYER_ID, new PlayerPanel(GUIConfig.FIFTH_PLAYER_ID));
+		getContentPane().add(playerPanel.get(GUIConfig.FIFTH_PLAYER_ID));	
 	}
 	
 	public void setup_menuBar(){

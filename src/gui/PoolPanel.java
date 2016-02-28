@@ -1,8 +1,11 @@
 package gui;
 
+import java.net.URL;
+
 import javax.swing.*;
 
-import config.GUIConfig; 
+import config.GUIConfig;
+import config.IMGConfig; 
 
 public class PoolPanel extends JPanel{
 	/**
@@ -16,13 +19,16 @@ public class PoolPanel extends JPanel{
 		setLayout(null);		
 		setLocation(GUIConfig.POOL_LOCATION_X, GUIConfig.POOL_LOCATION_Y);
 		setSize(GUIConfig.POOL_PANEL_WIDTH, GUIConfig.POOL_PANEL_HEIGHT);
-
-		deckButton = new JButton("Deck");
+		
+		URL deck = this.getClass().getResource(IMGConfig.DECK_IVANHOE_TINY);
+		deckButton = new JButton(new ImageIcon(deck));
 		deckButton.setLocation(GUIConfig.POOL_DECK_LOCATION_X, GUIConfig.POOL_DECK_LOCATION_Y);
 		deckButton.setSize(GUIConfig.POOL_DECK_WIDTH, GUIConfig.POOL_DECK_HEIGHT);
 		add(deckButton);
 
-		discardButton = new JButton("Discard");
+
+		URL discard = this.getClass().getResource(IMGConfig.DECK_IVANHOE_TINY);
+		discardButton = new JButton(new ImageIcon(discard));
 		discardButton.setLocation(GUIConfig.POOL_DISCARD_LOCATION_X, GUIConfig.POOL_TOKEN_LOCATION_Y);
 		discardButton.setSize(GUIConfig.POOL_DISCARD_WIDTH, GUIConfig.POOL_DISCARD_HEIGHT);
 		add(discardButton);
