@@ -232,4 +232,12 @@ public class Hand {
 		}
 		return Boolean.FALSE;
 	}
+	
+	public String toString(){
+		String result = "[Hand]";
+		if (hand.isEmpty()) return result;
+		for (Card card: hand){ result += card + ";"; }
+		
+		return result.substring(0, result.length()-1);
+	}
 }
