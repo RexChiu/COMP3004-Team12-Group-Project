@@ -73,4 +73,16 @@ public class Display {
 
 	// Check the status whether is stunned of not
 	public boolean 	isStunned() 		{ return GAMEConfig.containsKey(this.status, GAMEConfig.STATUS_STUNNED);}
+	
+
+	
+	public String toString(){
+		String result = "[Display]";
+		result += "[Total]" + total;
+		result += "[Status]" + status;
+		if (display.isEmpty()) return result;
+
+		for (Card card: display){ result += card + ";"; }
+		return result.substring(0, result.length()-1);
+	}
 }

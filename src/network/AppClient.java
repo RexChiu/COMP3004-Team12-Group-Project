@@ -96,9 +96,24 @@ public class AppClient implements Runnable{
     	  UI.listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
     	  JOptionPane.showMessageDialog(new JFrame(), LANConfig.SERVER_FULL_CLIENTS, LANConfig.SERVER_ERROR, JOptionPane.INFORMATION_MESSAGE);    	  
       } else {
-          System.out.println(msg);
-          
-          // Handle the message from the server.         
+          System.out.println("MESSAGE: " + msg);
+          // Handle the message from the server.  
+    	  if (msg.equals(String.format("%s: %s",LANConfig.SERVER, LANConfig.GAME_READY))){
+        	  JOptionPane.showMessageDialog(new JFrame(), LANConfig.GAME_READY, LANConfig.SERVER, JOptionPane.INFORMATION_MESSAGE);    	
+    	  }else if (msg.substring(0, 6).equals(LANConfig.PAKECT)){
+    		  System.out.println(msg.substring(6));
+    		  String[] player = msg.substring(6).split("/");
+    		  String token 		= player[0].split(":")[1];
+    		  System.out.println(token);
+    		  String hand 		= player[0].split(":")[2];
+    		  System.out.println(hand);
+    		  String display 	= player[0].split(":")[3];
+    		  System.out.print(display);
+    		  
+    	  }else if (msg.equals(Integer.toString(this.ID))){
+        	  JOptionPane.showMessageDialog(new JFrame(), "According to purple token, you are dealer. Please click ok to Shuffle Deck and start game",
+        			  LANConfig.SERVER, JOptionPane.INFORMATION_MESSAGE);       		  
+    	  }
       }
    }
 

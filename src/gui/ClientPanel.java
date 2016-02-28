@@ -39,7 +39,6 @@ public class ClientPanel extends JFrame implements ActionListener{
 		titleLabel.setSize(GUIConfig.TITLE_TEXT_WIDTH, GUIConfig.TITLE_TEXT_HEIGHT);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBackground(Color.BLACK);
-		titleLabel.setEnabled(Boolean.FALSE);
 		getContentPane().add(titleLabel);
 		
 		setup_menuBar();	

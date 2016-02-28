@@ -3,16 +3,16 @@ package config;
 public class GAMEConfig {
 
 	// Ivanhoe Configuration
-	public static final int 	WELCOME 				= 0;
-	public static final int 	GAME_READY				= 1;
-	public static final int 	SELECT_TOURNAMENT		= 2;
-	public static final int 	PLAY_OR_WITHDRAWAL		= 3;
-	public static final int		DEAL_A_CARD				= 4;
-	public static final int		PLAY_A_CARD				= 5;
-	public static final int 	WITHDAWAL				= 6;
-	public static final int 	NEXT_PLAYER				= 7;
-	public static final int 	NEXT_TOURNAMENT			= 8;
-	public static final int 	GAME_OVER				= 9;
+	public final static int 	SETUP	 				= 0;
+	public final static int 	GAME_READY				= 1;
+	public final static int 	SELECT_TOURNAMENT		= 2;
+	public final static int 	PLAY_OR_WITHDRAWAL		= 3;
+	public final static int		DEAL_A_CARD				= 4;
+	public final static int		PLAY_A_CARD				= 5;
+	public final static int 	WITHDAWAL				= 6;
+	public final static int 	NEXT_PLAYER				= 7;
+	public final static int 	NEXT_TOURNAMENT			= 8;
+	public final static int 	GAME_OVER				= 9;
 	
 	// Tokens Configuration
 	public static final int 	ANY_FOUR_TOKENS 		= 4;
@@ -20,6 +20,7 @@ public class GAMEConfig {
 	
 	// Token Configurat8ion
 	public static final String	IMAGE_PATH 				= "PATH";
+	public static final String[]TOKEN_COLORS			= {"Purple", "Red", "Blue", "Yellow", "Green"};
 	// Hand Configuration
 	public static final int 	MIN_CARD = 1;
 	

@@ -22,19 +22,19 @@ public class TournamentPanel extends JPanel{
 	public TournamentPanel() { 
 		setLayout(null);
 
-		for (int i = GUIConfig.USER_PLAYER_ID; i <= GUIConfig.FIFTH_PLAYER_ID; i ++){
+		for (int i = GUIConfig.USER_PLAYER_ID; i <= GUIConfig.FIFTH_PLAYER_ID; i++){
 			infoLabel.put(i, new JButton("INFO"));
-			infoLabel.get(i).setLocation(75*i, 0);
+			infoLabel.get(i).setLocation(75*(i-1), 0);
 			infoLabel.get(i).setSize(GUIConfig.TOURNAMENT_INFO_WIDTH, GUIConfig.TOURNAMENT_INFO_HEIGHT);
 			add(infoLabel.get(i));
 			
 			statusLabel.put(i, new JButton("Status"));
-			statusLabel.get(i).setLocation(75*i, 100);
+			statusLabel.get(i).setLocation(75*(i-1), 100);
 			statusLabel.get(i).setSize(GUIConfig.TOURNAMENT_STATUS_WIDTH, GUIConfig.TOURNAMENT_STATUS_HEIGHT);
 			add(statusLabel.get(i));
 			
 			totalLabel.put(i, new JButton("Total"));
-			totalLabel.get(i).setLocation(75*i, 150);
+			totalLabel.get(i).setLocation(75*(i-1), 150);
 			totalLabel.get(i).setSize(GUIConfig.TOURNAMENT_TOTAL_WIDTH, GUIConfig.TOURNAMENT_TOTAL_HEIGHT);
 			add(totalLabel.get(i));
 		}

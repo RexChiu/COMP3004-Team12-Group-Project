@@ -25,9 +25,8 @@ public class AppServer implements Runnable {
 			UI.writeMessage("Binding to port " + port + ", please wait  ...");
 			UI.writeMessage("Max Clients of Serevr: " + LANConfig.NUM_CLIENTS);
 			UI.writeMessage("Wariting for Client ...");
-			
-			rEngine = new Ivanhoe();
-			
+
+			rEngine = new Ivanhoe(LANConfig.NUM_CLIENTS);
 			clients = new HashMap<Integer, ServerThread>();
 			server 	= new ServerSocket(port);
 			server.setReuseAddress(true);
@@ -61,8 +60,20 @@ public class AppServer implements Runnable {
 				serverThread.open();
 				serverThread.start();
 				clients.put(serverThread.getID(), serverThread);
+				rEngine.addPlayer(serverThread.getID());
 				UI.writeMessage(String.format("%5d: %s", serverThread.getID(), LANConfig.REQUEST_JOIN));
 				this.clientCount++;
+				
+				if (clientCount == LANConfig.NUM_CLIENTS){
+					UI.writeMessage(LANConfig.GAME_READY);
+					int ID = Integer.parseInt(rEngine.processInt(LANConfig.GAME_READY));
+					String msg = String.format("%s: %s", LANConfig.SERVER, LANConfig.GAME_READY);
+					for (ServerThread to : clients.values()) {
+						UI.writeMessage(rEngine.getPlayer(to.getID()).toString());
+						to.send(msg);
+						to.send(LANConfig.PAKECT+rEngine.getData());
+					}
+				}
 			} catch (IOException e) {
 			}
 		}else{

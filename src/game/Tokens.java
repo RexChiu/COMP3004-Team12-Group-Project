@@ -31,4 +31,16 @@ public class Tokens {
 	public boolean 	hasBlue() 	{ return tokens.containsKey(GAMEConfig.COLOR_BLUE); 		}
 	public boolean 	hasYellow() { return tokens.containsKey(GAMEConfig.COLOR_YELLOW); 		}
 	public boolean 	hasWhite() 	{ return tokens.containsKey(GAMEConfig.SUPPORTERS_WHITE);	}
+	
+	public String toString() {
+		String result = "[Token]";
+		if (tokens.isEmpty()) return result;
+		
+		for (int i = 0; i < tokens.keySet().size(); i++){
+			String key = tokens.keySet().toArray()[i].toString();
+			result += tokens.get(key) + ",";
+		}
+		
+		return result.substring(0, result.length()-1);
+	}
 }

@@ -12,11 +12,15 @@ public class LANConfig {
 	public static final boolean PRINT_STACK_TRACE 		= Boolean.FALSE;
 	
 	// Network Status
+	public static final String SERVER 					= "Ivanhoe";
 	public static final String SERVER_STATUS_START		= "Starting server ...";
 	public static final String SERVER_STATUS_SHUTDOWN	= "Shutting server down ...";
 	public static final String CLIENT_STATUS_START		= "Client Started...";
 	public static final String CLIENT_STATUS_SHUTDOWN	= "Client Stopped...";
 	public static final String CLIENT_STREAM_CLOSE		= "Stream Closed...";
+	public static final String GAME_READY				= "All players are joined the game...";
+	public static final String PAKECT					= "Packet";
+	
 	
 	//Dialog Message	
 	public static final String SERVER_ERROR 			= "Server Error";
