@@ -107,6 +107,7 @@ public class AppClient implements Runnable{
     	  }else if (msg.substring(0, 6).equals(LANConfig.PAKECT)){
     		  setup(msg.substring(LANConfig.PAKECT.length()));    		  
     	  }
+    	  
       }
    }
          

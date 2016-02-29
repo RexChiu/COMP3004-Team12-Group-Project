@@ -67,7 +67,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 	}
 	
 	public void setup_userPanel(){
-		userPanel = new UserPanel();
+		userPanel = new UserPanel(this);
 		getContentPane().add(userPanel);
 	}
 	

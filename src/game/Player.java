@@ -18,6 +18,8 @@ public class Player {
 	public boolean 	checkToken(String token) 	{ return this.token.hasPurple(); 	}
 	public int		getID() {return this.ID; }
 	
+	public void 	addCard(Card card)			{ this.hand.drawCard(card); 		}
+	
 	public static String getTokenKey(String data){
 		String tokens = getToken(data);
 		String[] key = tokens.split(",");

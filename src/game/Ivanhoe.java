@@ -11,7 +11,7 @@ public class Ivanhoe {
 
 	private int state;
 	private Deck deck;
-	private Deck deadwood;
+	private Deck deadwood; // discard
 	private int numPlayers;
 	private ArrayList<Player> players = new ArrayList<Player>();
 	ArrayList<String> tokens = new ArrayList<>();
@@ -20,7 +20,7 @@ public class Ivanhoe {
 		// TODO Auto-generated constructor stub
 		this.state = GAMEConfig.SETUP;
 		this.deck = new Deck();
-		//this.deck.init();
+		this.deck.init();
 		this.deadwood = new Deck();
 		this.numPlayers = num;
 	}
@@ -62,7 +62,18 @@ public class Ivanhoe {
 			Collections.shuffle(tokens);
 			int index = 0;
 			for (Player player: players) { player.setToken(tokens.get(index++)); }
-			for (Player player: players) { if (player.checkToken(GAMEConfig.COLOR_PURPLE)) return Integer.toString(player.getID()); }
+			for (Player player: players) { 
+				for (int i = 0; i < 8; i++){
+					Card card = deck.getCard(0);
+					deck.removeCard(card);
+					player.addCard(card); 
+				}
+			}
+			for (Player player: players) { 
+				if (player.checkToken(GAMEConfig.COLOR_PURPLE)) 
+					return Integer.toString(player.getID());
+			}
+			
 		}
 		return input; 
 	}

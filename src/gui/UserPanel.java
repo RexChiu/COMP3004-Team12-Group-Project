@@ -11,9 +11,10 @@ public class UserPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -449738241414461419L;
 
-	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton, handButton;
+	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton;
+	public HandPanel handPanel;
 	
-	public UserPanel() { 
+	public UserPanel(ClientPanel client) { 
 		setLocation(GUIConfig.USER_PANEL_LOCATION_X, GUIConfig.USER_PANEL_LOCATION_Y);
 		setSize(GUIConfig.USER_PANEL_WIDTH, GUIConfig.USER_PANEL_HEIGHT);
 		setLayout(null);	
@@ -28,11 +29,8 @@ public class UserPanel extends JPanel{
 		infoButton.setSize(GUIConfig.USER_INFO_WEIGTH, GUIConfig.USER_INFO_HEIGHT);
 		add(infoButton);
 		
-		handButton = new JButton("Hand");
-		handButton.setLocation(GUIConfig.USER_HAND_LOCATION_X, GUIConfig.USER_HAND_LOCATION_Y);
-		handButton.setSize(GUIConfig.USER_HAND_WIDTH, GUIConfig.USER_HAND_HEIGHT);
-		add(handButton);
-		
+		handPanel = new HandPanel(client, GUIConfig.USER_HAND_LOCATION_X, GUIConfig.USER_HAND_LOCATION_Y, GUIConfig.USER_HAND_WIDTH, GUIConfig.USER_HAND_HEIGHT);
+		add(handPanel);
 		
 		statusOneButton = new JButton("One");
 		statusOneButton.setLocation(GUIConfig.USER_STATUS_ONE_LOCATION_X, GUIConfig.USER_STATUS_ONE_LOCATION_Y);

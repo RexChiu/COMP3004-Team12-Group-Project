@@ -81,7 +81,7 @@ public class Display {
 		result += "[Total]" + total;
 		result += "[Status]" + status;
 		if (display.isEmpty()) return result;
-
+		result += "[Card]";
 		for (Card card: display){ result += card + ";"; }
 		return result.substring(0, result.length()-1);
 	}
