@@ -87,21 +87,21 @@ public class GAMEConfig {
 	public static final String 	SWORD					= "Sword";
 	public static final String 	AXE						= "Axe";
 	public static final String 	MORNINGSTAR				= "Morningstar";
-	public static final String 	NO_WEAPON				= "No Weapon";
+	public static final String 	NO_WEAPON				= "NoWeapon";
 	
 	public static final String 	MAIDEN 					= "Maiden";
 	public static final String 	SQUIRE 					= "Squire";
 	public static final String 	UNHORSE					= "Unhorse";
-	public static final String 	CHANGE_WEAPON			= "Change Weapon";
-	public static final String	DROP_WEAPON				= "Drop Weapon";
+	public static final String 	CHANGE_WEAPON			= "ChangeWeapon";
+	public static final String	DROP_WEAPON				= "DropWeapon";
 	public static final String 	SHIELD					= "Shield";
 	public static final String 	STUNNED					= "Stunned";
 	public static final String 	IVANHOE					= "Ivanhoe";
-	public static final String 	BREAK_LANCE				= "Break Lance";
+	public static final String 	BREAK_LANCE				= "BreakLance";
 	public static final String 	RIPOSTE					= "Riposte";
 	public static final String 	DODGE					= "Dodge";
 	public static final String 	RETREAT					= "Retreat";
-	public static final String 	KNOCK_DOWN				= "Knock Down";
+	public static final String 	KNOCK_DOWN				= "KnockDown";
 	public static final String 	OUTMANEUVER				= "Outmaneuver";
 	public static final String 	CHARGE					= "Charge";
 	public static final String 	COUNTERCHARGE			= "Countercharge";

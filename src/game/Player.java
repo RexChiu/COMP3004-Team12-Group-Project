@@ -14,11 +14,14 @@ public class Player {
 	}
 	
 	public void 	setToken(String token)		{ this.token = new Tokens(token);	}
-	public void		addToken(String token)		{ this.token.addToken(token); 		}
 	public boolean 	checkToken(String token) 	{ return this.token.hasPurple(); 	}
-	public int		getID() {return this.ID; }
-	
+	public void		addToken(String token)		{ this.token.addToken(token); 		}
+	public void		addDisplay(Card card)		{ this.display.addCard(card); 		}
 	public void 	addCard(Card card)			{ this.hand.drawCard(card); 		}
+	public Tokens 	getTokens() 				{ return this.token; 				}
+	public int		getID() 					{ return this.ID; 					}
+	public Hand 	getHand() 					{ return this.hand; 				}
+	public Display 	getDisplayer() 				{ return this.display; 				}
 	
 	public static String getTokenKey(String data){
 		String tokens = getToken(data);
@@ -56,8 +59,8 @@ public class Player {
 	}
 	
 	public static String getStatus(String data){
-		if (!data.contains("[Card]")) return "";
-		int beginIndex = data.indexOf("[Status]")+6;
+		if (!data.contains("[Status]")) return "";
+		int beginIndex = data.indexOf("[Status]")+8;
 		int endIndex = data.indexOf("[Card]");
 		return data.substring(beginIndex, endIndex);
 	}

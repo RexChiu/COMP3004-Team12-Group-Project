@@ -154,7 +154,7 @@ public class TestHand {
 	public void testHasActionBraekLance () {
 		System.out.println("@Test(): hasActionBraekLance()");
 
-		Card card = new Card("Break Lance", "Action Card", 0);
+		Card card = new Card("BreakLance", "Action Card", 0);
 
 		hand.drawCard(card);
 		
@@ -198,7 +198,7 @@ public class TestHand {
 	public void testHasActionKnockDown () {
 		System.out.println("@Test(): hasActionKnockDown()");
 
-		Card card = new Card("Knock Down", "Action Card", 0);
+		Card card = new Card("KnockDown", "Action Card", 0);
 
 		hand.drawCard(card);
 		

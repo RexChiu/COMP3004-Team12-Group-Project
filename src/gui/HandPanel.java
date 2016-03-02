@@ -13,133 +13,162 @@ import javax.swing.*;
 
 import config.GUIConfig;
 import config.IMGConfig;
+import game.Card;
+import game.Hand;
+import game.Player;
+import network.AppClient;
 
 public class HandPanel extends JPanel implements MouseListener{
 
 	/**
 	 * Hand Panel for the Client Ivanhoe
 	 */
-	private static final long serialVersionUID = 2634805864040454133L;
-	JLabel view;	
-	boolean display = false;
-	ClientPanel client;
+
+	
+	public JButton applyButton, submitButton;
+	
+	private ClientPanel client;
+	private JLabel view = new JLabel();	
+
+	private URL[] urlSmall = new URL[GUIConfig.HANDPANEL_MAX_CARD];
+	private URL[] urlLarge = new URL[GUIConfig.HANDPANEL_MAX_CARD];
+	private JLabel[] card = new JLabel[GUIConfig.HANDPANEL_MAX_CARD];
+	private boolean[] selected = new boolean[GUIConfig.HANDPANEL_MAX_CARD];
+	private int numCard = 0;
+	private boolean isUser = Boolean.TRUE;
+	private JLayeredPane layeredPane;
 	
 	public HandPanel(ClientPanel client, int x, int y, int width, int height) { 
 		setLayout(null);
+		this.client = client;	
 		
-		this.client = client;
-		
-		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane = new JLayeredPane();
 		layeredPane.setSize(new Dimension(width, height));
 		layeredPane.setBorder(BorderFactory.createTitledBorder(""));
-		layeredPane.addMouseListener(this);	
-				
-		URL url1 = this.getClass().getResource(IMGConfig.ADAPT_SMALL);
-		JLabel card1 = new JLabel(new ImageIcon(url1));
-		card1.setLocation(10, 10);
-		card1.setSize(120, 180);
-		card1.setBounds(10, 10, 120, 180);
-		
-		layeredPane.add(card1);
-		layeredPane.setLayer(card1, 0);
-		
-		URL url2 = this.getClass().getResource(IMGConfig.AXETHREE_SMALL);
-		JLabel card2 = new JLabel(new ImageIcon(url2));
-		card2.setLocation(60, 10);
-		card2.setSize(120, 180);
-		card2.setBounds(60, 10, 120, 180);
-		layeredPane.add(card2);
-		layeredPane.setLayer(card2, 1);
-		
-		URL url3 = this.getClass().getResource(IMGConfig.DISGRACE_SMALL);
-		JLabel card3 = new JLabel(new ImageIcon(url3));
-		card3.setLocation(110, 10);
-		card3.setSize(120, 180);
-		card3.setBounds(110, 10, 120, 180);
-		layeredPane.add(card3);
-		layeredPane.setLayer(card3, 2);
-		
-		URL url4 = this.getClass().getResource(IMGConfig.BREAKLANCE_SMALL);
-		JLabel card4 = new JLabel(new ImageIcon(url4));
-		card4.setLocation(160, 10);
-		card4.setSize(120, 180);
-		card4.setBounds(160, 10, 120, 180);
-		layeredPane.add(card4);
-		layeredPane.setLayer(card4, 3);
-		
-		URL url5 = this.getClass().getResource(IMGConfig.AXETWO_SMALL);
-		JLabel card5 = new JLabel(new ImageIcon(url5));
-		card5.setLocation(210, 10);
-		card5.setSize(120, 180);
-		card5.setBounds(210, 10, 120, 180);
-		layeredPane.add(card5);
-		layeredPane.setLayer(card5, 4);
-		
-		URL url6 = this.getClass().getResource(IMGConfig.CHANGEWEAPON_SMALL);
-		JLabel card6 = new JLabel(new ImageIcon(url6));
-		card6.setLocation(260, 10);
-		card6.setSize(120, 180);
-		card6.setBounds(260, 10, 120, 180);
-		layeredPane.add(card6);
-		layeredPane.setLayer(card6, 5);
-		
-		URL url7 = this.getClass().getResource(IMGConfig.MAIDENSIX_SMALL);
-		JLabel card7 = new JLabel(new ImageIcon(url7));
-		card7.setLocation(310, 10);
-		card7.setSize(120, 180);
-		card7.setBounds(310, 10, 120, 180);
-		card7.addMouseListener(this);
-		layeredPane.add(card7);
-		layeredPane.setLayer(card7, 6);
-		
-		URL url8 = this.getClass().getResource(IMGConfig.IVANHOE_SMALL);
-		JLabel card8 = new JLabel(new ImageIcon(url8));
-		card8.setLocation(360, 10);
-		card8.setSize(120, 180);
-		card8.setBounds(360, 10, 120, 180);
-		layeredPane.add(card8);
-		layeredPane.setLayer(card8, 7);
-		
+		layeredPane.addMouseListener(this);		
 		add(layeredPane);
+		
+		applyButton = new JButton("Apply");
+		applyButton.setLocation(GUIConfig.HANDPANEL_APPLY_BUTTON_LOCATION_X, GUIConfig.HANDPANEL_APPLY_BUTTON_LOCATION_Y);
+		applyButton.setSize(GUIConfig.HANDPANEL_BUTTON_WIDTH, GUIConfig.HANDPANEL_BUTTON_HEIGHT);
+		applyButton.setEnabled(Boolean.TRUE);
+		applyButton.addMouseListener(this);
+		client.add(applyButton);
+		
+		submitButton = new JButton("Submit");
+		submitButton.setLocation(GUIConfig.HANDPANEL_SUBMIT_BUTTON_LOCATION_X, GUIConfig.HANDPANEL_SUBMIT_BUTTON_LOCATION_Y);
+		submitButton.setSize(GUIConfig.HANDPANEL_BUTTON_WIDTH, GUIConfig.HANDPANEL_BUTTON_HEIGHT);
+		submitButton.setEnabled(Boolean.TRUE);
+		submitButton.addMouseListener(this);
+		client.add(submitButton);
 		
 		setLocation(x, y);
 		setSize(width, height);
 		setBackground(Color.WHITE);
-	}
+	}	
 
+	public void updateUI(String data){
+		Hand hand = new Hand(data);		
+		numCard = hand.getSize();
+		for (int i = 0; i < numCard; i++){
+			selected[i] = Boolean.FALSE;
+			urlSmall[i] = this.getClass().getResource(hand.getCard(i).getIMG(IMGConfig.IMAGE_SIZE_SMALL));
+			urlLarge[i] = this.getClass().getResource(hand.getCard(i).getIMG(IMGConfig.IMAGE_SIZE_LARGE));
+			card[i] = new JLabel(new ImageIcon(urlSmall[i]));
+			card[i].setLocation(GUIConfig.HANDPANEL_USER_CARD_LOCATION_X+i*GUIConfig.HANDPANEL_USER_CARD_SIZE, GUIConfig.HANDPANEL_USER_CARD_LOCATION_Y);
+			card[i].setSize(GUIConfig.HANDPANEL_USER_CARD_WIDTH, GUIConfig.HANDPANEL_USER_CARD_HEIGHT);
+			card[i].setBounds(GUIConfig.HANDPANEL_USER_CARD_LOCATION_X+i*GUIConfig.HANDPANEL_USER_CARD_SIZE, 
+					GUIConfig.HANDPANEL_USER_CARD_LOCATION_Y, GUIConfig.HANDPANEL_USER_CARD_WIDTH, GUIConfig.HANDPANEL_USER_CARD_HEIGHT);
+			
+			layeredPane.add(card[i]);
+			layeredPane.setLayer(card[i], i);
+		}
+	}
+	
+	public void updateUI(boolean isUser, String size){
+		applyButton.setVisible(Boolean.FALSE);
+		submitButton.setVisible(Boolean.FALSE);
+		
+		this.isUser = isUser;	
+		//numCard = Integer.parseInt(size);
+		numCard = new Hand(size).getSize();
+		for (int i = 0; i < numCard; i++){
+			selected[i] = Boolean.FALSE;
+			URL url = this.getClass().getResource(IMGConfig.DECK_IVANHOE_TINY);
+			card[i] = new JLabel(new ImageIcon(url));
+			card[i].setLocation(GUIConfig.HANDPANEL_PLAYER_CARD_LOCATION_X+i*GUIConfig.HANDPANEL_PLAYER_CARD_SIZE, GUIConfig.HANDPANEL_PLAYER_CARD_LOCATION_Y);
+			card[i].setSize(GUIConfig.HANDPANEL_PLAYER_CARD_WIDTH, GUIConfig.HANDPANEL_PLAYER_CARD_HEIGHT);
+			card[i].setBounds(GUIConfig.HANDPANEL_PLAYER_CARD_LOCATION_X+i*GUIConfig.HANDPANEL_PLAYER_CARD_SIZE, 
+					GUIConfig.HANDPANEL_PLAYER_CARD_LOCATION_Y, GUIConfig.HANDPANEL_PLAYER_CARD_WIDTH, GUIConfig.HANDPANEL_PLAYER_CARD_HEIGHT);
+			
+			layeredPane.add(card[i]);
+			layeredPane.setLayer(card[i], i);
+		}
+		
+	}
+	
 	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON3){
-			if (!display){
-				URL url = this.getClass().getResource(IMGConfig.MAIDENSIX_LARGE);
-				view = new JLabel();
-				view.setIcon(new ImageIcon(url));
-				view.setLocation(400, 200);
-				view.setSize(240,360);
-				client.add(view);
-				client.setComponentZOrder(view,0);	
-				display = !display;
-				client.repaint();
-			}else{
-				display = !display;
-				view.setIcon(null);
-				view.removeAll();
-				client.remove(view);	
-				client.repaint();						
+		if (isUser){
+			if (e.getSource() == applyButton){
+				if (client.getClient() != null){
+					client.getClient().send("Apply");
+				}
+			}else if (e.getSource() == submitButton){
+				if (client.getClient() != null){
+					client.getClient().send("Submit");
+				}
+			} else if (e.getButton() == MouseEvent.BUTTON1){
+				if (e.getY() < 190 && e.getY() > 10){
+					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;	
+					if (index < numCard){
+						selected[index] = !selected[index];
+						if (selected[index]){ card[index].setLocation(card[index].getX()-10, card[index].getY()-10); }
+						else{ card[index].setLocation(card[index].getX()+10, card[index].getY()+10); }
+					}
+				}
 			}
 		}
 	}
 
-	public void mousePressed(MouseEvent e) {
-	}
+	public void mousePressed(MouseEvent e) {	
+		if (isUser){	
+			if (e.getButton() == MouseEvent.BUTTON3 && e.getSource() != applyButton && e.getSource() != submitButton){
+				if (e.getY() < 190 && e.getY() > 10){
+					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;
+					if (index < numCard){
+						view = new JLabel();
+						view.setVisible(Boolean.TRUE);
+						view.setIcon(new ImageIcon(urlLarge[index]));
+						view.setLocation(GUIConfig.HANDPANEL_LOCATION_X, GUIConfig.HANDPANEL_LOCATION_Y);
+						view.setSize(GUIConfig.HANDPANEL_VIEW_WIDTH, GUIConfig.HANDPANEL_VIEW_HEIGHT);
+						client.add(view);
+						client.setComponentZOrder(view,0);	
+						client.repaint();
+					} else if ((e.getX()-10) < ((numCard-1)*GUIConfig.HANDPANEL_USER_CARD_SIZE+GUIConfig.HANDPANEL_USER_CARD_WIDTH)){
+						view = new JLabel();
+						view.setVisible(Boolean.TRUE);
+						view.setIcon(new ImageIcon(urlLarge[numCard-1]));
+						view.setLocation(GUIConfig.HANDPANEL_LOCATION_X, GUIConfig.HANDPANEL_LOCATION_Y);
+						view.setSize(GUIConfig.HANDPANEL_VIEW_WIDTH, GUIConfig.HANDPANEL_VIEW_HEIGHT);
+						client.add(view);
+						client.setComponentZOrder(view,0);	
+						client.repaint();						
+					}
+				}	
+			} 		
+		}
+	}	
 	
 	public void mouseReleased(MouseEvent e){
-	}
+		if (isUser){
+			view.setVisible(Boolean.FALSE);
+			view.removeAll();
+			client.remove(view);
+			client.repaint();	
+		}
+	}	
 	
-	public void mouseEntered(MouseEvent e) {
-		
-	}
-	public void mouseExited(MouseEvent e) {
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
 	
 }

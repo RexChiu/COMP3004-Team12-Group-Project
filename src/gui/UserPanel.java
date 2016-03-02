@@ -1,8 +1,11 @@
 package gui;
 
+import java.util.ArrayList;
+
 import javax.swing.*;
 
-import config.GUIConfig; 
+import config.GUIConfig;
+import game.Player;
 
 public class UserPanel extends JPanel{
 
@@ -11,10 +14,11 @@ public class UserPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -449738241414461419L;
 
-	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton;
+	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton;
 	public HandPanel handPanel;
+	public DisplayPanel displayPanel;
 	
-	public UserPanel(ClientPanel client) { 
+	public UserPanel(ClientPanel client) { 		
 		setLocation(GUIConfig.USER_PANEL_LOCATION_X, GUIConfig.USER_PANEL_LOCATION_Y);
 		setSize(GUIConfig.USER_PANEL_WIDTH, GUIConfig.USER_PANEL_HEIGHT);
 		setLayout(null);	
@@ -42,14 +46,12 @@ public class UserPanel extends JPanel{
 		statusTwoButton.setSize(GUIConfig.USER_STATUS_WIDTH, GUIConfig.USER_STATUS_HEIGHT);
 		add(statusTwoButton);
 		
-		totalButton = new JButton("Total");
-		totalButton.setLocation(GUIConfig.USER_TOTAL_LOCATION_X, GUIConfig.USER_TOTAL_LOCATION_Y);
-		totalButton.setSize(GUIConfig.USER_TOTAL_SIZE, GUIConfig.USER_TOTAL_SIZE);
-		add(totalButton);
-		
-		displayButton = new JButton("Dispaly");
-		displayButton.setLocation(GUIConfig.USER_DISPLAY_LOCATION_X, GUIConfig.USER_DISPLAY_LOCATION_Y);
-		displayButton.setSize(GUIConfig.USER_DISPLAY_WIDTH, GUIConfig.USER_DISPLAY_HEIGHT);
-		add(displayButton);
+		displayPanel = new DisplayPanel(client, GUIConfig.USER_DISPLAY_LOCATION_X, GUIConfig.USER_DISPLAY_LOCATION_Y, GUIConfig.USER_DISPLAY_WIDTH, GUIConfig.USER_DISPLAY_HEIGHT);
+		add(displayPanel);
 	}  
+	
+	public void updateUI(String hand, String total, String status, String card){ 
+		handPanel.updateUI(hand);
+		displayPanel.updateUI(total, status, card);	
+	}
 }

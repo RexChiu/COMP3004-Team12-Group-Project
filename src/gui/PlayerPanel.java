@@ -13,8 +13,10 @@ public class PlayerPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -3143066852083636376L;
 	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton, handButton;
+	public HandPanel handPanel;
+	public DisplayPanel displayPanel;
 	
-	public PlayerPanel(int playerID) { 
+	public PlayerPanel(ClientPanel client, int playerID) { 
 		setLayout(null);
 		
 		int key = playerID - 2;
@@ -49,16 +51,18 @@ public class PlayerPanel extends JPanel{
 		totalButton.setLocation(GUIConfig.PLAYER_TOTAL_LOCATION_X, GUIConfig.PLAYER_TOTAL_LOCATION_Y);
 		totalButton.setSize(GUIConfig.PLAYER_TOTAL_SIZE, GUIConfig.PLAYER_TOTAL_SIZE);
 		add(totalButton);
-		
-		displayButton = new JButton("Dispaly");
-		displayButton.setLocation(GUIConfig.PLAYER_DISPLAY_LOCATION_X, GUIConfig.PLAYER_DISPLAY_LOCATION_Y);
-		displayButton.setSize(GUIConfig.PLAYER_DISPLAY_WIDTH, GUIConfig.PLAYER_DISPLAY_HEIGHT);
-		add(displayButton);		
-		
-		handButton = new JButton("Hand");
-		handButton.setLocation(GUIConfig.PLAYER_HAND_LOCATION_X, GUIConfig.PLAYER_HAND_LOCATION_Y);
-		handButton.setSize(GUIConfig.PLAYER_HAND_WIDTH, GUIConfig.PLAYER_HAND_HEIGHT);
-		add(handButton);
-	}  
 
+		handPanel = new HandPanel(client, GUIConfig.PLAYER_HAND_LOCATION_X, GUIConfig.PLAYER_HAND_LOCATION_Y, 
+				GUIConfig.PLAYER_HAND_WIDTH, GUIConfig.PLAYER_HAND_HEIGHT);
+		add(handPanel);
+		
+		displayPanel = new DisplayPanel(client, GUIConfig.PLAYER_DISPLAY_LOCATION_X, GUIConfig.PLAYER_DISPLAY_LOCATION_Y, 
+				GUIConfig.PLAYER_DISPLAY_WIDTH, GUIConfig.PLAYER_DISPLAY_HEIGHT);
+		add(displayPanel);	
+	}  
+	
+	public void updateUI(String size, String total, String status, String card){ 
+		handPanel.updateUI(Boolean.FALSE, size);
+		displayPanel.updateUI(total, status, card);	
+	}
 }

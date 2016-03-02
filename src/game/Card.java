@@ -1,6 +1,7 @@
 package game;
 
 import config.GAMEConfig;
+import config.IMGConfig;
 
 public class Card implements Cloneable{
 	
@@ -8,11 +9,37 @@ public class Card implements Cloneable{
 	private String 	color;
 	private int 	value;
 
+	public Card(String card){
+		this.name = card.split(",")[0];
+		this.color = card.split(",")[1];
+		this.value = Integer.parseInt(card.split(",")[2]);
+	}
+	
 	public Card(String name, String color, int value) {
 		// TODO Auto-generated constructor stub
 		this.name = name;
 		this.color = color;
 		this.value = value;
+	}
+	
+	public String getIMG(String size) { 
+		if (isAction()){
+			if (size.equalsIgnoreCase(IMGConfig.IMAGE_SIZE_TINY)){
+				return IMGConfig.RESOURCE_ACTION_TINY + this.name + ".png";
+			} else if (size.equalsIgnoreCase(IMGConfig.IMAGE_SIZE_SMALL)){
+				return IMGConfig.RESOURCE_ACTION_SMALL + this.name + ".png";				
+			}else{ 
+				return IMGConfig.RESOURCE_ACTION_LARGE + this.name + ".png";
+			}
+		}else{
+			if (size.equalsIgnoreCase(IMGConfig.IMAGE_SIZE_TINY)){
+				return IMGConfig.RESOURCE_SIMPLE_TINY + this.name + IMGConfig.INTEGER_TO_STRING[this.value] + ".png";
+			} else if (size.equalsIgnoreCase(IMGConfig.IMAGE_SIZE_SMALL)){
+				return IMGConfig.RESOURCE_SIMPLE_SMALL + this.name + IMGConfig.INTEGER_TO_STRING[this.value] + ".png";				
+			}else{ 
+				return IMGConfig.RESOURCE_SIMPLE_LARGE + this.name + IMGConfig.INTEGER_TO_STRING[this.value] + ".png";
+			}
+		}
 	}
 	
 	// Collection of getter 

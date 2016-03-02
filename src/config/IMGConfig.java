@@ -2,6 +2,18 @@ package config;
 
 public class IMGConfig {
 
+	public static final String 	IMAGE_SIZE_TINY			= "tiny";
+	public static final String 	IMAGE_SIZE_SMALL		= "small";
+	public static final String	IMAGE_SIZE_LARGE		= "large";
+	public static final String  [] INTEGER_TO_STRING	= {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven"};
+	
+	public static final String	RESOURCE_SIMPLE_TINY	= "/simplecardtiny/";
+	public static final String	RESOURCE_SIMPLE_SMALL	= "/simplecardsmall/";
+	public static final String 	RESOURCE_SIMPLE_LARGE	= "/simplecardlarge/";
+	public static final String	RESOURCE_ACTION_TINY	= "/actioncardtiny/";
+	public static final String	RESOURCE_ACTION_SMALL	= "/actioncardsmall/";
+	public static final String 	RESOURCE_ACTION_LARGE	= "/actioncardlarge/";
+	
 	public static final String	DECK_IVANHOE_TINY 		= "/simplecardtiny/Ivanhoe.png";
 	public static final String	DECK_IVANHOE_SMALL		= "/simplecardsmall/Ivanhoe.png";
 	

@@ -21,6 +21,7 @@ public class Ivanhoe {
 		this.state = GAMEConfig.SETUP;
 		this.deck = new Deck();
 		this.deck.init();
+		this.deck.shuffleDeck();
 		this.deadwood = new Deck();
 		this.numPlayers = num;
 	}
@@ -67,6 +68,9 @@ public class Ivanhoe {
 					Card card = deck.getCard(0);
 					deck.removeCard(card);
 					player.addCard(card); 
+					card = deck.getCard(0);
+					deck.removeCard(card);
+					player.addDisplay(card);
 				}
 			}
 			for (Player player: players) { 

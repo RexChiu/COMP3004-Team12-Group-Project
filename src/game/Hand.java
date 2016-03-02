@@ -13,6 +13,14 @@ public class Hand {
 		this.hand = new ArrayList<Card>();
 	}
 	
+	public Hand(String data){
+		String [] hand = data.split(";");
+		this.hand = new ArrayList<Card>();
+		for (int i = 0; i < hand.length; i++){
+			drawCard(new Card(hand[i]));		
+		}
+	}
+	
 	// Check there is only last card in the hand
 	public boolean lastCard() { return this.hand.size() == GAMEConfig.MIN_CARD; }
 	
@@ -24,6 +32,9 @@ public class Hand {
 	
 	// Get the information of card in the hand
 	public Card getCard(int index) { return hand.get(index); }
+	
+	// Get the size of the hand
+	public int 	getSize() { return this.hand.size(); }
 	
 	// Count the numeber of same card in the hand
 	public int countCard(Card sameCard) {

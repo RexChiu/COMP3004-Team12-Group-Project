@@ -81,10 +81,10 @@ public class TestDeck {
 		Deck deck2 = new Deck();
 		
 		Card card 	= new Card("Squire", "White", 2);
-		Card card2 	= new Card("No Weapon",	"Action Card", 1);
+		Card card2 	= new Card("NoWeapon",	"Action Card", 1);
 		Card card3 	= new Card("Maiden", "Action Card", 6);
 		Card card4 	= new Card("Unhorse", "Action Card", 0);
-		Card card5 	= new Card("Change Weapon", "Action Card", 0);
+		Card card5 	= new Card("ChangeWeapon", "Action Card", 0);
 		
 		deck.addCard(card);
 		deck.addCard(card2);
@@ -124,7 +124,7 @@ public class TestDeck {
 		System.out.println("@Test(): clone()");
 
 		Card card 	= new Card("Squire", 		"White", 2);
-		Card card2 	= new Card("No Weapon",		"Action Card", 1);
+		Card card2 	= new Card("NoWeapon",		"Action Card", 1);
 		Card card3 	= new Card("Maiden", 		"Action Card", 6);
 		Card card4 	= new Card("Unhorse", 		"Action Card", 0);
 		Card card5 	= new Card("Change Weapon", "Action Card", 0);
@@ -185,23 +185,23 @@ public class TestDeck {
 		deck2.addCards(new Card("Morningstar", "Yellow", 3), 8);
 		deck2.addCards(new Card("Morningstar", "Yellow", 4), 2);
 
-		deck2.addCards(new Card("No Weapon", "Green", 1), 14);
+		deck2.addCards(new Card("NoWeapon", "Green", 1), 14);
 
 		deck2.addCards(new Card("Squire", "White", 2), 8);
 		deck2.addCards(new Card("Squire", "White", 3), 8);
 		deck2.addCards(new Card("Maiden", "White", 6), 4);
 		
 		deck2.addCards(new Card("Unhorse", 			"Action Card", 0), 	1);
-		deck2.addCards(new Card("Change Weapon", 	"Action Card", 0), 	1);
-		deck2.addCards(new Card("Drop Weapon", 		"Action Card", 0), 	1);
+		deck2.addCards(new Card("ChangeWeapon", 	"Action Card", 0), 	1);
+		deck2.addCards(new Card("DropWeapon", 		"Action Card", 0), 	1);
 		deck2.addCards(new Card("Shield", 			"Action Card", 0), 	1);
 		deck2.addCards(new Card("Stunned",			"Action Card", 0), 	1);
 		deck2.addCards(new Card("Ivanhoe", 			"Action Card", 0), 	1);
-		deck2.addCards(new Card("Break Lance", 		"Action Card", 0), 	1);
+		deck2.addCards(new Card("BreakLance", 		"Action Card", 0), 	1);
 		deck2.addCards(new Card("Riposte", 			"Action Card", 0), 	3);
 		deck2.addCards(new Card("Dodge", 			"Action Card", 0), 	1);
 		deck2.addCards(new Card("Retreat", 			"Action Card", 0), 	1);
-		deck2.addCards(new Card("Knock Down", 		"Action Card", 0), 	2);
+		deck2.addCards(new Card("KnockDown", 		"Action Card", 0), 	2);
 		deck2.addCards(new Card("Outmaneuver", 		"Action Card", 0), 	1);
 		deck2.addCards(new Card("Charge", 			"Action Card", 0), 	1);
 		deck2.addCards(new Card("Countercharge", 	"Action Card", 0), 	1);

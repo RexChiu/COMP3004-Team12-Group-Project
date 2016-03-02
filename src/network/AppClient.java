@@ -24,7 +24,7 @@ public class AppClient implements Runnable{
    private DataOutputStream	streamOut 	= null;
    private ClientPanel		UI;
    
-	private ArrayList<Player> players = new ArrayList<Player>();
+   private ArrayList<Player> players = new ArrayList<Player>();
    
    public AppClient(String serverName, int serverPort, ClientPanel UI) throws IOException{
       
@@ -110,6 +110,15 @@ public class AppClient implements Runnable{
     	  
       }
    }
+   
+   public Player getPlayer(int ID){ 
+	   for (Player player : players){
+		   if (player.getID() == ID)
+			   return player;
+	   }
+	   
+	   return null;	   
+   }
          
    public void setup(String data){
 	   String[] player = data.split("/");
@@ -121,7 +130,6 @@ public class AppClient implements Runnable{
 			   players.get(i).setToken(token);
 		   }
 	   }
-	   
 	   UI.updateUI(data);
    }
 

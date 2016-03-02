@@ -72,13 +72,13 @@ public class ClientPanel extends JFrame implements ActionListener{
 	}
 	
 	public void setup_playerPanel(){
-		playerPanel.put(GUIConfig.SECOND_PLAYER_ID, new PlayerPanel(GUIConfig.SECOND_PLAYER_ID));
+		playerPanel.put(GUIConfig.SECOND_PLAYER_ID, new PlayerPanel(this, GUIConfig.SECOND_PLAYER_ID));
 		getContentPane().add(playerPanel.get(GUIConfig.SECOND_PLAYER_ID));
-		playerPanel.put(GUIConfig.THIRD_PLAYER_ID, new PlayerPanel(GUIConfig.THIRD_PLAYER_ID));
+		playerPanel.put(GUIConfig.THIRD_PLAYER_ID, new PlayerPanel(this, GUIConfig.THIRD_PLAYER_ID));
 		getContentPane().add(playerPanel.get(GUIConfig.THIRD_PLAYER_ID));	
-		playerPanel.put(GUIConfig.FOURTH_PLAYER_ID, new PlayerPanel(GUIConfig.FOURTH_PLAYER_ID));
+		playerPanel.put(GUIConfig.FOURTH_PLAYER_ID, new PlayerPanel(this, GUIConfig.FOURTH_PLAYER_ID));
 		getContentPane().add(playerPanel.get(GUIConfig.FOURTH_PLAYER_ID));	
-		playerPanel.put(GUIConfig.FIFTH_PLAYER_ID, new PlayerPanel(GUIConfig.FIFTH_PLAYER_ID));
+		playerPanel.put(GUIConfig.FIFTH_PLAYER_ID, new PlayerPanel(this, GUIConfig.FIFTH_PLAYER_ID));
 		getContentPane().add(playerPanel.get(GUIConfig.FIFTH_PLAYER_ID));	
 	}
 	
@@ -172,10 +172,9 @@ public class ClientPanel extends JFrame implements ActionListener{
 			tournamentPanel.infoLabel.get(i+1).setText(ID);
 			tournamentPanel.statusLabel.get(i+1).setText(status);
 			tournamentPanel.totalLabel.get(i+1).setText(total);
-			if (client.getID() == Integer.parseInt(ID)){				   
+			if (client.getID() == Integer.parseInt(ID)){
 				userPanel.infoButton.setText("User: " + ID);
-				userPanel.tokenButton.setText(key);
-				userPanel.totalButton.setText(total);
+				userPanel.tokenButton.setText(key);				
 				if (status.contains(GAMEConfig.STUNNED))
 					userPanel.statusOneButton.setText(GAMEConfig.STUNNED);
 				else
@@ -184,6 +183,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 					userPanel.statusTwoButton.setText(GAMEConfig.SHIELD);
 				else
 					userPanel.statusTwoButton.setText("None");
+				userPanel.updateUI(hand, total, status, card);
 			}else{
 				playerPanel.get(index).infoButton.setText(ID);
 				playerPanel.get(index).tokenButton.setText(key);
@@ -196,10 +196,12 @@ public class ClientPanel extends JFrame implements ActionListener{
 					playerPanel.get(index).statusTwoButton.setText(GAMEConfig.SHIELD);
 				else
 					playerPanel.get(index).statusTwoButton.setText("None");
+				playerPanel.get(index).updateUI(hand, total, status, card);
 				index++;
 			} 
 		}
 	}
 	
+	public AppClient getClient(){ return this.client; }
 	public void setClientJoined(boolean status) { this.clientJoined = status; }
 }
