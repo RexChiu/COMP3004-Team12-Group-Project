@@ -7,6 +7,7 @@ import java.util.Set;
 import config.LANConfig;
 import game.Ivanhoe;
 import gui.HostPanel;
+import message.Message;
 
 import java.io.*;
 
@@ -17,7 +18,7 @@ public class AppServer implements Runnable {
 	private HashMap<Integer, ServerThread> clients;
 	private HostPanel UI;
 	private Ivanhoe rEngine;
-	
+
 	public AppServer(int port, HostPanel UI) {
 		try {
 			this.UI = UI;
@@ -28,7 +29,7 @@ public class AppServer implements Runnable {
 
 			rEngine = new Ivanhoe(LANConfig.NUM_CLIENTS);
 			clients = new HashMap<Integer, ServerThread>();
-			server 	= new ServerSocket(port);
+			server = new ServerSocket(port);
 			server.setReuseAddress(true);
 			start();
 		} catch (IOException ioe) {
@@ -46,7 +47,7 @@ public class AppServer implements Runnable {
 		while (thread != null) {
 			try {
 				addThread(server.accept());
-			} catch (IOException e) {				
+			} catch (IOException e) {
 			}
 		}
 	}
@@ -63,48 +64,58 @@ public class AppServer implements Runnable {
 				rEngine.addPlayer(serverThread.getID());
 				UI.writeMessage(String.format("%5d: %s", serverThread.getID(), LANConfig.REQUEST_JOIN));
 				this.clientCount++;
-				
-				if (clientCount == LANConfig.NUM_CLIENTS){
+
+				if (clientCount == LANConfig.NUM_CLIENTS) {
 					UI.writeMessage(LANConfig.GAME_READY);
 					int ID = Integer.parseInt(rEngine.processInt(LANConfig.GAME_READY));
 					String msg = String.format("%s: %s", LANConfig.SERVER, LANConfig.GAME_READY);
 					for (ServerThread to : clients.values()) {
+												
 						UI.writeMessage(rEngine.getPlayer(to.getID()).toString());
-						to.send(msg);
-						to.send(LANConfig.PAKECT+rEngine.getData());
+						Message newMSG = new Message();
+						newMSG.getBody().addField("Request", msg);
+						to.send(newMSG);						
+						newMSG = new Message();
+						newMSG.getBody().addField("Request", LANConfig.PAKECT + rEngine.getData());
+						to.send(rEngine.getMessage(to.getID()));
 					}
 				}
 			} catch (IOException e) {
 			}
-		}else{
+		} else {
 			try {
 				ServerThread serverThread = new ServerThread(this, socket);
 				serverThread.open();
 				serverThread.start();
-				serverThread.send(LANConfig.CONNECTION_FULL);
+				Message newMSG = new Message();
+				newMSG.getBody().addField("Request", LANConfig.CONNECTION_FULL);
+				serverThread.send(newMSG);
 				serverThread.close();
-			} catch(IOException e){
+			} catch (IOException e) {
 			}
 		}
 	}
 
-	public synchronized void handle(int ID, String input) {
-		if (input.equals(LANConfig.CLIENT_QUIT)) 
-		{
+	public synchronized void handle(int ID, Message message) {
+		String input = (String) message.getBody().getField("Request");
+		if (input.equals(LANConfig.CLIENT_QUIT)) {
 			if (clients.containsKey(ID)) {
-				clients.get(ID).send(LANConfig.CLIENT_QUIT);
+				Message newMSG = new Message();
+				newMSG.getBody().addField("Request", LANConfig.CLIENT_QUIT);
+				clients.get(ID).send(newMSG);
 				rEngine.removePlayer(ID);
 				remove(ID);
 			}
 		}
-		if (input.equals(LANConfig.SERVER_SHUTDOWN)) { shutdown(); }
-		else 
-		{
-			//ServerThread from = clients.get(ID);
+		if (input.equals(LANConfig.SERVER_SHUTDOWN)) {
+			shutdown();
+		} else {
 			UI.writeMessage(String.format("%5d: %s", ID, input));
 			for (ServerThread to : clients.values()) {
 				if (to.getID() != ID) {
-					to.send(String.format("%5d: %s", ID, input));
+					Message newMSG = new Message();
+					newMSG.getBody().addField("Request", LANConfig.CONNECTION_FULL);
+					to.send(newMSG);
 				}
 			}
 		}
@@ -124,23 +135,23 @@ public class AppServer implements Runnable {
 
 	public void shutdown() {
 		Set<Integer> keys = clients.keySet();
-		
 		if (thread != null) {
 			thread = null;
 		}
-
 		clientCount = 0;
-		
 		try {
 			for (Integer key : keys) {
 				UI.writeMessage(String.format("%5d: %s", key, LANConfig.REQUEST_QUIT));
-				clients.get(key).send(LANConfig.CLIENT_QUIT);
+				Message newMSG = new Message();
+				newMSG.getBody().addField("Request", LANConfig.CLIENT_QUIT);
+				clients.get(key).send(newMSG);
 				clients.get(key).close();
 				clients.put(key, null);
 			}
 			clients.clear();
 			server.close();
-		} catch (IOException e) { }
+		} catch (IOException e) {
+		}
 	}
-	
+
 }

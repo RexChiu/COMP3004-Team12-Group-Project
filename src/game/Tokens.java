@@ -33,12 +33,12 @@ public class Tokens {
 	public boolean 	hasWhite() 	{ return tokens.containsKey(GAMEConfig.SUPPORTERS_WHITE);	}
 		
 	public String toString() {
-		String result = "[Token]";
+		String result = "";
 		if (tokens.isEmpty()) return result;
 		
 		for (int i = 0; i < tokens.keySet().size(); i++){
 			String key = tokens.keySet().toArray()[i].toString();
-			result += tokens.get(key) + ",";
+			result += tokens.get(key).getName() + ",";
 		}
 		
 		return result.substring(0, result.length()-1);

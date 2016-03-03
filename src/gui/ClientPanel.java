@@ -5,14 +5,12 @@ import config.GUIConfig;
 import config.LANConfig;
 import game.Player;
 import network.AppClient;
+import message.Message;
 
 import java.awt.*;
-
-import javax.imageio.IIOException;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.ConnectException;
 import java.util.HashMap;
 
 public class ClientPanel extends JFrame implements ActionListener{
@@ -87,11 +85,11 @@ public class ClientPanel extends JFrame implements ActionListener{
 	    this.setJMenuBar(myMenuBar);
 
 	    listMENU.put("Client", GUIConfig.CLIENT_TEXT);
-	    listMENU.put("Player", GUIConfig.PLAYER_TEXT);
+	    listMENU.put("Setting", GUIConfig.SETTING_TEXT);
 	    listMENU.put("About", GUIConfig.ABOUT_TEXT);
 	    
 	    myMenuBar.add(newMenu("Client"));
-	    myMenuBar.add(newMenu("Player"));
+	    myMenuBar.add(newMenu("Setting"));
 	    myMenuBar.add(newMenu("About"));		
 	}
 	
@@ -142,7 +140,8 @@ public class ClientPanel extends JFrame implements ActionListener{
 					JOptionPane.showMessageDialog(new JFrame(), LANConfig.CLIENT_NOT_JOINED, LANConfig.CLIENT_ERROR, JOptionPane.ERROR_MESSAGE);					
 				}
 				break;
-			case GUIConfig.VIEW_PLAYER:
+			case GUIConfig.EDIT_NETWORK:
+				new NetworkSetting("Server Status").setVisible(Boolean.TRUE);
 				break;
 			case GUIConfig.EDIT_PLAYER:
 				break;
@@ -156,49 +155,41 @@ public class ClientPanel extends JFrame implements ActionListener{
 		}
 	}
 	
+	public void updateUI(Message message){
+		String ID 				= message.getBody().getField("UserID").toString();
+		String tokens 			= message.getBody().getField("UserTokens").toString();
+		String hand 			= message.getBody().getField("UserHand").toString();
+		String total 			= message.getBody().getField("UserTotal").toString();
+		String status 			= message.getBody().getField("UserStatus").toString();
+		String display			= message.getBody().getField("UserDisplay").toString();
+		String playersID		= message.getBody().getField("PlayersID").toString();
+		String tournamentInfo	= message.getBody().getField("TournamentInfo").toString();
+		int index = 1;
+		for (String playerInfo : tournamentInfo.split(";")){
+			tournamentPanel.infoLabel.get(index).setText(playerInfo.split(":")[0]);
+			tournamentPanel.statusLabel.get(index).setText(playerInfo.split(":")[1]);
+			tournamentPanel.totalLabel.get(index++).setText(playerInfo.split(":")[2]);			
+		}
+		
+		userPanel.infoButton.setText("User: " + ID);
+		userPanel.tokenButton.setText(tokens);	
+		userPanel.statusOneButton.setText((status.contains(GAMEConfig.STUNNED)) ? GAMEConfig.STUNNED : "None");
+		userPanel.statusTwoButton.setText((status.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
+		userPanel.updateUI(hand, total, display);
+		
+		index = GUIConfig.SECOND_PLAYER_ID;
+		for (String id : playersID.split(",")){
+			String playersDisplays 	= message.getBody().getField("Player " + id + " Display").toString();
+			String playersHand 		= message.getBody().getField("Player " + id + " Hand").toString();
+			String playersTotal 	= message.getBody().getField("Player " + id + " Total").toString();
+			String playersTokens 	= message.getBody().getField("Player " + id + " Tokens").toString();
+			String playersStatus 	= message.getBody().getField("Player " + id + " Status").toString();
 
-	public void updateUI(String data){
-		String[] player = data.split("/");
-		int index = 2;
-		for (int i = 0; i < player.length; i++){
-			String ID 		= Player.getID(player[i]);
-			String token 	= Player.getToken(player[i]);
-			String key		= Player.getTokenKey(player[i]);
-			String hand 	= Player.getHand(player[i]);
-			String total 	= Player.getTotal(player[i]);
-			String status 	= Player.getStatus(player[i]);
-			String card		= Player.getCard(player[i]);
-			
-			tournamentPanel.infoLabel.get(i+1).setText(ID);
-			tournamentPanel.statusLabel.get(i+1).setText(status);
-			tournamentPanel.totalLabel.get(i+1).setText(total);
-			if (client.getID() == Integer.parseInt(ID)){
-				userPanel.infoButton.setText("User: " + ID);
-				userPanel.tokenButton.setText(key);				
-				if (status.contains(GAMEConfig.STUNNED))
-					userPanel.statusOneButton.setText(GAMEConfig.STUNNED);
-				else
-					userPanel.statusOneButton.setText("None");					   
-				if (status.contains(GAMEConfig.SHIELD))
-					userPanel.statusTwoButton.setText(GAMEConfig.SHIELD);
-				else
-					userPanel.statusTwoButton.setText("None");
-				userPanel.updateUI(hand, total, status, card);
-			}else{
-				playerPanel.get(index).infoButton.setText(ID);
-				playerPanel.get(index).tokenButton.setText(key);
-				playerPanel.get(index).totalButton.setText(total);
-				if (status.contains(GAMEConfig.STUNNED))
-					playerPanel.get(index).statusOneButton.setText(GAMEConfig.STUNNED);
-				else
-					playerPanel.get(index).statusOneButton.setText("None");
-				if (status.contains(GAMEConfig.SHIELD))
-					playerPanel.get(index).statusTwoButton.setText(GAMEConfig.SHIELD);
-				else
-					playerPanel.get(index).statusTwoButton.setText("None");
-				playerPanel.get(index).updateUI(hand, total, status, card);
-				index++;
-			} 
+			playerPanel.get(index).infoButton.setText(id);
+			playerPanel.get(index).tokenButton.setText(playersTokens.substring(0, 1));	
+			playerPanel.get(index).statusOneButton.setText((playersStatus.contains(GAMEConfig.STUNNED)) ? GAMEConfig.STUNNED : "None");
+			playerPanel.get(index).statusTwoButton.setText((playersStatus.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
+			playerPanel.get(index++).updateUI(playersHand, playersTotal, playersDisplays);			
 		}
 	}
 	

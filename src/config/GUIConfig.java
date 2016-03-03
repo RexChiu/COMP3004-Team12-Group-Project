@@ -133,7 +133,7 @@ public class GUIConfig {
 	public static final int 	USER_STATUS_TWO_LOCATION_Y			= 50;
 	public static final int 	USER_DISPLAY_LOCATION_X				= 392;
 	public static final int 	USER_DISPLAY_LOCATION_Y				= 0;
-	public static final int 	USER_TOTAL_LOCATION_X				= 249;
+	public static final int 	USER_TOTAL_LOCATION_X				= 642;
 	public static final int 	USER_TOTAL_LOCATION_Y				= 50;
 		
 	public static final int 	USER_TOKEN_HEIGHT					= 200;
@@ -246,11 +246,11 @@ public class GUIConfig {
 	// Menu Text
 	public static final String CLIENT_JOIN 							= "Client Join";
 	public static final String CLIENT_QUIT 							= "Client Quit";
-	public static final String VIEW_PLAYER 							= "View Player";
+	public static final String EDIT_NETWORK							= "Edit Network";
 	public static final String EDIT_PLAYER 							= "Edit Player";
 	public static final String ABOUT_GAME 							= "About Game";
 	public static final String HELP_GAME 							= "Help Game";
     public static final String [] 	CLIENT_TEXT 	= {"Client Join", "Client Quit"};
-    public static final String [] 	PLAYER_TEXT 	= {"View Player", "Edit Player"};
+    public static final String [] 	SETTING_TEXT 	= {"Edit Network", "Edit Player"};
     public static final String [] 	ABOUT_TEXT	= {"About Game", "Help Game"};
 }

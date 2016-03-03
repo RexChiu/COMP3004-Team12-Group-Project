@@ -46,12 +46,18 @@ public class UserPanel extends JPanel{
 		statusTwoButton.setSize(GUIConfig.USER_STATUS_WIDTH, GUIConfig.USER_STATUS_HEIGHT);
 		add(statusTwoButton);
 		
+		totalButton = new JButton("Total");
+		totalButton.setLocation(GUIConfig.USER_TOTAL_LOCATION_X, GUIConfig.USER_TOTAL_LOCATION_Y);
+		totalButton.setSize(GUIConfig.USER_TOTAL_SIZE, GUIConfig.USER_TOTAL_SIZE);
+		add(totalButton);
+		
 		displayPanel = new DisplayPanel(client, GUIConfig.USER_DISPLAY_LOCATION_X, GUIConfig.USER_DISPLAY_LOCATION_Y, GUIConfig.USER_DISPLAY_WIDTH, GUIConfig.USER_DISPLAY_HEIGHT);
 		add(displayPanel);
 	}  
 	
-	public void updateUI(String hand, String total, String status, String card){ 
+	public void updateUI(String hand, String total, String card){ 
+		totalButton.setText(total);
 		handPanel.updateUI(hand);
-		displayPanel.updateUI(total, status, card);	
+		displayPanel.updateUI(card);
 	}
 }

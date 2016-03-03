@@ -245,7 +245,7 @@ public class Hand {
 	}
 	
 	public String toString(){
-		String result = "[Hand]";
+		String result = "";
 		if (hand.isEmpty()) return result;
 		for (Card card: hand){ result += card + ";"; }
 		

@@ -2,13 +2,14 @@ package network;
 
 import java.net.*;
 import java.io.*;
+import message.Message;
 
 public class ServerThread extends Thread {
 	private int ID = -1;
-	private Socket 				socket 		= null;
-	private AppServer 			server 		= null;
-	private DataInputStream 	streamIn    = null;
-   	private DataOutputStream	streamOut	= null;
+	private Socket 				socket 				= null;
+	private AppServer 			server 				= null;
+	private ObjectInputStream 	objectInputStream   = null;
+   	private ObjectOutputStream	objectOutputStream	= null;
 	
 	private String clientAddress = null;;
 
@@ -26,19 +27,17 @@ public class ServerThread extends Thread {
 
 	public String getSocketAddress () { return clientAddress; }
 
-	public void send(String msg) {
-		try {
-			streamOut.writeUTF(msg);
-		} catch (IOException ioe) {
-			server.remove(ID);
-		}
+	public void send(Message message) {
+		try { objectOutputStream.writeObject(message); } 
+		catch (IOException ioe) { server.remove(ID); }
 	}
 
 	public void run() {
 		while (!done) {
 			try {
-				server.handle(ID, streamIn.readUTF());
-			} catch (IOException ioe) {
+		        Message message = (Message)objectInputStream.readObject();
+		        server.handle(ID, message);
+			} catch (Exception ioe) {
 				if(server.clientCount > 0)
 					server.remove(ID);
 				break;
@@ -47,18 +46,18 @@ public class ServerThread extends Thread {
 	}
 
 	public void open() throws IOException {
-		streamIn 	= new DataInputStream(socket.getInputStream());
-		streamOut 	= new DataOutputStream(socket.getOutputStream());
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream =  new ObjectInputStream( socket.getInputStream());
 	}
 
 	public void close() {
 		try {
-			if (socket 		!= null) socket.close();
-			if (streamIn 	!= null) streamIn.close();
+			if (socket 				!= null) socket.close();
+		    if (objectInputStream 	!= null) objectInputStream.close();
 			
-			this.done 		= true;
-			this.socket 	= null;
-			this.streamIn 	= null;
+			this.done 				= true;
+			this.socket 			= null;
+			this.objectInputStream 	= null;
 		} catch (IOException e) { }
 	}
 }

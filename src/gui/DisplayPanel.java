@@ -40,8 +40,6 @@ public class DisplayPanel extends JPanel implements MouseListener{
 	private int numCard = 0;
 	private JLayeredPane layeredPane;
 	
-	JButton totalButton;
-	
 	public DisplayPanel(ClientPanel client, int x, int y, int width, int height) { 
 		setLayout(null);
 		this.client = client;	
@@ -51,26 +49,14 @@ public class DisplayPanel extends JPanel implements MouseListener{
 		layeredPane.setBorder(BorderFactory.createTitledBorder(""));
 		layeredPane.addMouseListener(this);	
 		add(layeredPane);
-						
-		totalButton = new JButton("Total");
-		totalButton.setLocation(GUIConfig.USER_TOTAL_LOCATION_X, GUIConfig.USER_TOTAL_LOCATION_Y);
-		totalButton.setSize(GUIConfig.USER_TOTAL_SIZE, GUIConfig.USER_TOTAL_SIZE);
-		add(totalButton);
 		
 		setLocation(x, y);
 		setSize(width, height);
 		setBackground(Color.WHITE);
 	}
 	
-	public void updateUI(String total, String status, String display){
-		if (totalButton.getText().equals("Total")){
-			totalButton.setText(total);
-		}else{
-			int sum = Integer.parseInt(total) + Integer.parseInt(totalButton.getText());
-			totalButton.setText(Integer.toString(sum));
-		}
-
-		Hand hand = new Hand(display);		
+	public void updateUI(String display){	
+		Hand hand = new Hand(display);	
 		numCard = hand.getSize();
 		
 		for (int i = 0; i < numCard; i++){

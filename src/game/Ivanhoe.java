@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import config.GAMEConfig;
 import config.LANConfig;
+import message.Message;
 
 public class Ivanhoe {
 
@@ -13,12 +14,12 @@ public class Ivanhoe {
 	private Deck deck;
 	private Deck deadwood; // discard
 	private int numPlayers;
-	private ArrayList<Player> players = new ArrayList<Player>();
+	private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
 	ArrayList<String> tokens = new ArrayList<>();
 	
 	public Ivanhoe(int num) {
 		// TODO Auto-generated constructor stub
-		this.state = GAMEConfig.SETUP;
+		this.state = GAMEConfig.GAME_SETUP;
 		this.deck = new Deck();
 		this.deck.init();
 		this.deck.shuffleDeck();
@@ -28,31 +29,51 @@ public class Ivanhoe {
 	
 	public void addPlayer(int ID){ 
 		tokens.add(GAMEConfig.TOKEN_COLORS[tokens.size()]);
-		players.add(new Player(ID)); 
+		players.put(ID, new Player(ID));
 	}
 	
-	public void removePlayer(int ID){
-		for (int i = 0; i < players.size(); i++){
-			if (players.get(i).getID() == ID){
-				players.remove(i);
-				tokens.remove(i);
-			}
-		}
+	public void removePlayer(int ID){	
+		players.remove(ID);
 	}
 	
 	public Player getPlayer(int ID){
-		for (Player player: players){
-			if (player.getID() == ID)
-				return player;
+		return players.get(ID);
+	}
+	
+	public Message getMessage(int ID){
+		Message message = new Message();
+		Player user = players.get(ID);
+		message.getHeader().setType("Setup");
+		message.getBody().addField("UserID",ID);
+		message.getBody().addField("UserHand", user.getHand().toString());
+		message.getBody().addField("UserTokens", user.getTokens().toString());
+		message.getBody().addField("UserDisplay", user.getDisplayer().toString());
+		message.getBody().addField("UserStatus", user.getDisplayer().getStatus());
+		message.getBody().addField("UserTotal", user.getDisplayer().getTotal());
+		
+		String playersID = "";
+		String tournamentInfo = "";
+		for (Integer key: players.keySet()){
+			if (key != ID){
+				message.getBody().addField("Player " + key + " Tokens", players.get(key).getTokens().toString());
+				message.getBody().addField("Player " + key + " Hand", players.get(key).getHand().getSize());
+				message.getBody().addField("Player " + key + " Status", players.get(key).getDisplayer().getStatus());
+				message.getBody().addField("Player " + key + " Display", players.get(key).getDisplayer().toString());
+				message.getBody().addField("Player " + key + " Total", players.get(key).getDisplayer().getTotal());
+				playersID += key + ",";
+			}
+			tournamentInfo += key + ":" + players.get(key).getDisplayer().getStatus() + ":" + players.get(key).getDisplayer().getTotal() + ";"; 
 		}
-		return null;
+		message.getBody().addField("PlayersID", playersID.substring(0, playersID.length()-1));
+		message.getBody().addField("TournamentInfo", tournamentInfo.substring(0, tournamentInfo.length()-1));
+		return message;
 	}
 	
 	public String getData(){
 		String data = "";
 		if (players.isEmpty()) return data;
-		for (Player player: players){
-			data += player + "/";
+		for (Integer key: players.keySet()){
+			data += players.get(key).toString() + "/";
 		}
 		return data.substring(0, data.length()-1);
 	}
@@ -62,20 +83,23 @@ public class Ivanhoe {
 			this.state = GAMEConfig.GAME_READY;
 			Collections.shuffle(tokens);
 			int index = 0;
-			for (Player player: players) { player.setToken(tokens.get(index++)); }
-			for (Player player: players) { 
+			for (Integer key: players.keySet()){
+				players.get(key).setToken(tokens.get(0)); 
+				tokens.remove(0);
+			}
+			for (Integer key: players.keySet()){
 				for (int i = 0; i < 8; i++){
 					Card card = deck.getCard(0);
 					deck.removeCard(card);
-					player.addCard(card); 
+					players.get(key).addCard(card); 
 					card = deck.getCard(0);
 					deck.removeCard(card);
-					player.addDisplay(card);
+					players.get(key).addDisplay(card);
 				}
 			}
-			for (Player player: players) { 
-				if (player.checkToken(GAMEConfig.COLOR_PURPLE)) 
-					return Integer.toString(player.getID());
+			for (Integer key: players.keySet()){ 
+				if (players.get(key).checkToken(GAMEConfig.COLOR_PURPLE)) 
+					return Integer.toString(players.get(key).getID());
 			}
 			
 		}

@@ -10,7 +10,7 @@ import javax.swing.*;
 import config.GUIConfig;
 import config.LANConfig;
 
-public class HostSetting extends JFrame {
+public class NetworkSetting extends JFrame {
 	
 	/**
 	 * Host Setting for the Server Ivanhoe
@@ -20,7 +20,7 @@ public class HostSetting extends JFrame {
 	private JTextField IPText;
 	private JTextField portText;
 	
-	public HostSetting(String title){
+	public NetworkSetting(String title){
 		super(title);
 		GridBagLayout layout = new GridBagLayout();
 		setLayout(layout);

@@ -3,7 +3,7 @@ package config;
 public class GAMEConfig {
 
 	// Ivanhoe Configuration
-	public final static int 	SETUP	 				= 0;
+	public final static int 	GAME_SETUP 				= 0;
 	public final static int 	GAME_READY				= 1;
 	public final static int 	SELECT_TOURNAMENT		= 2;
 	public final static int 	PLAY_OR_WITHDRAWAL		= 3;

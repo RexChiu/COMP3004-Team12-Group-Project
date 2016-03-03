@@ -17,6 +17,7 @@ import game.Card;
 import game.Hand;
 import game.Player;
 import network.AppClient;
+import message.Message;
 
 public class HandPanel extends JPanel implements MouseListener{
 
@@ -85,13 +86,12 @@ public class HandPanel extends JPanel implements MouseListener{
 		}
 	}
 	
-	public void updateUI(boolean isUser, String size){
+	public void updateUI(boolean isUser, String size){		
 		applyButton.setVisible(Boolean.FALSE);
 		submitButton.setVisible(Boolean.FALSE);
 		
 		this.isUser = isUser;	
-		//numCard = Integer.parseInt(size);
-		numCard = new Hand(size).getSize();
+		numCard = Integer.parseInt(size);
 		for (int i = 0; i < numCard; i++){
 			selected[i] = Boolean.FALSE;
 			URL url = this.getClass().getResource(IMGConfig.DECK_IVANHOE_TINY);
@@ -111,11 +111,13 @@ public class HandPanel extends JPanel implements MouseListener{
 		if (isUser){
 			if (e.getSource() == applyButton){
 				if (client.getClient() != null){
-					client.getClient().send("Apply");
+					Message message = new Message();
+					client.getClient().send(message);
 				}
 			}else if (e.getSource() == submitButton){
 				if (client.getClient() != null){
-					client.getClient().send("Submit");
+					Message message = new Message();
+					client.getClient().send(message);
 				}
 			} else if (e.getButton() == MouseEvent.BUTTON1){
 				if (e.getY() < 190 && e.getY() > 10){
@@ -124,6 +126,11 @@ public class HandPanel extends JPanel implements MouseListener{
 						selected[index] = !selected[index];
 						if (selected[index]){ card[index].setLocation(card[index].getX()-10, card[index].getY()-10); }
 						else{ card[index].setLocation(card[index].getX()+10, card[index].getY()+10); }
+					}else if ((e.getX()-10) < ((numCard-1)*GUIConfig.HANDPANEL_USER_CARD_SIZE+GUIConfig.HANDPANEL_USER_CARD_WIDTH)){
+						System.out.println(numCard-1);
+						selected[numCard-1] = !selected[numCard-1];
+						if (selected[numCard-1]){ card[numCard-1].setLocation(card[numCard-1].getX()-10, card[numCard-1].getY()-10); }
+						else{ card[numCard-1].setLocation(card[numCard-1].getX()+10, card[numCard-1].getY()+10); }				
 					}
 				}
 			}

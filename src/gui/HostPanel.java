@@ -211,7 +211,7 @@ public class HostPanel extends JFrame {
 		
 		settingServer.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				new HostSetting("Server Status").setVisible(Boolean.TRUE);
+				new NetworkSetting("Server Status").setVisible(Boolean.TRUE);
 			}});
 		 		
 		panel.add(settingServer);

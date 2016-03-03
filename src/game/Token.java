@@ -9,6 +9,6 @@ public class Token {
 		this.name = name;
 	}
  
-	public String 	getName() 	{ return this.name; }
+	public String 	getName() 	{ return this.name.substring(0, 1); }
 	public String 	toString()	{ return this.name;	}
 }
