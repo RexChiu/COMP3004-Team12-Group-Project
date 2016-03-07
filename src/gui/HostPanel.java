@@ -27,7 +27,7 @@ public class HostPanel extends JFrame {
 	private static final long serialVersionUID = -2462830087150288101L;
 	private static final String HOST_TITLE = "Host of Ivanhoe";
 	private boolean start = Boolean.FALSE;
-	private static JTextArea displayMessage;
+	private JTextArea displayMessage;
 		
 	public HostPanel(){
 		super(HOST_TITLE);
@@ -144,10 +144,10 @@ public class HostPanel extends JFrame {
 		displayMessage.setLineWrap(Boolean.TRUE);
 		displayMessage.setEditable(Boolean.FALSE);
 		displayMessage.append("\n >> Welcomd to the Ivanhoe");
-		JScrollPane display = new JScrollPane(displayMessage);
+		JScrollPane display;display = new JScrollPane(displayMessage);
 		display.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
 	        public void adjustmentValueChanged(AdjustmentEvent e) { 
-	        	e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        	//e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
 	        }
 	    }); 
 		display.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -217,7 +217,10 @@ public class HostPanel extends JFrame {
 		panel.add(settingServer);
 	}
 
-	public void 	writeMessage(String message){ displayMessage.append("\n >> " + message);	}
+	public void 	writeMessage(String message){ 
+		displayMessage.append("\n >> " + message);	
+		displayMessage.setCaretPosition(displayMessage.getDocument().getLength());
+	}
 	public Boolean	isStart()					{ return this.start; 			}
 	private void 	startHost()					{ this.start = Boolean.TRUE;	}
 	private void 	stopHost()					{ this.start = Boolean.FALSE;	}

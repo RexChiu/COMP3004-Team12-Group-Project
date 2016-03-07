@@ -3,7 +3,7 @@ package config;
 public class GAMEConfig {
 
 	// Ivanhoe Configuration
-	public final static int 	GAME_SETUP 				= 0;
+	/*public final static int 	GAME_SETUP 				= 0;
 	public final static int 	GAME_READY				= 1;
 	public final static int 	SELECT_TOURNAMENT		= 2;
 	public final static int 	PLAY_OR_WITHDRAWAL		= 3;
@@ -12,7 +12,52 @@ public class GAMEConfig {
 	public final static int 	WITHDAWAL				= 6;
 	public final static int 	NEXT_PLAYER				= 7;
 	public final static int 	NEXT_TOURNAMENT			= 8;
-	public final static int 	GAME_OVER				= 9;
+	public final static int 	GAME_OVER				= 9;*/
+	
+	public final static int 	GAME_READY				= 0;
+	public final static int 	GAME_SETUP 				= 1;
+	public final static int 	START_TOURNAMENT		= 2;
+	public final static int 	DEAL_CARD				= 3;
+	public final static int		SELECT_COLOUR			= 4;
+	public final static int		CONFIRM_COLOUR			= 5;
+	public final static int 	CONFIRM_TOURNAMENT		= 6;
+	public final static int 	PLAY_OR_WITHDRAW		= 7;
+	public final static int 	CONFIRM_TOKEN			= 8;
+	public final static int 	CONFIRM_REQUEST			= 9;
+	public final static int 	PLAY_CARD				= 10;
+	public final static int 	WIN_TOURNAMENT			= 11;
+	public final static int 	GAME_OVER				= 12;
+	public static final String[] STATE = {"Game Ready", "Game Setup", "Start Tournament", "Deal Card",
+			"Select Colour", "Confirm Colour", "Confirm Tournament", "Play or Withdraw", "Confirm Token",
+			"Confirm Request", "Play Card", "Win Tournament", "Game Over"};
+
+	public static final String 	TYPE_SET_UP 			= "Set Up";
+	public static final String 	TYPE_START_TOURNAMENT 	= "Start Tournament";
+	public static final String 	TYPE_GAME_OVER			= "Game Over";
+	public static final String	TYPE_SELECT_COLOR	 	= "Select Color";
+	public final static String	TYPE_CONFIRM_COLOUR		= "Confirm Color";
+	public static final String 	TYPE_CONFIRM_TOURNAMENT = "Confirm Tournament";
+	public static final String 	TYPE_PLAY_OR_WITHDRAW	= "Play or Withdraw";
+	public static final String 	TYPE_DEAL_CARD			= "Deal Card";
+	public static final String	TYPE_SELECT_COLOUR		= "Select Colour";
+	public static final String 	TYPE_CONFIRM_REQUEST	= "Confirm Request";
+	public static final String 	TYPE_PLAY_CARD			= "Play Card";
+	public static final String 	TYPE_WITHDRAW 			= "Withdraw";
+	public static final String 	TYPE_NEXT_PLAYER		= "Next Player";
+	public static final String 	TYPE_WIN_TOURNAMENT		= "Win Tournament";
+	public static final String 	TYPE_NEXT_TOURNAMENT	= "Next Tournament";
+	
+	
+	public static final String	POW_PLAY				= "Play";
+	public static final String  POW_WITHDRAW			= "Withdraw";
+	public static final String  APPLY_LEGAL				= "Legal";
+	public static final String  APPLY_ILLEGAL			= "Illegal";
+	
+	// Player State Config
+	public final static int		PLAYING					= 0;
+	public final static int		WITHDRAW				= 1;
+	public final static int		KEY_INDEX				= 0;
+	public final static int		STATE_INDEX				= 1;
 	
 	// Tokens Configuration
 	public static final int 	ANY_FOUR_TOKENS 		= 4;
@@ -20,7 +65,8 @@ public class GAMEConfig {
 	
 	// Token Configurat8ion
 	public static final String	IMAGE_PATH 				= "PATH";
-	public static final String[]TOKEN_COLORS			= {"Purple", "Red", "Blue", "Yellow", "Green"};
+	public static final String[]TOKEN_COLORS_FIVE		= {"Purple", "Red", "Blue", "Yellow", "Green"};
+	public static final String[]TOKEN_COLORS_FOUR		= {"Red", "Blue", "Yellow", "Green"};
 	// Hand Configuration
 	public static final int 	MIN_CARD = 1;
 	

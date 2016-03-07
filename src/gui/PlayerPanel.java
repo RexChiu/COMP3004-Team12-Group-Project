@@ -64,6 +64,7 @@ public class PlayerPanel extends JPanel{
 	public void updateUI(String size, String total, String card){ 
 		totalButton.setText(total);
 		handPanel.updateUI(Boolean.FALSE, size);
-		displayPanel.updateUI(card);	
+		if (!card.equals(""))
+			displayPanel.updateUI(card);	
 	}
 }
