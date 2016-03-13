@@ -8,6 +8,7 @@ import config.GAMEConfig;
 import config.LANConfig;
 import game.Data;
 import game.Ivanhoe;
+import game.Player;
 import gui.HostPanel;
 import message.Message;
 
@@ -68,9 +69,19 @@ public class AppServer implements Runnable {
 				this.clientCount++;
 
 				if (clientCount == LANConfig.NUM_CLIENTS) {
-					UI.writeMessage(LANConfig.GAME_READY);
+					UI.writeMessage(LANConfig.GAME_READY);					
+
+					HashMap<Integer, Player> players = rEngine.getPlayers();
+					for (ServerThread to : clients.values()) {
+						int ID = to.getID();
+						to.send(Data.setup(players, ID));
+					}
 					
-					// Game Setup
+					int currentID= rEngine.getCurrentID();
+					clients.get(currentID).send(Data.selectColor(players, currentID)); // 5
+					
+					
+					/*// Game Setup
 					Message message = new Message();
 					message.getHeader().setState(GAMEConfig.GAME_SETUP);
 					int state = rEngine.processInput(message);
@@ -113,7 +124,7 @@ public class AppServer implements Runnable {
 					response.getHeader().setType(GAMEConfig.TYPE_SELECT_COLOUR);
 					response.getHeader().setState(GAMEConfig.SELECT_COLOUR);
 					response.getBody().addField("Choose Colour", 5);
-					clients.get(currentID).send(response);
+					clients.get(currentID).send(response);*/
 				}
 			} catch (IOException e) {
 			}
@@ -133,7 +144,22 @@ public class AppServer implements Runnable {
 
 	public synchronized void handle(int ID, Message message) {
 		UI.writeMessage(String.format("%5d: %25s %20s", ID, GAMEConfig.STATE[rEngine.getPrevState()], GAMEConfig.STATE[rEngine.getState()]));
-		rEngine.processInput(message);
+		
+		Message response = rEngine.processMessage(message);
+
+		if (response != null){
+			HashMap<Integer, Player> players = rEngine.getPlayers();
+			for (ServerThread to : clients.values()) {
+				int tempID = to.getID();
+				to.send(Data.getMessage(players, tempID));
+			}			
+			
+			int currentID = rEngine.getCurrentID();
+			clients.get(currentID).send(response);
+		}
+		
+		
+		/*rEngine.processInput(message);
 		int playerLeft  = rEngine.getPlayers().size();
 		for (Integer key : rEngine.getPlayers().keySet()){
 			if (rEngine.getPlayer(key).isWithdrawn())
@@ -212,7 +238,7 @@ public class AppServer implements Runnable {
 				response.getBody().addField("Winner", rEngine.getCurrentID());
 				to.send(response);	
 			}
-		}
+		}*/
 		System.out.println("############################################################################################\n\n");
 	}
 

@@ -27,6 +27,10 @@ public class GAMEConfig {
 	public final static int 	PLAY_CARD				= 10;
 	public final static int 	WIN_TOURNAMENT			= 11;
 	public final static int 	GAME_OVER				= 12;
+	
+	
+	public final static int 	END_TURN				= 13;
+	
 	public static final String[] STATE = {"Game Ready", "Game Setup", "Start Tournament", "Deal Card",
 			"Select Colour", "Confirm Colour", "Confirm Tournament", "Play or Withdraw", "Confirm Token",
 			"Confirm Request", "Play Card", "Win Tournament", "Game Over"};

@@ -25,6 +25,7 @@ public class Display {
 	public void 	setTournament(String tournament) { this.tournament = tournament; }
 	
 	// Collection of Getter
+	public boolean 	isEmpty()			{ return display.isEmpty();										}
 	public int 		getTotal() 			{ return ( isGreenTournament() ? display.size() : this.total); 	}
 	public Card 	getCard(int index) 	{ return this.display.get(index);								}
 	public String	getStatus()			{ return this.status; 											}
