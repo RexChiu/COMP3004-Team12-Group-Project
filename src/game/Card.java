@@ -71,6 +71,11 @@ public class Card implements Cloneable{
 	public boolean 	isShield()			{ return this.name.equalsIgnoreCase(GAMEConfig.SHIELD);			}
 	public boolean 	isStunned()			{ return this.name.equalsIgnoreCase(GAMEConfig.STUNNED);		}
 	
+	// Affect Tournament Colour
+	public boolean	isUnhorse()			{ return this.name.equalsIgnoreCase(GAMEConfig.UNHORSE);		}
+	public boolean	isChangeWeapon()	{ return this.name.equalsIgnoreCase(GAMEConfig.CHANGE_WEAPON);	}
+	public boolean	isDropWeapon()		{ return this.name.equalsIgnoreCase(GAMEConfig.DROP_WEAPON);	}
+	
 	// Affect Display of Action Card
 	public boolean 	isBreakLance()		{ return this.name.equalsIgnoreCase(GAMEConfig.BREAK_LANCE);	}
 	public boolean 	isRiposte()			{ return this.name.equalsIgnoreCase(GAMEConfig.RIPOSTE);		}

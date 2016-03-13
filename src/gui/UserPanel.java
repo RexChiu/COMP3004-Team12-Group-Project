@@ -1,11 +1,8 @@
 package gui;
 
-import java.util.ArrayList;
-
 import javax.swing.*;
 
 import config.GUIConfig;
-import game.Player;
 
 public class UserPanel extends JPanel{
 
@@ -17,6 +14,7 @@ public class UserPanel extends JPanel{
 	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton;
 	public HandPanel handPanel;
 	public DisplayPanel displayPanel;
+	public String hand;
 	
 	public UserPanel(ClientPanel client) { 		
 		setLocation(GUIConfig.USER_PANEL_LOCATION_X, GUIConfig.USER_PANEL_LOCATION_Y);
@@ -55,9 +53,15 @@ public class UserPanel extends JPanel{
 		add(displayPanel);
 	}  
 	
+	public void updateHand(String hand)			{ handPanel.updateUI(hand); 		}
+	public void updateDisplay(String display)	{ displayPanel.updateUI(display); 	}
+	public void updateTotal(String total)		{ totalButton.setText(total);;		}
+	
 	public void updateUI(String hand, String total, String card){ 
-		totalButton.setText(total);
-		handPanel.updateUI(hand);
-		displayPanel.updateUI(card);
+		this.hand = hand;
+		updateTotal(total);
+		updateHand(hand);
+		if (!card.equals("")) 
+			updateDisplay(card);
 	}
 }

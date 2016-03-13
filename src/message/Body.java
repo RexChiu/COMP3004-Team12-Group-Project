@@ -14,6 +14,10 @@ public class Body implements Serializable {
 		map = new HashMap<String, Serializable>();
 	}
 	
+	public boolean hasField(String name){
+		return map.containsKey(name);
+	}
+	
 	public void addField(String name, Serializable value) {
 		map.put(name, value);
 	}

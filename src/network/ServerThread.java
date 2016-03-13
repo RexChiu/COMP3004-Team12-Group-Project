@@ -38,7 +38,7 @@ public class ServerThread extends Thread {
 		        Message message = (Message)objectInputStream.readObject();
 		        server.handle(ID, message);
 			} catch (Exception ioe) {
-				if(server.clientCount > 0)
+				if(server.getClientNumber() > 0)
 					server.remove(ID);
 				break;
 			}

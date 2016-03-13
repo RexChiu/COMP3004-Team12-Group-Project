@@ -22,7 +22,7 @@ public class TestToken {
     @Before
     public void setUp() {
 		System.out.println("@Before: TestToken");
-		tokens = new Tokens("Purple");
+		tokens = new Tokens();
 	}
 	
     @After
@@ -39,12 +39,14 @@ public class TestToken {
 	public void testGetSize () {
 		System.out.println("@Test(): getSize()");
 		
-		assertEquals(1, tokens.getSize());
+		assertEquals(0, tokens.getSize());
     }
 
     @Test
 	public void testGetToken () {
 		System.out.println("@Test(): getToken(String token)");
+		
+		tokens.addToken("Purple");
 		
 		Token purpleToken = new Token("Purple");
 		
@@ -55,6 +57,8 @@ public class TestToken {
 	public void testCheckToken () {
 		System.out.println("@Test(): checkToken(String token)");
 				
+		tokens.addToken("Purple");
+		
 		assertEquals(Boolean.TRUE, tokens.checkToken("Purple"));
     }
 
@@ -79,6 +83,7 @@ public class TestToken {
     @Test
 	public void testHasPurple () {
 		System.out.println("@Test(): hasPurple()");
+		tokens.addToken("Purple");
 		
 		assertEquals(Boolean.TRUE, tokens.hasPurple());
     }
@@ -125,6 +130,7 @@ public class TestToken {
 		
 		assertEquals(Boolean.FALSE, tokens.hasFour());
 
+		tokens.addToken("Purple");
 		tokens.addToken("Red");
 		tokens.addToken("Blue");
 		tokens.addToken("Yellow");
@@ -138,6 +144,7 @@ public class TestToken {
 		
 		assertEquals(Boolean.FALSE, tokens.hasFive());
 
+		tokens.addToken("Purple");
 		tokens.addToken("Red");
 		tokens.addToken("Blue");
 		tokens.addToken("Yellow");

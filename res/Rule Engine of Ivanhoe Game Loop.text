@@ -1,0 +1,106 @@
+// Rule Engine of Ivanhoe Game Loop
+	public String processInput(Message message)	{
+		String type = message.getHeader().getType(); 
+		if (type.equals(SET_UP)){
+			// HOW TO SETT UP IN GAME
+			// CERATE A DECK AND INIT IT AND SHUFFLE
+
+			// ADD N PLAYERS WITH ID
+			
+			// CREATE FIVE TOKNENS
+			// ADD FIRST N TOKNES TO NEW LIST
+			// SHUFFLE TOKENS AND ADD CURRENT TOKENS TO PLAYERS
+			// AND REMOVE CURRENT TOKENS
+			// STORE ORDER_LIST_ID
+			// SET CURRENT_PLAYAER TO AFTER PURPLE
+
+			// DEAL EIGHT CARDS TO PLAYERS 
+
+			// Change state to START_TOURNAMENT
+			return type;
+		} else if (type.equals(START_TOURNAMENT)){
+			// GET CURERNT_PLAYER;
+			// Update first player to everybody
+			// initil num player equal N players
+
+			// Change state to DEAL_CARD
+		} else if (type.equals(DEAL_CARD)){
+			// Deal card to the curernt player
+			// Update num card player
+
+			// if prev state is START_JTOURNMAENT
+			// then Change state to SELECT_COLOR
+			// if prev state is PLAY_CARD
+			// the N change state to CONFIRM_TOURNAMENT
+		} else if (type.equals(SELECT_COLOR)){
+			// Can play(Not all actions)
+			// Check prev tournament if there is one
+			// If prev is purple:
+			// 	chose rest of four folors;
+			// else 
+			// 	choose all five 
+			// update tournament corlor
+			// change the state to CONFIRM_TOURNAMENT
+
+			// Can not player(all action card)
+			// Increament current player
+			// Display hand;
+		} else if (type.equals(CONFIRM_TOURNAMENT)){
+			// Check the status of player
+			// if only one player left
+			//   change state to WIN_TOURNAMENT
+			// if player is not withdraw in server
+			//   Send the choice in view
+			//   change state to PLAY_OR_WITHDRAW
+			// else
+			//   increament current player
+			//   change state to CONFIRM_TOURNAMENT
+		} else if (type.equals(PLAY_OR_WITHDRAW)){
+			// if play
+			// 	 Change the state to CONFIRM_REQUEST
+			// else 
+			//   Change the state of the player to withdraw.
+			//   decreament numPlay
+			//   if maiden including and has token
+			//     send choice of the left tokens
+			//     change the state to CONFIRM_TOKEN
+		} else if (type.equals(CONFIRM_TOKEN)){
+			// if prev state is WIN_TOURNAMENT 
+			//   add token to current player
+			//   *change the state to START_TOURNAMENT not in itreration one
+			// if prev state is PLAY_OR_WITHDRAW(withdrawing)
+			//   Remove the selected token
+			//   Change the state to CONFIRM_TOURNAMENT  
+		} else if (type.equals(CONFIRM_REQUEST){
+			// Basic Checking
+			// if (action one)
+			//    handle it
+			// if (action more)
+			//    Consider in many cases
+			// if no problem then
+			//    change state to PLAY_CARD
+			// if there is problem them
+			//    keep state to CONFIRM_REQUEST
+		} else if (type.equals(PLAY_CARD)){
+			// if (simple card)
+			// 	  handle it
+			// if (action one)
+			//    handle it
+			// if (action more)
+			//   fk it
+			// increament current player
+			// change state to CONFIRM_TOURNAMENT
+		} else if (type.equals(WIN_TOURNAMENT)){
+			// If dont contains current tournament color token
+			//   if the current tournament color token is not purple
+			//     add token to current player
+			//     if the game is over
+			//       change the state to GAME_OVER
+			//     *if the game is not over Not in iteration one
+			//       change the state to START_TOURNAMENT
+			//   else
+			//	   send view of the choice for tokens
+			//     change the state to CONFIRM_TOKEN
+		} else if (type.equals(GAME_OVER)){
+			// Congraduation!!!!!!
+		}

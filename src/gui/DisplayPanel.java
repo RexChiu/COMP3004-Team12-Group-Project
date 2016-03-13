@@ -8,7 +8,6 @@ import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -16,9 +15,10 @@ import javax.swing.JPanel;
 import config.GUIConfig;
 import config.IMGConfig;
 import game.Hand;
-import game.Player;
 
 public class DisplayPanel extends JPanel implements MouseListener{
+	
+	private static final long serialVersionUID = 5174646146646913340L;
 	
 	JLabel view = new JLabel();	
 	ClientPanel client;

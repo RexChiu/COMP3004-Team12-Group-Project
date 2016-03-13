@@ -15,6 +15,49 @@ public class Deck {
 		this.deck = new ArrayList<Card>();
 	}
 
+	public void init1(){ // All Action first player
+		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 7);
+		addCards(new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, 2), 1);
+		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 100);	
+	}
+
+	public void init2(){ // Green Tournament
+		addCards(new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, 2), 10);
+		addCards(new Card(GAMEConfig.NO_WEAPON, 	GAMEConfig.COLOR_GREEN, 	GAMEConfig.VALUE_NO_WEAPON_ONE), 		4);
+		addCards(new Card(GAMEConfig.JOUSTING,		GAMEConfig.COLOR_PURPLE, 	GAMEConfig.VALUE_JOUSTING_THREE), 		GAMEConfig.NUMBER_PURPLE_THREE	);
+		addCards(new Card(GAMEConfig.SWORD, 		GAMEConfig.COLOR_RED, 		GAMEConfig.VALUE_SWORD_THREE), 			GAMEConfig.NUMBER_RED_THREE		);
+		addCards(new Card(GAMEConfig.AXE, 			GAMEConfig.COLOR_BLUE, 		GAMEConfig.VALUE_AXE_TWO), 				GAMEConfig.NUMBER_BLUE_TWO		);
+		addCards(new Card(GAMEConfig.MORNINGSTAR, 	GAMEConfig.COLOR_YELLOW, 	GAMEConfig.VALUE_MORNINGSTART_TWO), 	GAMEConfig.NUMBER_YELLOW_TWO	);
+		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 100);	
+	}
+
+	public void init3(){ // one Action Cards/Shield
+		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 5);
+		addCards(new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, 2), 5);
+		addCards(new Card(GAMEConfig.SHIELD, 		GAMEConfig.ACTION_CARD, 	GAMEConfig.VALUE_ACTION_CARD_ZERO), 	GAMEConfig.NUMBER_SHIELD		);
+		addCards(new Card(GAMEConfig.STUNNED,		GAMEConfig.ACTION_CARD, 	GAMEConfig.VALUE_ACTION_CARD_ZERO), 	GAMEConfig.NUMBER_STUNNED		);
+		addCards(new Card(GAMEConfig.NO_WEAPON, 	GAMEConfig.COLOR_GREEN, 	GAMEConfig.VALUE_NO_WEAPON_ONE), 		4);
+		addCards(new Card(GAMEConfig.JOUSTING,		GAMEConfig.COLOR_PURPLE, 	GAMEConfig.VALUE_JOUSTING_THREE), 		GAMEConfig.NUMBER_PURPLE_THREE	);
+		addCards(new Card(GAMEConfig.SWORD, 		GAMEConfig.COLOR_RED, 		GAMEConfig.VALUE_SWORD_THREE), 			GAMEConfig.NUMBER_RED_THREE		);
+		addCards(new Card(GAMEConfig.AXE, 			GAMEConfig.COLOR_BLUE, 		GAMEConfig.VALUE_AXE_TWO), 				GAMEConfig.NUMBER_BLUE_TWO		);
+		addCards(new Card(GAMEConfig.MORNINGSTAR, 	GAMEConfig.COLOR_YELLOW, 	GAMEConfig.VALUE_MORNINGSTART_TWO), 	GAMEConfig.NUMBER_YELLOW_TWO	);
+		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 100);	
+	}
+
+	public void init4(){ // one Action Cards/Shield
+		addCards(new Card(GAMEConfig.DISGRACE, 		GAMEConfig.ACTION_CARD, 	GAMEConfig.VALUE_ACTION_CARD_ZERO), 	GAMEConfig.NUMBER_DISGRACE		);
+		addCards(new Card(GAMEConfig.DROP_WEAPON, 	GAMEConfig.ACTION_CARD, 0), 5);
+		addCards(new Card(GAMEConfig.SQUIRE, 		GAMEConfig.SUPPORTERS_WHITE, 2), 5);
+		addCards(new Card(GAMEConfig.SHIELD, 		GAMEConfig.ACTION_CARD, 	GAMEConfig.VALUE_ACTION_CARD_ZERO), 	GAMEConfig.NUMBER_SHIELD		);
+		addCards(new Card(GAMEConfig.STUNNED,		GAMEConfig.ACTION_CARD, 	GAMEConfig.VALUE_ACTION_CARD_ZERO), 	GAMEConfig.NUMBER_STUNNED		);
+		addCards(new Card(GAMEConfig.NO_WEAPON, 	GAMEConfig.COLOR_GREEN, 	GAMEConfig.VALUE_NO_WEAPON_ONE), 		4);
+		addCards(new Card(GAMEConfig.JOUSTING,		GAMEConfig.COLOR_PURPLE, 	GAMEConfig.VALUE_JOUSTING_THREE), 		GAMEConfig.NUMBER_PURPLE_THREE	);
+		addCards(new Card(GAMEConfig.SWORD, 		GAMEConfig.COLOR_RED, 		GAMEConfig.VALUE_SWORD_THREE), 			GAMEConfig.NUMBER_RED_THREE		);
+		addCards(new Card(GAMEConfig.AXE, 			GAMEConfig.COLOR_BLUE, 		GAMEConfig.VALUE_AXE_TWO), 				GAMEConfig.NUMBER_BLUE_TWO		);
+		addCards(new Card(GAMEConfig.MORNINGSTAR, 	GAMEConfig.COLOR_YELLOW, 	GAMEConfig.VALUE_MORNINGSTART_TWO), 	GAMEConfig.NUMBER_YELLOW_TWO	);
+		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 100);	
+	}
+
 	public void init(){
 		addCards(new Card(GAMEConfig.JOUSTING,		GAMEConfig.COLOR_PURPLE, 	GAMEConfig.VALUE_JOUSTING_THREE), 		GAMEConfig.NUMBER_PURPLE_THREE	);
 		addCards(new Card(GAMEConfig.JOUSTING, 		GAMEConfig.COLOR_PURPLE, 	GAMEConfig.VALUE_JOUSTING_FOUR), 		GAMEConfig.NUMBER_PURPLE_FOUR	);
@@ -83,12 +126,12 @@ public class Deck {
 
 	public boolean equals (Deck deck){
 		if (this == deck) return Boolean.TRUE;
-		
+
 		for (int i = 0; i < this.deck.size(); i++){
 			if (!getCard(i).equals(deck.getCard(i)) )
 				return Boolean.FALSE;
 		}
-		
+
 		return Boolean.TRUE;
 	}
 }

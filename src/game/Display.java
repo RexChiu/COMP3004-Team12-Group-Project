@@ -37,6 +37,13 @@ public class Display {
 		updateDisplay();
 	}
 	
+	// Remove one card from display
+	public void removeCard(Card card){
+		this.display.remove(card);
+		this.total -= card.getValue();
+		updateDisplay();
+	}
+	
 	// Check the supporter maiden
 	public boolean hasMaiden()	{
 		for (Card card : display){
@@ -54,6 +61,16 @@ public class Display {
 		
 		if (display.get(index).isStunned()) 
 			this.status += ( isShield() ? "" : GAMEConfig.STATUS_STUNNED);
+	}
+	
+	//DISGRACE: Remove all supporter
+	public Hand	removeSupport(){
+		Hand hand  = new Hand();
+		for (Card card : display){
+			if (card.isSquire() || card.isMaiden())
+				hand.drawCard(card);
+		}	
+		return hand;
 	}
 	
 	//UNHORSE: The tournament color changes from purple to red, blue or yellow
