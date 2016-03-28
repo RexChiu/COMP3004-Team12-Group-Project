@@ -23,10 +23,8 @@ public class HandPanel extends JPanel implements MouseListener{
 
 	/**
 	 * Hand Panel for the Client Ivanhoe
-	 */
-
-	
-	public JButton applyButton, submitButton;
+	 */	
+	public JButton playCardButton, endTurnButton;
 	
 	private ClientPanel client;
 	private JLabel view = new JLabel();	
@@ -39,6 +37,7 @@ public class HandPanel extends JPanel implements MouseListener{
 	private int numCard = 0;
 	private boolean isUser = Boolean.TRUE;
 	private JLayeredPane layeredPane;
+	public String ID = "";
 	
 	public HandPanel(ClientPanel client, int x, int y, int width, int height) { 
 		setLayout(null);
@@ -49,19 +48,19 @@ public class HandPanel extends JPanel implements MouseListener{
 		layeredPane.addMouseListener(this);		
 		add(layeredPane);
 		
-		applyButton = new JButton("Apply");
-		applyButton.setLocation(GUIConfig.HANDPANEL_APPLY_BUTTON_LOCATION_X, GUIConfig.HANDPANEL_APPLY_BUTTON_LOCATION_Y);
-		applyButton.setSize(GUIConfig.HANDPANEL_BUTTON_WIDTH, GUIConfig.HANDPANEL_BUTTON_HEIGHT);
-		applyButton.setEnabled(Boolean.TRUE);
-		applyButton.addMouseListener(this);
-		client.add(applyButton);
+		playCardButton = new JButton("Play Card");
+		playCardButton.setLocation(GUIConfig.HANDPANEL_PLAYCARD_BUTTON_LOCATION_X, GUIConfig.HANDPANEL_PLAYCARD_BUTTON_LOCATION_Y);
+		playCardButton.setSize(GUIConfig.HANDPANEL_BUTTON_WIDTH, GUIConfig.HANDPANEL_BUTTON_HEIGHT);
+		playCardButton.setEnabled(Boolean.TRUE);
+		playCardButton.addMouseListener(this);
+		client.add(playCardButton);
 		
-		submitButton = new JButton("Submit");
-		submitButton.setLocation(GUIConfig.HANDPANEL_SUBMIT_BUTTON_LOCATION_X, GUIConfig.HANDPANEL_SUBMIT_BUTTON_LOCATION_Y);
-		submitButton.setSize(GUIConfig.HANDPANEL_BUTTON_WIDTH, GUIConfig.HANDPANEL_BUTTON_HEIGHT);
-		submitButton.setEnabled(Boolean.TRUE);
-		submitButton.addMouseListener(this);
-		client.add(submitButton);
+		endTurnButton = new JButton("End Turn");
+		endTurnButton.setLocation(GUIConfig.HANDPANEL_ENDTURN_BUTTON_LOCATION_X, GUIConfig.HANDPANEL_ENDTURN_BUTTON_LOCATION_Y);
+		endTurnButton.setSize(GUIConfig.HANDPANEL_BUTTON_WIDTH, GUIConfig.HANDPANEL_BUTTON_HEIGHT);
+		endTurnButton.setEnabled(Boolean.TRUE);
+		endTurnButton.addMouseListener(this);
+		client.add(endTurnButton);
 		
 		setLocation(x, y);
 		setSize(width, height);
@@ -69,6 +68,7 @@ public class HandPanel extends JPanel implements MouseListener{
 	}	
 
 	public void updateUI(String data){
+
 		Hand hand = new Hand(data);		
 		numCard = hand.getSize();
 
@@ -95,8 +95,9 @@ public class HandPanel extends JPanel implements MouseListener{
 	
 	public void updateUI(boolean isUser, String size){	
 		this.isUser = isUser;		
-		applyButton.setVisible(Boolean.FALSE);
-		submitButton.setVisible(Boolean.FALSE);
+		this.playCardButton.setVisible(Boolean.FALSE);
+		this.endTurnButton.setVisible(Boolean.FALSE);
+		
 		numCard = Integer.parseInt(size);
 		
 		for (int i = numCard; i < cards.size(); i++)
@@ -120,55 +121,71 @@ public class HandPanel extends JPanel implements MouseListener{
 	
 	public void mouseClicked(MouseEvent e) {
 		if (isUser){
-			if (e.getSource() == applyButton){
+			if (e.getSource() == playCardButton){
+				//System.out.println("*******************Apply Button is clicked*******************");
 				if (client.getClient() != null){
-					if (client.applyEnable){
-						String selectedCard = client.selected.keySet().toString();
-						client.userPanel.updateHand(client.userPanel.hand);
-												
-						Message message = new Message();
-						message.getHeader().setType(GAMEConfig.TYPE_CONFIRM_REQUEST);
-						message.getHeader().setState(GAMEConfig.CONFIRM_REQUEST);
-						message.getBody().addField("Selected Card", selectedCard.substring(1, selectedCard.length()-1));
-						client.getClient().send(message);
-					}
-				}
-			}else if (e.getSource() == submitButton){
-				if (client.getClient() != null){
-					if (client.submitEnable){
-						String selectedCard = client.selected.keySet().toString();
-						Message message = new Message();
-						message.getHeader().setType(GAMEConfig.TYPE_PLAY_CARD);
-						message.getHeader().setState(GAMEConfig.PLAY_CARD);
-						message.getBody().addField("Selected Card", selectedCard.substring(1, selectedCard.length()-1));
-						message.getBody().addField("Submission", "OK");
-						client.getClient().send(message);
+					client.userPanel.updateHand(client.userPanel.hand);
 
-						client.selected.clear();
-						client.submitEnable = Boolean.FALSE;
-						client.applyEnable = Boolean.FALSE;
-					}
+					Message message = new Message();
+					message.getHeader().sender = this.client.userPanel.infoButton.getText().trim();
+					message.getHeader().receiver = "Ivanhoe";
+					message.getHeader().setType(GAMEConfig.TYPE_PLAY_CARD);
+					message.getHeader().setState(GAMEConfig.PLAY_CARD);
+					message.getBody().addField("Selected Card Index", 			this.client.selectedHandIndex+"");
+					message.getBody().addField("Selected Target", 				this.client.selectedTargetID+"");
+					message.getBody().addField("Selected Own Display Index",	this.client.selectedDisplayIndex+"");
+					message.getBody().addField("Selected Target Display ID",	this.client.targetDisplayID+"");
+					message.getBody().addField("Selected Target Display Index", this.client.targetDisplayIndex+"");
+					
+					client.getClient().send(message);
+					this.client.selectedHandIndex = -1;
+					this.client.selectedTargetID = "";
+					this.client.selectedDisplayIndex = -1;
+					this.client.targetDisplayID = "";
+					this.client.targetDisplayIndex = -1;
+					//System.out.print(message.toString());
+				}
+				//System.out.println("*************************************************************");
+				
+			}else if (e.getSource() == endTurnButton){
+				if (client.getClient() != null){
+					Message message = new Message();
+					message.getHeader().sender = this.client.userPanel.ID;
+					message.getHeader().setType(GAMEConfig.TYPE_END_TURN);
+					message.getHeader().setState(GAMEConfig.END_TURN);
+					client.getClient().send(message);
 				}
 			} else if (e.getButton() == MouseEvent.BUTTON1){
-				if (e.getY() < 190 && e.getY() > 10 && !client.submitEnable){
-					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;						
+				if (e.getY() < 190 && e.getY() > 10){
+					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;		
+					int selectedHandIndex = this.client.selectedHandIndex;
 					if (index < numCard){
+						if (selectedHandIndex != -1 && selectedHandIndex != index){
+							selected[selectedHandIndex] = !selected[selectedHandIndex];
+							cards.get(selectedHandIndex).setLocation(cards.get(selectedHandIndex).getX()+10, cards.get(selectedHandIndex).getY()+10); 
+						}
+						this.client.selectedHandIndex = (selectedHandIndex != index ? index : -1);
+						System.out.println("Selected Index: " + this.client.selectedHandIndex);
+						
 						selected[index] = !selected[index];
 						if (selected[index]){ 
 							cards.get(index).setLocation(cards.get(index).getX()-10, cards.get(index).getY()-10); 
-							client.selected.put(index, index);
 						} else { 
 							cards.get(index).setLocation(cards.get(index).getX()+10, cards.get(index).getY()+10); 
-							client.selected.remove(index);
 						}
 					}else if ((e.getX()-10) < ((numCard-1)*GUIConfig.HANDPANEL_USER_CARD_SIZE+GUIConfig.HANDPANEL_USER_CARD_WIDTH)){
+						if (selectedHandIndex != -1 && selectedHandIndex != numCard-1){
+							selected[selectedHandIndex] = !selected[selectedHandIndex];
+							cards.get(selectedHandIndex).setLocation(cards.get(selectedHandIndex).getX()+10, cards.get(selectedHandIndex).getY()+10); 
+						}							
+						this.client.selectedHandIndex = (selectedHandIndex != numCard-1 ? numCard-1 : -1);
+
 						selected[numCard-1] = !selected[numCard-1];
 						if (selected[numCard-1]){ 
 							cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()-10, cards.get(numCard-1).getY()-10); 
-							client.selected.put(numCard-1, numCard-1);
+							
 						} else { 
 							cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()+10, cards.get(numCard-1).getY()+10); 
-							client.selected.remove(numCard-1);
 						}				
 					}
 				}
@@ -178,7 +195,7 @@ public class HandPanel extends JPanel implements MouseListener{
 
 	public void mousePressed(MouseEvent e) {	
 		if (isUser){	
-			if (e.getButton() == MouseEvent.BUTTON3 && e.getSource() != applyButton && e.getSource() != submitButton){
+			if (e.getButton() == MouseEvent.BUTTON3 && e.getSource() != playCardButton && e.getSource() != endTurnButton){
 				if (e.getY() < 190 && e.getY() > 10){
 					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;
 					if (index < numCard){
@@ -198,7 +215,7 @@ public class HandPanel extends JPanel implements MouseListener{
 						view.setSize(GUIConfig.HANDPANEL_VIEW_WIDTH, GUIConfig.HANDPANEL_VIEW_HEIGHT);
 						client.add(view);
 						client.setComponentZOrder(view,0);	
-						client.repaint();						
+						client.repaint();		
 					}
 				}	
 			} 		

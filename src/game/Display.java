@@ -31,6 +31,8 @@ public class Display {
 	public String	getStatus()			{ return this.status; 											}
 	public String 	getTournament() 	{ return this.tournament; 										}
 	
+	public int		getSize()			{ return display.size();										}
+	
 	// Add one card to display
 	public void addCard(Card card) { 
 		this.display.add(card); 
@@ -46,6 +48,16 @@ public class Display {
 	}
 	
 	// Check the supporter maiden
+	public void removeMaiden()	{
+		for (Card card : display){
+			if (card.isMaiden()){
+				display.remove(card);
+				return;
+			}
+		}
+	}
+	
+	// Check the supporter maiden
 	public boolean hasMaiden()	{
 		for (Card card : display){
 			if (card.isMaiden())
@@ -56,6 +68,7 @@ public class Display {
 	
 	// Update the status of the display eithe shield or stunned
 	public void updateDisplay(){
+		if (display.size() == 0) return;
 		int index = display.size() - 1;
 		if (display.get(index).isShield())	
 			this.status += ( isShield() ? "" : GAMEConfig.STATUS_SHIELD);

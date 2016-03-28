@@ -29,11 +29,13 @@ public class ClientPanel extends JFrame implements ActionListener{
 	public UserPanel userPanel;
 	public PoolPanel poolPanel;
 	public TournamentPanel tournamentPanel;
-
-	public boolean applyEnable = Boolean.FALSE;
-	public boolean submitEnable = Boolean.FALSE;
-
-	public HashMap<Integer, Integer> selected = new HashMap<>();	
+	
+	// Data for UI message
+	public int 		selectedHandIndex		= -1;
+	public String	selectedTargetID		= "";
+	public int		selectedDisplayIndex	= -1;
+	public String	targetDisplayID			= "";
+	public int		targetDisplayIndex		= -1;
 
 	public ClientPanel(){
 		super(GAME_TITLE);
@@ -159,7 +161,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 		}
 	}
 
-	public void updateUI(Message message){			
+	public void updateUI(Message message){		
 		String ID 				= message.getBody().getField("UserID").toString();
 		String tokens 			= message.getBody().getField("UserTokens").toString();
 		String hand 			= message.getBody().getField("UserHand").toString();
@@ -168,29 +170,34 @@ public class ClientPanel extends JFrame implements ActionListener{
 		String display			= message.getBody().getField("UserDisplay").toString();
 		String playersID		= message.getBody().getField("PlayersID").toString();
 		String tournamentInfo	= message.getBody().getField("TournamentInfo").toString();
+		String tournamnetColor  = message.getBody().getField("Tournament Color").toString();
 
+		this.poolPanel.tournamentButton.setText(tournamnetColor);
+		
 		int index = 1;
 		for (String playerInfo : tournamentInfo.split(";")){
 			tournamentPanel.infoLabel.get(index).setText(playerInfo.split(":")[0]);
 			tournamentPanel.statusLabel.get(index).setText(playerInfo.split(":")[1]);
 			tournamentPanel.totalLabel.get(index++).setText(playerInfo.split(":")[2]);		
 		}
-
-		userPanel.infoButton.setText("User: " + ID);
+		
+		userPanel.ID = ID;
+		userPanel.infoButton.setText(ID);
 		userPanel.tokenButton.setText(tokens);	
 		userPanel.statusOneButton.setText((status.contains(GAMEConfig.STUNNED)) ? GAMEConfig.STUNNED : "None");
 		userPanel.statusTwoButton.setText((status.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
 		userPanel.updateUI(hand, total, display);
 
 		index = GUIConfig.SECOND_PLAYER_ID;
-		for (String id : playersID.split(",")){
-			String playersDisplays 	= message.getBody().getField("Player " + id + " Display").toString();
-			String playersHand 		= message.getBody().getField("Player " + id + " Hand").toString();
-			String playersTotal 	= message.getBody().getField("Player " + id + " Total").toString();
-			String playersTokens 	= message.getBody().getField("Player " + id + " Tokens").toString();
-			String playersStatus 	= message.getBody().getField("Player " + id + " Status").toString();
-
-			playerPanel.get(index).infoButton.setText(id);
+		for (String playerID : playersID.split(",")){
+			String playersDisplays 	= message.getBody().getField("Player " + playerID + " Display").toString();
+			String playersHand 		= message.getBody().getField("Player " + playerID + " Hand").toString();
+			String playersTotal 	= message.getBody().getField("Player " + playerID + " Total").toString();
+			String playersTokens 	= message.getBody().getField("Player " + playerID + " Tokens").toString();
+			String playersStatus 	= message.getBody().getField("Player " + playerID + " Status").toString();
+			
+			playerPanel.get(index).ID = playersID;
+			playerPanel.get(index).infoButton.setText(playerID);
 			playerPanel.get(index).tokenButton.setText(playersTokens);	
 			playerPanel.get(index).statusOneButton.setText((playersStatus.contains(GAMEConfig.STUNNED)) ? GAMEConfig.STUNNED : "None");
 			playerPanel.get(index).statusTwoButton.setText((playersStatus.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
@@ -198,57 +205,93 @@ public class ClientPanel extends JFrame implements ActionListener{
 		}
 
 
-		if (message.getBody().hasField("Choose Colour")){
-			String chooseColours = message.getBody().getField("Choose Colour").toString();
-			String selectedColour = "";
-			if (Integer.parseInt(chooseColours) == 5){
-				int result = JOptionPane.showOptionDialog(null,
+		int state = message.getHeader().getState();
+		String type = message.getHeader().getType();
+		System.out.println("########State: " + type + "(" + state + ")" + "########");
+		switch (state){
+			case GAMEConfig.SELECT_COLOUR:
+				String colors = message.getBody().getField("Select Colors").toString();
+				String selectedColor = "";
+				if (colors.split(",").length == 5){
+					int result = JOptionPane.showOptionDialog(null,
+							"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+							null, GAMEConfig.TOKEN_COLORS_FIVE, GAMEConfig.TOKEN_COLORS_FIVE[0]);
+					selectedColor = GAMEConfig.TOKEN_COLORS_FIVE[result];
+					
+					Message response = new Message();
+					response.getHeader().sender = ID;
+					response.getHeader().state = message.getHeader().getState();
+					response.getHeader().type = message.getHeader().getType();
+					response.getBody().addField("Tournament Color", selectedColor);
+					
+					this.client.send(response);
+					System.out.println("Result of MSG: \n" + response.toString());
+				}else{
+					int result = JOptionPane.showOptionDialog(null,
+							"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+							null, GAMEConfig.TOKEN_COLORS_FOUR, GAMEConfig.TOKEN_COLORS_FOUR[0]);
+
+					selectedColor = GAMEConfig.TOKEN_COLORS_FOUR[result];
+					Message response = new Message();
+					response.getHeader().sender = ID;
+					response.getHeader().state = message.getHeader().getState();
+					response.getHeader().type = message.getHeader().getType();
+					response.getBody().addField("Tournament Color", selectedColor);
+					
+					this.client.send(response);
+					System.out.println("Select Color MSG: \n" + response.toString());
+				}
+				break;
+			case GAMEConfig.PLAY_OR_WITHDRAW:
+				int result = JOptionPane.showConfirmDialog(null, ID + ": Do you want withdraw?",
+						"Play or Withdraw", JOptionPane.YES_NO_OPTION);
+				
+				Message response = new Message();
+				response.getHeader().sender = ID;
+				response.getHeader().state = message.getHeader().getState();
+				response.getHeader().type = message.getHeader().getType();
+				response.getBody().addField("POW Choice", (result == 0 ? GAMEConfig.POW_WITHDRAW : GAMEConfig.POW_PLAY));
+				this.client.send(response);
+				
+				System.out.println("POW MSG: \n" + response.toString());
+				break;
+			case GAMEConfig.MAIDEN_PUNISH:
+				String choices = message.getBody().getField("Maiden Punish").toString();
+				String[] tokenList = choices.split(",");
+				result = JOptionPane.showOptionDialog(null,
 						"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+						null, tokenList, tokenList[0]);
+
+				selectedColor = tokenList[result];
+				response = new Message();
+				response.getHeader().sender = ID;
+				response.getHeader().state = message.getHeader().getState();
+				response.getHeader().type = message.getHeader().getType();
+				response.getBody().addField("Maiden Punish", selectedColor);
+				
+				this.client.send(response);
+				System.out.println("Select Maiden Punish MSG: \n" + response.toString());
+				
+				break;
+			case GAMEConfig.WIN_TOURNAMENT:
+				result = JOptionPane.showOptionDialog(null,
+						"Please choose the token color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 						null, GAMEConfig.TOKEN_COLORS_FIVE, GAMEConfig.TOKEN_COLORS_FIVE[0]);
-				selectedColour = GAMEConfig.TOKEN_COLORS_FIVE[result];
-			}else{
-				int result = JOptionPane.showOptionDialog(null,
-						"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-						null, GAMEConfig.TOKEN_COLORS_FOUR, GAMEConfig.TOKEN_COLORS_FOUR[0]);
-
-				selectedColour = GAMEConfig.TOKEN_COLORS_FOUR[result];
-			}
-			message.getBody().addField("Selected Colour", selectedColour);
+				selectedColor = GAMEConfig.TOKEN_COLORS_FIVE[result];
+				
+				response = new Message();
+				response.getHeader().sender = ID;
+				response.getHeader().state = message.getHeader().getState();
+				response.getHeader().type = message.getHeader().getType();
+				response.getBody().addField("Token Color", selectedColor);
+				
+				this.client.send(response);
+				System.out.println("Result of MSG: \n" + response.toString());
+				break;
+			default:
+				break;
 		}
-
-		if (message.getBody().hasField("Tournament Colour")){
-			String tounamentColours = message.getBody().getField("Tournament Colour").toString();
-			poolPanel.tokenButton.setText(tounamentColours);
-		}
-
-		if (message.getBody().hasField("POW Confirm")){				
-			int result = JOptionPane.showConfirmDialog(null, ID + ": Do you want withdraw?",
-					"Play or Withdraw", JOptionPane.YES_NO_OPTION);
-			if (result == 0) {
-				message.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-				applyEnable = Boolean.FALSE; 
-			} else {
-				message.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
-				applyEnable = Boolean.TRUE; 
-			}
-		}
-		
-		if (message.getBody().hasField("Legal Apply")){
-			String choice = message.getBody().getField("Legal Apply").toString();
-			if (choice.equals(GAMEConfig.APPLY_LEGAL)){
-				System.out.println("Confirm Resuquest is legal");
-				submitEnable = Boolean.TRUE;
-			}else{
-				System.out.println("Confirm Resuquest is illegal");
-				selected.clear();
-				this.userPanel.handPanel.selected = new boolean[GUIConfig.HANDPANEL_MAX_CARD];
-				submitEnable = Boolean.FALSE;
-			}	
-		}
-		
-		if (message.getBody().hasField("Winner")){
-			System.out.println("Winnter: " + message.getBody().getField("Winner").toString());
-		}			
+		System.out.println("########***********########");
 	}
 
 	public AppClient getClient(){ return this.client; }

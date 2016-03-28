@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
    TestCard.class,
    TestHand.class,
    TestDisplay.class,
-   TestDeck.class
+   TestDeck.class,
+   TestIvanhoeTournament.class
 })
 
 public class IvanhoeTestSuite {

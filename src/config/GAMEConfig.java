@@ -2,18 +2,7 @@ package config;
 
 public class GAMEConfig {
 
-	// Ivanhoe Configuration
-	/*public final static int 	GAME_SETUP 				= 0;
-	public final static int 	GAME_READY				= 1;
-	public final static int 	SELECT_TOURNAMENT		= 2;
-	public final static int 	PLAY_OR_WITHDRAWAL		= 3;
-	public final static int		DEAL_A_CARD				= 4;
-	public final static int		PLAY_A_CARD				= 5;
-	public final static int 	WITHDAWAL				= 6;
-	public final static int 	NEXT_PLAYER				= 7;
-	public final static int 	NEXT_TOURNAMENT			= 8;
-	public final static int 	GAME_OVER				= 9;*/
-	
+	// Ivanhoe Configuration	
 	public final static int 	GAME_READY				= 0;
 	public final static int 	GAME_SETUP 				= 1;
 	public final static int 	START_TOURNAMENT		= 2;
@@ -26,10 +15,9 @@ public class GAMEConfig {
 	public final static int 	CONFIRM_REQUEST			= 9;
 	public final static int 	PLAY_CARD				= 10;
 	public final static int 	WIN_TOURNAMENT			= 11;
-	public final static int 	GAME_OVER				= 12;
-	
-	
+	public final static int 	GAME_OVER				= 12;	
 	public final static int 	END_TURN				= 13;
+	public final static int 	MAIDEN_PUNISH			= 14;
 	
 	public static final String[] STATE = {"Game Ready", "Game Setup", "Start Tournament", "Deal Card",
 			"Select Colour", "Confirm Colour", "Confirm Tournament", "Play or Withdraw", "Confirm Token",
@@ -50,8 +38,9 @@ public class GAMEConfig {
 	public static final String 	TYPE_NEXT_PLAYER		= "Next Player";
 	public static final String 	TYPE_WIN_TOURNAMENT		= "Win Tournament";
 	public static final String 	TYPE_NEXT_TOURNAMENT	= "Next Tournament";
-	
-	
+	public final static String 	TYPE_END_TURN			= "End Turn";
+	public final static String 	TYPE_MAIDEN_PUNISH		= "Maiden Punish";
+		
 	public static final String	POW_PLAY				= "Play";
 	public static final String  POW_WITHDRAW			= "Withdraw";
 	public static final String  APPLY_LEGAL				= "Legal";
@@ -66,6 +55,9 @@ public class GAMEConfig {
 	// Tokens Configuration
 	public static final int 	ANY_FOUR_TOKENS 		= 4;
 	public static final int 	ALL_FIVE_TOKENS 		= 5;
+	public static final int		FIVE_TOKEN_GAME			= 4;
+	public static final int  	NUMBER_COLOR_FOUR		= 4;
+	public static final int  	NUMBER_COLOR_FIVE		= 5;
 	
 	// Token Configurat8ion
 	public static final String	IMAGE_PATH 				= "PATH";

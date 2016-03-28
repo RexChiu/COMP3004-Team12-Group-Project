@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -35,10 +36,11 @@ public class DisplayPanel extends JPanel implements MouseListener{
 
 	URL[] urlTiny = new URL[13];
 	URL[] urlLarge = new URL[13];
-	JLabel[] card = new JLabel[13];
 	boolean[] selected = new boolean[13];
 	private int numCard = 0;
 	private JLayeredPane layeredPane;
+	private ArrayList<JLabel> cards = new ArrayList<>();
+	public String ID = "";
 	
 	public DisplayPanel(ClientPanel client, int x, int y, int width, int height) { 
 		setLayout(null);
@@ -55,21 +57,26 @@ public class DisplayPanel extends JPanel implements MouseListener{
 		setBackground(Color.WHITE);
 	}
 	
-	public void updateUI(String display){	
+	public void updateUI(String display){
+		this.client.selectedDisplayIndex = -1;	
+		this.client.targetDisplayIndex = -1;
+		this.client.targetDisplayID = "Display";
+		
 		Hand hand = new Hand(display);	
 		numCard = hand.getSize();
+		cards.clear();
 		
 		for (int i = 0; i < numCard; i++){
 			selected[i] = Boolean.FALSE;
 			urlTiny[i] = this.getClass().getResource(hand.getCard(i).getIMG(IMGConfig.IMAGE_SIZE_TINY));
 			urlLarge[i] = this.getClass().getResource(hand.getCard(i).getIMG(IMGConfig.IMAGE_SIZE_LARGE));
-			card[i] = new JLabel(new ImageIcon(urlTiny[i]));
-			card[i].setLocation(i*15+5, 5);
-			card[i].setSize(60, 90);
-			card[i].setBounds(i*15+5, 5, 60, 90);
+			cards.add(new JLabel(new ImageIcon(urlTiny[i])));
+			cards.get(i).setLocation(i*15+5, 5);
+			cards.get(i).setSize(60, 90);
+			cards.get(i).setBounds(i*15+5, 5, 60, 90);
 			
-			layeredPane.add(card[i]);
-			layeredPane.setLayer(card[i], i);
+			layeredPane.add(cards.get(i));
+			layeredPane.setLayer(cards.get(i), i);
 		}
 	}
 
@@ -94,12 +101,51 @@ public class DisplayPanel extends JPanel implements MouseListener{
 					view.setSize(GUIConfig.HANDPANEL_VIEW_WIDTH, GUIConfig.HANDPANEL_VIEW_HEIGHT);
 					client.add(view);
 					client.setComponentZOrder(view,0);	
-					client.repaint();		
-					
+					client.repaint();							
 				}
 			}	
 		} 		
 	}	
+	
+	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == MouseEvent.BUTTON1){
+			if (e.getY() < 190 && e.getY() > 10){
+				int index = (e.getX()-10)/GUIConfig.HANDPANEL_PLAYER_CARD_SIZE;		
+				int selectedDisplayIndex = this.client.selectedDisplayIndex;	
+				this.client.targetDisplayID = ID;
+				if (index < numCard){
+					if (selectedDisplayIndex != -1 && selectedDisplayIndex != index){
+						selected[selectedDisplayIndex] = !selected[selectedDisplayIndex];
+						cards.get(selectedDisplayIndex).setLocation(cards.get(selectedDisplayIndex).getX()+5, cards.get(selectedDisplayIndex).getY()+5); 
+					}
+					this.client.selectedDisplayIndex = (selectedDisplayIndex != index ? index : -1);
+
+					selected[index] = !selected[index];
+					if (selected[index]){ 
+						cards.get(index).setLocation(cards.get(index).getX()-5, cards.get(index).getY()-5); 
+					} else { 
+						cards.get(index).setLocation(cards.get(index).getX()+5, cards.get(index).getY()+5); 
+					}
+				}else if ((e.getX()-10) < ((numCard-1)*GUIConfig.HANDPANEL_USER_CARD_SIZE+GUIConfig.HANDPANEL_USER_CARD_WIDTH)){
+					if (selectedDisplayIndex != -1 && selectedDisplayIndex != numCard-1){
+						selected[selectedDisplayIndex] = !selected[selectedDisplayIndex];
+						cards.get(selectedDisplayIndex).setLocation(cards.get(selectedDisplayIndex).getX()+5, cards.get(selectedDisplayIndex).getY()+5); 
+					}
+					this.client.selectedDisplayIndex = (selectedDisplayIndex != numCard-1 ? numCard-1 : -1);
+
+					selected[numCard-1] = !selected[numCard-1];
+					if (selected[numCard-1]){ 
+						cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()-5, cards.get(numCard-1).getY()-5); 
+
+					} else { 
+						cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()+5, cards.get(numCard-1).getY()+5); 
+					}				
+				}
+			}
+		}
+			
+	}	
+
 	public void mouseReleased(MouseEvent e){
 		view.setVisible(Boolean.FALSE);
 		view.removeAll();
@@ -107,7 +153,6 @@ public class DisplayPanel extends JPanel implements MouseListener{
 		client.repaint();	
 	}	
 	
-	public void mouseClicked(MouseEvent e) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	

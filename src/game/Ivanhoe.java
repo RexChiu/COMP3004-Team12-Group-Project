@@ -9,484 +9,413 @@ import message.Message;
 
 public class Ivanhoe {
 
-	private int state;
 	private Deck deck;
 	private Deck deadwood; // discard
+	private int state;
+	private int prevState;
 	private int numPlayers;
 	private int playersLeft;
 	private int firstPlayer;
-	private int currentPlayer;
+
 	private int currentID;
-
+	private int currentPlayer;
 	private String prevTournamentColour;
-	private String currTournamentColour;
+	private String currTournamentColour;	
 
-	private int prevState;
-	private boolean legal = Boolean.FALSE;
-	private boolean allResponded	= Boolean.FALSE;
-
-	private HashMap<Integer, Player> players = new HashMap<Integer, Player>();
-	private ArrayList<Integer> playersOrder = new ArrayList<>();
-	private HashMap<Integer, Boolean> confirm = new HashMap<>();
+	private HashMap<Integer, Player> players 	= new HashMap<Integer, Player>();
+	private ArrayList<Integer> playersOrder 	= new ArrayList<Integer>();
+	private HashMap<Integer, Boolean> confirm 	= new HashMap<Integer, Boolean>();
 
 	public Ivanhoe() {
-		// TODO Auto-generated constructor stub
-		this.state = GAMEConfig.GAME_READY;
+		this.updateState(GAMEConfig.GAME_READY);
 	}
 
-	public void addPlayer(int ID)	{ players.put(ID, new Player(ID));	}
-	public void removePlayer(int ID){ players.remove(ID); 				}
-	public Player getPlayer(int ID)	{ return players.get(ID);			}
-
-	public Message getMessage(int ID){
-		Message message = new Message();
-		Player user = players.get(ID);
-		message.getHeader().setType("Setup");
-		message.getBody().addField("UserID",ID);
-		message.getBody().addField("UserHand", user.getHand().toString());
-		message.getBody().addField("UserTokens", user.getTokens().toString());
-		message.getBody().addField("UserDisplay", user.getDisplayer().toString());
-		message.getBody().addField("UserStatus", user.getDisplayer().getStatus());
-		message.getBody().addField("UserTotal", user.getDisplayer().getTotal());
-
-		String playersID = "";
-		String tournamentInfo = "";
-		for (Integer key: players.keySet()){
-			if (key != ID){
-				message.getBody().addField("Player " + key + " Tokens", players.get(key).getTokens().toString());
-				message.getBody().addField("Player " + key + " Hand", players.get(key).getHand().getSize());
-				message.getBody().addField("Player " + key + " Status", players.get(key).getDisplayer().getStatus());
-				message.getBody().addField("Player " + key + " Display", players.get(key).getDisplayer().toString());
-				message.getBody().addField("Player " + key + " Total", players.get(key).getDisplayer().getTotal());
-				playersID += key + ",";
-			}
-			tournamentInfo += key + ":" + players.get(key).getDisplayer().getStatus() + ":" + players.get(key).getDisplayer().getTotal() + ";"; 
-		}
-		message.getBody().addField("PlayersID", playersID.substring(0, playersID.length()-1));
-		message.getBody().addField("TournamentInfo", tournamentInfo.substring(0, tournamentInfo.length()-1));
-		return message;
-	}
-
-	public String getData(){
-		String data = "";
-		if (players.isEmpty()) return data;
-		for (Integer key: players.keySet()){
-			data += players.get(key).toString() + "/";
-		}
-		return data.substring(0, data.length()-1);
-	}
-
-	public void setup(){
-		// Init Deck		
+	public void init(){
 		this.deck = new Deck();
 		this.deck.init();		
 		this.deck.shuffleDeck();
 		this.deadwood = new Deck();
+		this.numPlayers = players.size();		
+	}
+
+	public void initTestCase(){
+		this.deck = new Deck();
+		this.deck.initTestCase();
+		//this.deck.shuffleDeck();
+		this.deadwood = new Deck();
 		this.numPlayers = players.size();
 
-		// Init Hands
+		// Initialize Player Order		
+		this.initPlayerOrder();
+		// Initialize and store first player
+		this.initFirstPlayer();
+		// Initialize Hands	
+		this.initHand();
+		// Deal card to first player
+		this.dealCard();
+		// Update store to select color
+		this.updateState(GAMEConfig.SELECT_COLOUR);
+	}
+
+	private void initHand(){
 		for (int i = 0; i < 8; i++){
 			for (Integer key: playersOrder){
 				Card card = deck.getCard(0);
 				this.players.get(key).addCard(card);
 				this.deck.removeCard(card);
-			}		
-		}		
 
-		// Init Player Join Order		
+				// Test Purpose DELETE after Test
+				/*card = deck.getCard(0);
+				this.players.get(key).addDisplay(card);
+				this.deck.removeCard(card);*/
+			}		
+		}			
+	}
+
+	private void initPlayerOrder(){
 		for (Integer key: players.keySet()){
 			this.confirm.put(key, Boolean.FALSE);
 			this.playersOrder.add(key);		
-		}
+		}		
+	}
 
+	private void initFirstPlayer(){
 		this.currentPlayer = new Random().nextInt(numPlayers);		
 		this.currentID = this.playersOrder.get(currentPlayer);
 		this.firstPlayer = currentID;
-		this.playersLeft = numPlayers;
-		
-		Card card = deck.getCard(0);
-		this.players.get(currentID).addCard(card);
-		this.deck.removeCard(card);		
-
-		this.state = GAMEConfig.SELECT_COLOUR;
-		this.prevState = GAMEConfig.GAME_SETUP;
+		this.playersLeft = numPlayers;		
 	}
 
+	public void setup(){
+		// Initialize Deck		
+		this.init();
+		// Initialize Player Order		
+		this.initPlayerOrder();
+		// Initialize and store first player
+		this.initFirstPlayer();
+		// Initialize Hands	
+		this.initHand();
+		// Deal card to first player
+		this.dealCard();
+		// Update store to select color
+		this.updateState(GAMEConfig.SELECT_COLOUR);
+	}
 
 	private void dealCard(){
-		if (deck.isEmpty()){
-			deadwood.shuffleDeck();
-			deck = deadwood;
-			deadwood.cleanDeck();
+		// Check deck is empty refill by discards deck and shuffle
+		if (this.deck.isEmpty()){
+			this.deadwood.shuffleDeck();
+			this.deck = this.deadwood;
+			this.deadwood.cleanDeck();
 		}
 
-		Card newCard = deck.getCard(0);
-		players.get(playersOrder.get(currentPlayer)).addCard(newCard);
-		deck.removeCard(newCard);
+		// Deal card to player
+		Card card = this.deck.getCard(0);
+		this.players.get(playersOrder.get(currentPlayer)).addCard(card);
+		this.deck.removeCard(card);
 	}
 
-	public Message processMessage(Message message){
-		int userID = Integer.parseInt(message.getBody().getField("UserID").toString());
-		int userState = message.getHeader().getState();
+	private Message selectColor(String color){
+		if (color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE) && this.prevTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)){
+			return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
+		}
+		
+		// Update tournament colors	for all displays	
+		this.updateTournament(color);
 
-		if (userID == this.currentID && userState == this.state){
-			if (userState == GAMEConfig.SELECT_COLOUR){
-				this.prevTournamentColour = this.currTournamentColour;
-				this.currTournamentColour = message.getBody().getField("Colour").toString();
-				for (int key : this.players.keySet()){
-					this.players.get(key).getDisplayer().setTournament(this.currTournamentColour);
-				}
-				this.state = GAMEConfig.PLAY_OR_WITHDRAW;
-				this.prevState = GAMEConfig.SELECT_COLOUR;
-				return Data.playOrWithdraw(this.players, userID);
-			} else if (userState == GAMEConfig.PLAY_OR_WITHDRAW){
-				String response = message.getBody().getField("POW Choice").toString();
-				if (response.equalsIgnoreCase(GAMEConfig.POW_PLAY)){
-					this.state = GAMEConfig.PLAY_CARD;
-					this.prevState = GAMEConfig.PLAY_OR_WITHDRAW;
-					return null; 
-				} else {
-					this.players.get(currentID).setWithdrawn(Boolean.TRUE);
-					this.currentPlayer = (currentPlayer+1)&numPlayers;
-					this.currentID = playersOrder.get(currentPlayer);
-					this.playersLeft--;
-					
-					dealCard();
-					
-					if (playersLeft == 1){
-						for (Integer key : this.players.keySet()){
-							if (!this.players.get(key).isWithdrawn()){
-								currentID = key;
-								break;								
-							}	
-						}	
-						if (this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)){
-							
-						}else{		
-							if (!this.players.get(currentID).getTokens().checkToken(this.currTournamentColour)){
-								this.players.get(currentID).addToken(this.currTournamentColour);
-							}
-							this.state = GAMEConfig.WIN_TOURNAMENT;
-							this.prevState = GAMEConfig.PLAY_OR_WITHDRAW;
-							return Data.winTournament(players, currentID);								
-						}					
-					}else{
-						this.state = GAMEConfig.PLAY_OR_WITHDRAW;
-						this.prevState = GAMEConfig.PLAY_OR_WITHDRAW;
-						return Data.playOrWithdraw(this.players, userID);		
-					}
-				}				
-			} else if (userState == GAMEConfig.PLAY_CARD){
-				String selectedCard = message.getBody().getField("Selected Card").toString();
-				Card card = new Card(selectedCard);
-				if (userID == this.firstPlayer && players.get(userID).getDisplayer().isEmpty()) {
-					if (!card.isAction()){
-						this.players.get(userID).getDisplayer().addCard(card);
-						this.players.get(userID).getHand().playCard(card);
-					}
-				} else if (!card.isAction()){
-					if (card.getColor().equalsIgnoreCase(this.currTournamentColour) || card.isSupporter()){
-						this.players.get(userID).getDisplayer().addCard(card);
-						this.players.get(userID).getHand().playCard(card);
-					}
-				}else{
-					// Action Card					
-				}
-			} else if (userState == GAMEConfig.END_TURN){
-				do {
-					this.currentPlayer = (currentPlayer+1)&numPlayers;
-					this.currentID = playersOrder.get(currentPlayer);					
-					dealCard();			
-				} while (players.get(currentID).isWithdrawn());				
-				
-				this.state = GAMEConfig.PLAY_OR_WITHDRAW;
-				this.prevState = GAMEConfig.END_TURN;	
-				return Data.playOrWithdraw(this.players, userID);					
-			} else if (userState == GAMEConfig.WIN_TOURNAMENT){
-				if (!confirm.get(userID)){
-					confirm.put(userID, Boolean.TRUE);
-				}
-				
-
-				// Catch ALl Conifrm
-					
-			}
-
-
-
+		// Update store to play or withdraw
+		this.updateState(GAMEConfig.PLAY_OR_WITHDRAW);
+		System.out.println("SELECTED COLOR: " + color);
+		return Data.playOrWithdraw(this.players, this.currentID);
 	}
 
-
-
-
-
-	return new Message();
-}
-
-/*public int processInput(Message message){
-		int state = message.getHeader().getState();
-		if (playersOrder.size() > 0)
-			currentID = getCurrentID();
-		System.out.println(String.format("Before Ivanhoe State[%5d]: %20s", currentID, GAMEConfig.STATE[state]));
-
-		if (state == GAMEConfig.GAME_SETUP){
-			setup();
-			this.state = GAMEConfig.START_TOURNAMENT;
-			this.prevState = GAMEConfig.GAME_SETUP;
-		} else if (state == GAMEConfig.START_TOURNAMENT){
-			this.currentID = this.playersOrder.get(this.currentPlayer);
-			this.state = GAMEConfig.DEAL_CARD;
-			this.prevState = GAMEConfig.START_TOURNAMENT;
-		} else if (state == GAMEConfig.DEAL_CARD){
-			dealCard();			
-			if (prevState == GAMEConfig.START_TOURNAMENT) {
-				this.state = GAMEConfig.SELECT_COLOUR;
-			} else if (prevState == GAMEConfig.PLAY_CARD) {
-				this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-			} else {
-				this.state = GAMEConfig.CONFIRM_TOURNAMENT;
+	private Message playOrWithdraw(String choice, String color){
+		// Check current Player's Choice if player is withdrawn
+		if (choice.equalsIgnoreCase(GAMEConfig.POW_WITHDRAW)){
+			if (this.players.get(this.currentID).getDisplayer().hasMaiden() &&
+					this.players.get(this.currentID).getTokens().getSize() > 0){
+				return checkToken();
 			}
-			this.prevState = GAMEConfig.DEAL_CARD;
-		} else if (state == GAMEConfig.SELECT_COLOUR){
-			this.currentID = playersOrder.get(currentPlayer);
-			if (players.get(currentID).getHand().allAction()){
-				System.out.println(players.get(currentID).getHand().toString()+"\n");
-				int index = 0;
-				int ID = 0;
-				for (int i = 0; i < this.numPlayers; i++){
-					index = (i+currentPlayer)%numPlayers;
-					ID = playersOrder.get(index);
-					if (!players.get(ID).getHand().allAction()){
-						currentPlayer = index;
-						this.currentID = playersOrder.get(currentPlayer);
-						this.state = GAMEConfig.SELECT_COLOUR;
-					}else{
-						System.out.println(players.get(ID).getHand().toString()+"\n");						
-					}
-				}
-			} else { 
-				this.state = GAMEConfig.CONFIRM_COLOUR;
-			}
-			this.prevState = GAMEConfig.SELECT_COLOUR;
-		} else if (state == GAMEConfig.CONFIRM_COLOUR){
+			return checkWinner();
+		}
 
-			String currColour = message.getBody().getField("Colour").toString();
-			this.prevTournamentColour = currColour;
-			this.currTournamentColour = currColour;
-			for (int key : this.players.keySet()){
-				this.players.get(key).getDisplayer().setTournament(this.currTournamentColour);
-			}
-			this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-			this.prevState = GAMEConfig.CONFIRM_COLOUR;
-		} else if (state == GAMEConfig.CONFIRM_TOURNAMENT){
-			this.currentID = playersOrder.get(currentPlayer);
+		// Update state to play card
+		this.updateState(GAMEConfig.PLAY_CARD);
+		return null;
+	}
+	
+	private Message checkToken(){
+		Tokens tokens = this.players.get(this.currentID).getTokens();
+		if (tokens.getSize() == 1){
+			tokens.cleanToken();
+			return checkWinner();
+		}
+		
+		this.updateState(GAMEConfig.MAIDEN_PUNISH);
+		return Data.maidenPunish(this.players, this.currentID, tokens.toString());
+	}
+	
 
-			int playerLeft = this.numPlayers;
+	// Check winner is not completed
+	private Message checkWinner(){
+		System.out.println("Check Winnter");
+
+		// Decrement the remaining players
+		if (!this.players.get(currentID).isWithdrawn()){
+			this.playersLeft--;
+		}
+
+		// Set player to withdraw	
+		this.players.get(currentID).setWithdrawn(Boolean.TRUE);
+		System.out.println(currentID + " Withdraws");
+
+		// Discard display
+		int displaySize = players.get(this.currentID).getDisplayer().getSize();
+		System.out.println("Display Size: " + displaySize);
+		for (int i = 0; i < displaySize; i++){
+			System.out.println("Removing Card");
+			Card card = players.get(this.currentID).getDisplayer().getCard(0);
+			System.out.println("Card: " + card.toString());
+			players.get(this.currentID).getDisplayer().removeCard(card);
+			System.out.println("Discard from player");
+			this.deadwood.addCard(card);
+			System.out.println("Discard to Deadwood");
+		}
+		System.out.println(currentID + " Discard");
+
+		// Check the player left to determine the winner
+		if (playersLeft == 1){
+			// Find the winner
 			for (Integer key : this.players.keySet()){
-				if (this.players.get(key).isWithdrawn())
-					playerLeft--;
+				nextPlayer();
+				if (!this.players.get(this.currentID).isWithdrawn())
+					break;
 			}
+			System.out.println("Tournament Winner: " + this.currentID);
+			if (this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)){
+				// Update state to win purple tournament
+				this.updateState(GAMEConfig.WIN_TOURNAMENT);
+				return Data.winTournament(this.players, this.currentID); 
+			}else{
+				// Add token to current player
+				this.players.get(this.currentID).addToken(this.currTournamentColour); // Display all token currently had 
+				System.out.println(this.players.get(this.currentID).getTokens().toString());
 
-			if (playerLeft == 1){ // send msg to every body for winner
-				// Find the winner
-				for (Integer key : playersOrder){
-					if (!this.players.get(key).isWithdrawn()){
-						this.currentPlayer = playerLeft-1;
-						this.currentID = playersOrder.get(currentPlayer);
-					}
-					playerLeft++;						
+				// Game Over if players could win the whole game
+				if ((this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
+						(this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
+					// Update state to game over
+					this.updateState(GAMEConfig.GAME_OVER);
+					return Data.gameOver(this.players, this.currentID);
 				}
-				this.state = GAMEConfig.WIN_TOURNAMENT;
-				this.prevState = GAMEConfig.CONFIRM_TOURNAMENT;
-			} else if (!players.get(currentID).isWithdrawn()){ // Send request of play or withdraw
-				this.prevState = GAMEConfig.CONFIRM_TOURNAMENT;
-				this.state = GAMEConfig.PLAY_OR_WITHDRAW;
-			} else {
-				currentPlayer = (currentPlayer+1) % numPlayers;	
-				this.prevState = GAMEConfig.CONFIRM_TOURNAMENT;	
-				this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-			}
-		} else if (state == GAMEConfig.PLAY_OR_WITHDRAW){
-			this.currentID = playersOrder.get(currentPlayer);
-			String response = message.getBody().getField("POW Choice").toString();
-			if (response.equalsIgnoreCase(GAMEConfig.POW_PLAY)){ 		
-				this.state = GAMEConfig.CONFIRM_REQUEST;
-				this.prevState = GAMEConfig.PLAY_OR_WITHDRAW;
-			} else {
-				players.get(currentID).setWithdrawn(Boolean.TRUE);
-				currentPlayer = (currentPlayer+1) % numPlayers;
-				dealCard();
-				if (players.get(currentID).getDisplayer().hasMaiden() && players.get(currentID).getTokens().getSize() != 0){  
-					this.prevState = GAMEConfig.PLAY_OR_WITHDRAW;
-					this.state = GAMEConfig.CONFIRM_TOKEN;
-				}else{
-					this.prevState = GAMEConfig.PLAY_OR_WITHDRAW;
-					this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-				}				
-			}
-		} else if (state == GAMEConfig.CONFIRM_TOKEN){
-			this.currentID = playersOrder.get(currentPlayer);
 
-			String tokenColour =  message.getBody().getField("Token Colour").toString();			
-			if (prevState == GAMEConfig.WIN_TOURNAMENT){
-				players.get(currentID).addToken(tokenColour); 
-				this.state = GAMEConfig.GAME_OVER; 
-			} else { 
-				players.get(currentID).getTokens().removeToken(tokenColour);
-				currentPlayer = (currentPlayer+1) % numPlayers;	
-				this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-			}
-			this.prevState = GAMEConfig.CONFIRM_TOKEN;
-		} else if (state == GAMEConfig.CONFIRM_REQUEST){
-			this.currentID = playersOrder.get(currentPlayer);
-
-			String selectedCard = "";
-			if (message.getBody().hasField("Selected Card")){
-				selectedCard = message.getBody().getField("Selected Card").toString();
-				Hand hands = players.get(currentID).getHand();
-				if (!selectedCard.contains(",")){ // Simple Card Selected
-					Card card = hands.getCard(Integer.parseInt(selectedCard));
-					if (!card.isAction()){
-						// Add more case such as supporter
-						if (currTournamentColour.equals(card.getColor()) || card.isSquire()){
-							this.legal = Boolean.TRUE;
-							this.state = GAMEConfig.PLAY_CARD;
-							this.prevState = GAMEConfig.CONFIRM_REQUEST;
-							return this.state;
-						}else{
-							this.legal = Boolean.FALSE;
-							this.state = GAMEConfig.CONFIRM_REQUEST;
-							this.prevState = GAMEConfig.CONFIRM_REQUEST;
-							return this.state;
-						}
-					}else{
-						this.legal = Boolean.FALSE;
+				// Discard Display of all players and update to discard deck
+				for (Integer key : this.players.keySet()){
+					Display display = this.players.get(key).getDisplayer();
+					while (!display.isEmpty()){
+						Card card = display.getCard(0);
+						this.deadwood.addCard(card);
+						display.removeCard(card);
 					}
-				}else{ // Many cards Selected
-					this.legal = Boolean.TRUE;
-					String[] cards = selectedCard.split(", ");
-					for (String index : cards){
-						System.out.println("Index: " + index + " - " + hands.getCard(Integer.parseInt(index)));
-						Card card = hands.getCard(Integer.parseInt(index));
-						if (!card.isAction()){
-							// Add more case such as supporter
-							if (!currTournamentColour.equals(card.getColor())){
-								if (!card.isMaiden() && !card.isSquire()){
-									this.legal = Boolean.FALSE;
-									break;
-								}
-							}
-						}else{							
-							if (card.isDropWeapon() && (currTournamentColour.equals(GAMEConfig.COLOR_PURPLE)
-													||	currTournamentColour.equals(GAMEConfig.COLOR_GREEN))){
-								this.legal = Boolean.FALSE;
-								break;
-							}
-						}
-					}		
-
-					if (this.legal){
-						this.state = GAMEConfig.PLAY_CARD;
-						this.prevState = GAMEConfig.CONFIRM_REQUEST;
-						return this.state;
-					}else{
-						this.state = GAMEConfig.CONFIRM_REQUEST;
-						this.prevState = GAMEConfig.CONFIRM_REQUEST;
-						return this.state;
-					}					
+					this.players.get(key).cleanDisplay();
+					this.players.get(key).setWithdrawn(Boolean.FALSE);
 				}
-			}			
-			this.prevState = GAMEConfig.CONFIRM_REQUEST;
-		} else if (state == GAMEConfig.PLAY_CARD){
-			this.currentID = playersOrder.get(currentPlayer);
 
-			if (message.getBody().hasField("Selected Card")){
-				String selectedCard = message.getBody().getField("Selected Card").toString();
-				Hand hands = players.get(currentID).getHand();				
-				if (!selectedCard.contains(",")){ // Simple Card Selected
-					Card card = hands.getCard(Integer.parseInt(selectedCard));
-					if (!card.isAction()){
-						players.get(currentID).getDisplayer().addCard(card);
-						players.get(currentID).getHand().playCard(card);
-						currentPlayer = (currentPlayer+1)%numPlayers;
-						dealCard();		
-						this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-						this.prevState = GAMEConfig.PLAY_CARD;
-						return this.state;
-					}					
-				}else{ // Many cards Selected
-					String[] selectedIndex = selectedCard.split(", ");
-					System.out.println(selectedCard);
-					Hand selectedHand = new Hand();
-					for (String index:selectedIndex){
-						selectedHand.drawCard(hands.getCard(Integer.parseInt(index)));
-					}
-					for (int i = 0; i < selectedIndex.length; i++){
-						Card card = selectedHand.getCard(i);
-						if (card.isStunned()){
-							if( !this.players.get(currentID).getDisplayer().isShield()){
-								players.get(currentID).getDisplayer().addCard(card);
-								players.get(currentID).getHand().playCard(card);	
-							}else{
-								players.get(currentID).getHand().playCard(card);
-								deadwood.addCard(card);							
-							}
-						} else{
-							players.get(currentID).getDisplayer().addCard(card);
-							players.get(currentID).getHand().playCard(card);		
-						}
-						if (card.isDropWeapon()){
-							this.currTournamentColour = GAMEConfig.COLOR_GREEN;
-							for (int key : this.players.keySet()){
-								this.players.get(key).getDisplayer().setTournament(this.currTournamentColour);
-							}
-						}
-						System.out.println("Card: " + card.toString());
-					}
-					currentPlayer = (currentPlayer+1)%numPlayers;
-					dealCard();		
-					this.state = GAMEConfig.CONFIRM_TOURNAMENT;
-					this.prevState = GAMEConfig.PLAY_CARD;
-					return this.state;
-				}
+				// Reset Data
+				this.playersLeft = this.numPlayers;
+				System.out.println("Players Left: " +  this.playersLeft);
+
+				// Update state to select color for next tournament
+				this.updateState(GAMEConfig.SELECT_COLOUR);
+				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FIVE);
 			}
-			this.state = GAMEConfig.CONFIRM_REQUEST;
-			this.prevState = GAMEConfig.PLAY_CARD;
-		} else if (state == GAMEConfig.WIN_TOURNAMENT){
-			this.currentID = playersOrder.get(currentPlayer);
-			System.out.println("Prev Tournament Colour: " + this.prevTournamentColour);
-
-			if (!players.get(currentID).getTokens().checkToken(currTournamentColour))
-				players.get(currentID).addToken(currTournamentColour);
-			this.state = GAMEConfig.GAME_OVER;						
-			this.prevState = GAMEConfig.WIN_TOURNAMENT;
 		}else{
-			this.state = GAMEConfig.GAME_OVER;
-			this.prevState = GAMEConfig.WIN_TOURNAMENT;
+			// Increment current player until non withdraw player (do while loop)
+			System.out.println(this.currentID + " is withdrawn then next player.");
+			do {
+				System.out.print("");
+				this.nextPlayer();
+				this.dealCard();			
+			} while (players.get(currentID).isWithdrawn());		
+		
+			// Update state to play or withdraw
+			this.updateState(GAMEConfig.PLAY_OR_WITHDRAW);
+			return Data.playOrWithdraw(this.players, this.currentID);		
+		}
+	}
+
+	private Message playCard(Card card){
+		// Limit so the first play cannot play action card as first card
+		if (this.currentID == this.firstPlayer && this.players.get(this.currentID).getDisplayer().isEmpty()){
+			// Update if the card is simple card in first time
+			if (!card.isAction()){
+				this.playerPlayCard(this.currentID, card);
+			}
+		} else if (!card.isAction()) {			
+			// Current player play a simple card to display
+			if (card.getColor().equalsIgnoreCase(this.currTournamentColour) || card.isSupporter()){
+				this.playerPlayCard(this.currentID, card);
+			}
+		}else{
+			// If action card is valid
+			//   handle action cards (many cases)
+		}
+		return Data.getMessage(this.players, this.currentID);
+	}
+
+	private Message endTurn(String color){	
+		System.out.println("Current Player: " + this.currentID);
+		// Check winner with given color if exist
+		if (!color.equalsIgnoreCase(""))
+			return this.checkWinner();
+		// Check if total value of current player display is not max
+		if (!this.checkMax()){
+			System.out.println("Check Winner due to no Max: " + color);
+			return this.checkWinner();		
+		}
+		// Increment current player until non withdraw player (do while loop)
+		do {		
+			System.out.print("");
+			this.nextPlayer();
+			System.out.print("");
+			this.dealCard();
+			System.out.println("Curreng ID:" + this.currentID + " State: " + this.players.get(this.currentID).isWithdrawn());
+		} while (this.players.get(currentID).isWithdrawn());				
+
+		System.out.println("Next Player: " + this.currentID);
+		// Update state to play or withdraw
+		this.updateState(GAMEConfig.PLAY_OR_WITHDRAW);
+		return Data.playOrWithdraw(this.players, this.currentID);
+	}
+
+	// Win purple tournament
+	private Message winTournament(String color){
+		this.players.get(this.currentID).addToken(color);
+
+		// Game Over if players could win the whole game
+		if ((this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
+				(this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
+			// Update state to game over
+			this.updateState(GAMEConfig.GAME_OVER);
+			return Data.gameOver(this.players, this.currentID);
 		}
 
-		return this.state;
-	}*/
+		// Discard Display of all players and update to discard deck
+		this.discardDisplay();
+		
+		// Reset all players not withdrawn
+		System.out.println("Players Left: " +  this.playersLeft);
+		this.playersLeft = this.numPlayers;
+		for (Integer key : this.players.keySet()){
+			this.players.get(key).setWithdrawn(Boolean.FALSE);
+		}
+				
+		// Update state to select color
+		this.updateState(GAMEConfig.SELECT_COLOUR);
+		return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
+	}
+	
+	public Message processMessage(Message message){
+		int 	sender 	= Integer.parseInt(message.getHeader().getSender());
+		int 	state 	= message.getHeader().getState();
 
-public String 	selectedTournament(String input)	{ return input; }
+		if (this.currentID != sender)
+			return null;
 
-public HashMap<Integer, Player> getPlayers() { return this.players; }
+		String 	choice  = "";
+		String  color 	= "";
+		String  token 	= "";
+		String 	maiden	= "";
 
-public boolean 	playTournament()	{ return Boolean.TRUE; }
-public void 	playCards()			{	}	
-public void 	nextPlayer()		{	}
-public void 	nextTournament()	{	}
+		if (message.getBody().hasField("POW Choice"))
+			choice = message.getBody().getField("POW Choice").toString();
+		if (message.getBody().hasField("Tournament Color"))
+			color = message.getBody().getField("Tournament Color").toString();
+		if (message.getBody().hasField("Token Color"))
+			token = message.getBody().getField("Token Color").toString();
+		if (message.getBody().hasField("Maiden Punish"))
+			maiden = message.getBody().getField("Maiden Punish").toString();
+		System.out.println("ProcessMessage: " + message.toString());
+		switch (state){
+		case GAMEConfig.SELECT_COLOUR:
+			System.out.println("COLOR:" + color);
+			return this.selectColor(color);
+		case GAMEConfig.PLAY_OR_WITHDRAW:
+			return this.playOrWithdraw(choice, color);
+		case GAMEConfig.PLAY_CARD:
+			int selectedCardIndex = Integer.parseInt(message.getBody().getField("Selected Card Index").toString());
+			Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
+			return this.playCard(card);
+		case GAMEConfig.MAIDEN_PUNISH:
+			this.players.get(this.currentID).getTokens().removeToken(maiden);
+			return this.checkWinner();
+		case GAMEConfig.END_TURN:
+			return this.endTurn(token);
+		case GAMEConfig.WIN_TOURNAMENT:
+			return this.winTournament(token);
+		default:
+			return null;
+		}		
+	}
 
-public int		getPrevState()		{ return this.prevState;						}
-public int		getCurrentPlayer()	{ return this.currentPlayer;					}
-public int 		getCurrentID()		{ return this.playersOrder.get(currentPlayer);	}
-public String	getCurrColour()		{ return this.currTournamentColour;				}
-public boolean	isLegal()			{ return this.legal;							}
-public boolean	isAllReponded()		{ return this.allResponded;						}
+	private void nextPlayer(){
+		this.currentPlayer = (this.currentPlayer + 1) % this.numPlayers;
+		this.currentID = this.playersOrder.get(this.currentPlayer);	
+	}
 
-public void 	setState(int state)	{ this.state = state; }
-public int 		getState()			{ return this.state; }
-public boolean 	gameReady()			{ return this.state == 1; }//GAMEConfig.GAME_READY;	}
-public boolean 	withdraw()			{ return this.state == 6; }//GAMEConfig.WITHDAWAL;	}
-public boolean 	gameOver()			{ return this.state == 9; }//GAMEConfig.GAME_OVER;	}
+	private void discardDisplay(){
+		for (Integer key : this.players.keySet()){
+			Display display = this.players.get(key).getDisplayer();
+			this.players.get(key).cleanDisplay();
+			while (!display.isEmpty()){
+				Card card = display.getCard(0);
+				this.deadwood.addCard(card);
+				display.removeCard(card);
+			}
+		}
+	}
+
+	private boolean checkMax(){
+		// Search the total value of current player display
+		int total = this.players.get(this.currentID).getDisplayer().getTotal();
+		int max = 0;
+
+		for (Integer key : this.players.keySet()){
+			int tempTotal = this.players.get(key).getDisplayer().getTotal();
+			if (tempTotal > max)
+				max = tempTotal;
+		}
+
+		return total == max;
+	}
+
+	private void playerPlayCard(int playerID, Card card){
+		this.players.get(playerID).getDisplayer().addCard(card);
+		this.players.get(playerID).getHand().playCard(card);
+	}
+
+	private void updateState(int state)	{ 
+		this.prevState = this.state; 
+		this.state = state;
+	}
+
+	private void updateTournament(String color){
+		this.prevTournamentColour = this.currTournamentColour;
+		this.currTournamentColour = color;
+
+		for (int key : this.players.keySet())
+			this.players.get(key).getDisplayer().setTournament(this.currTournamentColour);
+	}
+
+	public HashMap<Integer, Player> getPlayers() { return this.players; }
+
+	public void 	addPlayer(int ID)	{ players.put(ID, new Player(ID));	}
+	public void 	removePlayer(int ID){ players.remove(ID); 				}
+	public Player 	getPlayer(int ID)	{ return players.get(ID);			}
+
+	public int 		getState()			{ return this.state; 							}
+	public int		getPrevState()		{ return this.prevState;						}
+	public int		getCurrentPlayer()	{ return this.currentPlayer;					}
+	public int 		getCurrentID()		{ return this.playersOrder.get(currentPlayer);	}
+	public String	getCurrColour()		{ return this.currTournamentColour;				}
 }

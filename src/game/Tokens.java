@@ -17,6 +17,7 @@ public class Tokens {
 	public void 	removeToken(String token)	{ this.tokens.remove(token);				}
 	public boolean 	checkToken(String token)	{ return tokens.containsKey(token); 		}
 	public Token 	getToken(String token)		{ return this.tokens.get(token);			}
+	public void 	cleanToken()				{ this.tokens.clear();						}
 	
 	public int		getSize()	{ return tokens.size(); }
 

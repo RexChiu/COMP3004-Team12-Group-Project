@@ -1,15 +1,5 @@
 package config;
 
-
-//JTextField aboutText = new JTextField("\tServer Status"); 
-//aboutText.setEditable(Boolean.FALSE);
-//aboutText.setSize(GUIConfig.ABOUT_TEXT_HEIGHT*2, GUIConfig.ABOUT_TEXT_WIDTH*2); 
-
-//URL path = this.getClass().getResource("/actioncardlarge/Ivanhoe.png");
-//JButton imageButton = new JButton(new ImageIcon(path)); 
-//imageButton.setSize(GUIConfig.ABOUT_TEXT_HEIGHT*2, GUIConfig.ABOUT_TEXT_WIDTH*2); 
-//add(BorderLayout.CENTER, imageButton);
-
 public class GUIConfig {
 	// Ivanhoe Host Panel
 	public static final int		HOST_WINDOW_HEIGHT					= 660;
@@ -205,10 +195,10 @@ public class GUIConfig {
 
 	public static final int 	HANDPANEL_BUTTON_WIDTH 				= 75;
 	public static final int 	HANDPANEL_BUTTON_HEIGHT 			= 50;
-	public static final int 	HANDPANEL_APPLY_BUTTON_LOCATION_X 	= 940;
-	public static final int 	HANDPANEL_APPLY_BUTTON_LOCATION_Y 	= 580;
-	public static final int 	HANDPANEL_SUBMIT_BUTTON_LOCATION_X	= 940;
-	public static final int 	HANDPANEL_SUBMIT_BUTTON_LOCATION_Y 	= 640;
+	public static final int 	HANDPANEL_PLAYCARD_BUTTON_LOCATION_X= 940;
+	public static final int 	HANDPANEL_PLAYCARD_BUTTON_LOCATION_Y= 580;
+	public static final int 	HANDPANEL_ENDTURN_BUTTON_LOCATION_X	= 940;
+	public static final int 	HANDPANEL_ENDTURN_BUTTON_LOCATION_Y = 640;
 	
 	public static final int 	HANDPANEL_VIEW_WIDTH 				= 240;
 	public static final int 	HANDPANEL_VIEW_HEIGHT 				= 360;

@@ -15,6 +15,7 @@ public class UserPanel extends JPanel{
 	public HandPanel handPanel;
 	public DisplayPanel displayPanel;
 	public String hand;
+	public String ID = "";
 	
 	public UserPanel(ClientPanel client) { 		
 		setLocation(GUIConfig.USER_PANEL_LOCATION_X, GUIConfig.USER_PANEL_LOCATION_Y);
@@ -57,7 +58,9 @@ public class UserPanel extends JPanel{
 	public void updateDisplay(String display)	{ displayPanel.updateUI(display); 	}
 	public void updateTotal(String total)		{ totalButton.setText(total);;		}
 	
-	public void updateUI(String hand, String total, String card){ 
+	public void updateUI(String hand, String total, String card){
+		this.handPanel.ID = this.ID;
+		this.displayPanel.ID = this.ID;
 		this.hand = hand;
 		updateTotal(total);
 		updateHand(hand);

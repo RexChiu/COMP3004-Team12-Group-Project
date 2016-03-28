@@ -57,6 +57,10 @@ public class Deck {
 		addCards(new Card(GAMEConfig.MORNINGSTAR, 	GAMEConfig.COLOR_YELLOW, 	GAMEConfig.VALUE_MORNINGSTART_TWO), 	GAMEConfig.NUMBER_YELLOW_TWO	);
 		addCards(new Card(GAMEConfig.DROP_WEAPON, GAMEConfig.ACTION_CARD, 0), 100);	
 	}
+	
+	public void initTestCase() { //all white cards
+		addCards(new Card(GAMEConfig.SQUIRE, 		GAMEConfig.SUPPORTERS_WHITE, 2), 110);
+	}
 
 	public void init(){
 		addCards(new Card(GAMEConfig.JOUSTING,		GAMEConfig.COLOR_PURPLE, 	GAMEConfig.VALUE_JOUSTING_THREE), 		GAMEConfig.NUMBER_PURPLE_THREE	);

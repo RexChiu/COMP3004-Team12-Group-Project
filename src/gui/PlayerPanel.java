@@ -15,6 +15,7 @@ public class PlayerPanel extends JPanel{
 	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton, handButton;
 	public HandPanel handPanel;
 	public DisplayPanel displayPanel;
+	public String ID = "";
 	
 	public PlayerPanel(ClientPanel client, int playerID) { 
 		setLayout(null);
@@ -61,7 +62,9 @@ public class PlayerPanel extends JPanel{
 		add(displayPanel);	
 	}  
 	
-	public void updateUI(String size, String total, String card){ 
+	public void updateUI(String size, String total, String card){
+		this.handPanel.ID = this.ID;
+		this.displayPanel.ID = this.ID;
 		totalButton.setText(total);
 		handPanel.updateUI(Boolean.FALSE, size);
 		if (!card.equals(""))

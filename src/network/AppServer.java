@@ -70,7 +70,8 @@ public class AppServer implements Runnable {
 
 				if (clientCount == LANConfig.NUM_CLIENTS) {
 					UI.writeMessage(LANConfig.GAME_READY);					
-
+					rEngine.setup();
+					
 					HashMap<Integer, Player> players = rEngine.getPlayers();
 					for (ServerThread to : clients.values()) {
 						int ID = to.getID();
@@ -78,53 +79,7 @@ public class AppServer implements Runnable {
 					}
 					
 					int currentID= rEngine.getCurrentID();
-					clients.get(currentID).send(Data.selectColor(players, currentID)); // 5
-					
-					
-					/*// Game Setup
-					Message message = new Message();
-					message.getHeader().setState(GAMEConfig.GAME_SETUP);
-					int state = rEngine.processInput(message);
-					message.getHeader().setState(state);
-					message.getHeader().setType(GAMEConfig.TYPE_SET_UP);
-					int currentID = rEngine.getCurrentID();
-					
-					for (ServerThread to : clients.values()) {
-						Message response = Data.getMessage(rEngine.getPlayers(), to.getID());
-						response.getHeader().setType(GAMEConfig.TYPE_SET_UP);
-						response.getHeader().setState(GAMEConfig.GAME_SETUP);
-						response.getBody().addField("First Player", Integer.toString(currentID));
-						to.send(response);
-					}
-
-					// Deal Card to First Player
-					message = new Message();
-					message.getHeader().setState(GAMEConfig.DEAL_CARD);
-					state = rEngine.processInput(message);
-					message.getHeader().setState(state);
-					message.getHeader().setType(GAMEConfig.TYPE_DEAL_CARD);
-					currentID = rEngine.getCurrentID();
-					for (ServerThread to : clients.values()) {
-						Message response = Data.getMessage(rEngine.getPlayers(), to.getID());
-						response.getHeader().setType(GAMEConfig.TYPE_DEAL_CARD);
-						response.getHeader().setState(GAMEConfig.DEAL_CARD);
-						to.send(response);						 
-					}
-					
-					// RE change State from Deal Card to Select Color
-					message = new Message();
-					message.getHeader().setState(GAMEConfig.SELECT_COLOUR);
-					state = rEngine.processInput(message);
-					message.getHeader().setState(state);
-					message.getHeader().setType(GAMEConfig.TYPE_SELECT_COLOUR);
-					currentID = rEngine.getCurrentID();
-
-					// Send Select Color to Client
-					Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-					response.getHeader().setType(GAMEConfig.TYPE_SELECT_COLOUR);
-					response.getHeader().setState(GAMEConfig.SELECT_COLOUR);
-					response.getBody().addField("Choose Colour", 5);
-					clients.get(currentID).send(response);*/
+					clients.get(currentID).send(Data.selectColor(players, currentID, GAMEConfig.NUMBER_COLOR_FIVE));
 				}
 			} catch (IOException e) {
 			}
@@ -145,9 +100,15 @@ public class AppServer implements Runnable {
 	public synchronized void handle(int ID, Message message) {
 		UI.writeMessage(String.format("%5d: %25s %20s", ID, GAMEConfig.STATE[rEngine.getPrevState()], GAMEConfig.STATE[rEngine.getState()]));
 		
+
+		String type = message.getHeader().getType();
+		System.out.println("########Server: " + type + "########");
+		
 		Message response = rEngine.processMessage(message);
 
 		if (response != null){
+			String REtype = response.getHeader().getType();
+			System.out.println("########Ivanhoe: " + REtype + "########");
 			HashMap<Integer, Player> players = rEngine.getPlayers();
 			for (ServerThread to : clients.values()) {
 				int tempID = to.getID();
@@ -156,90 +117,11 @@ public class AppServer implements Runnable {
 			
 			int currentID = rEngine.getCurrentID();
 			clients.get(currentID).send(response);
+			
+			//System.out.println("########****IVANHOE****########");
 		}
 		
-		
-		/*rEngine.processInput(message);
-		int playerLeft  = rEngine.getPlayers().size();
-		for (Integer key : rEngine.getPlayers().keySet()){
-			if (rEngine.getPlayer(key).isWithdrawn())
-				playerLeft--;
-		}
-		System.out.println(String.format("After  Ivanhoe State[%5d-%5d]: %20s %10s %10d", 
-				ID, rEngine.getCurrentID(), GAMEConfig.STATE[rEngine.getState()], 
-				rEngine.getPlayer(rEngine.getCurrentID()).isWithdrawn(), playerLeft));
-		
-		int currentID = rEngine.getCurrentID();
-		int curState = rEngine.getState();
-		
-		if (curState == GAMEConfig.CONFIRM_TOURNAMENT){
-			System.out.println("CONFIRM_TOURNAMENT");
-
-			// Update Deal Card
-			for (ServerThread to : clients.values()) {
-				Message response = Data.getMessage(rEngine.getPlayers(), to.getID());
-				response.getHeader().setType(GAMEConfig.TYPE_DEAL_CARD);
-				response.getHeader().setState(GAMEConfig.DEAL_CARD);
-				response.getBody().addField("Tournament Colour", rEngine.getCurrColour());
-				to.send(response);						 
-			}		
-			if (playerLeft == 1){
-				Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-				response.getHeader().setType(GAMEConfig.TYPE_PLAY_OR_WITHDRAW);
-				response.getHeader().setState(GAMEConfig.PLAY_OR_WITHDRAW);
-				response.getBody().addField("Player Withdrawn", GAMEConfig.TYPE_PLAY_OR_WITHDRAW);
-				clients.get(currentID).send(response);	
-			} else if (rEngine.getPlayer(currentID).isWithdrawn()){
-				// Asking Play or Withdraw
-				Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-				response.getHeader().setType(GAMEConfig.TYPE_PLAY_OR_WITHDRAW);
-				response.getHeader().setState(GAMEConfig.PLAY_OR_WITHDRAW);
-				response.getBody().addField("Player Withdrawn", GAMEConfig.TYPE_PLAY_OR_WITHDRAW);
-				clients.get(currentID).send(response);	
-			}else{
-				// Asking Play or Withdraw
-				Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-				response.getHeader().setType(GAMEConfig.TYPE_PLAY_OR_WITHDRAW);
-				response.getHeader().setState(GAMEConfig.PLAY_OR_WITHDRAW);
-				response.getBody().addField("POW Confirm",  GAMEConfig.TYPE_PLAY_OR_WITHDRAW);
-				clients.get(currentID).send(response);		
-			}
-		} else if (curState == GAMEConfig.PLAY_CARD){			
-			System.out.println("CONFIRM_REQUEST && PLAY_CARD");
-			
-			if (rEngine.isLegal()){
-				Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-				response.getHeader().setType(GAMEConfig.TYPE_PLAY_CARD);
-				response.getHeader().setState(GAMEConfig.PLAY_CARD);
-				response.getBody().addField("Legal Apply", GAMEConfig.APPLY_LEGAL);
-				clients.get(currentID).send(response);		
-			}	
-		} else if (curState == GAMEConfig.CONFIRM_REQUEST) {
-			Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-			response.getHeader().setType(GAMEConfig.TYPE_PLAY_CARD);
-			response.getHeader().setState(GAMEConfig.PLAY_CARD);
-			response.getBody().addField("Legal Apply", GAMEConfig.APPLY_ILLEGAL);
-			clients.get(currentID).send(response);				
-		} else if (curState == GAMEConfig.WIN_TOURNAMENT){
-			System.out.println("WIN_TOURNAMENT");
-			
-			// Send Win Tournament 
-			Message response = Data.getMessage(rEngine.getPlayers(), currentID);
-			response.getHeader().setType(GAMEConfig.TYPE_WIN_TOURNAMENT);
-			response.getHeader().setState(GAMEConfig.WIN_TOURNAMENT);
-			clients.get(currentID).send(response);					
-		} else if (curState == GAMEConfig.GAME_OVER){
-			System.out.println("GAME_OVER");
-
-			for (ServerThread to : clients.values()) {
-				Message response = Data.getMessage(rEngine.getPlayers(), to.getID());
-				response.getHeader().setType(GAMEConfig.TYPE_GAME_OVER);
-				response.getHeader().setState(GAMEConfig.GAME_OVER);
-				response.getBody().addField("Winner", rEngine.getCurrentID());
-				to.send(response);	
-			}
-		}*/
-		System.out.println("############################################################################################\n\n");
+		//System.out.println("########****SERVER*****########\n\n");
 	}
 
 	public synchronized void remove(int ID) {
