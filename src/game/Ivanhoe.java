@@ -250,15 +250,21 @@ public class Ivanhoe {
 
 	private Message playCard(Card card){
 		// Limit so the first play cannot play action card as first card
+		Display display = this.players.get(this.currentID).getDisplayer();
+		if (display.isStunned() && display.getNumPlayed() != 0)
+			return null;
+		
 		if (this.currentID == this.firstPlayer && this.players.get(this.currentID).getDisplayer().isEmpty()){
 			// Update if the card is simple card in first time
 			if (!card.isAction()){
 				this.playerPlayCard(this.currentID, card);
+				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		} else if (!card.isAction()) {			
 			// Current player play a simple card to display
 			if (card.getColor().equalsIgnoreCase(this.currTournamentColour) || card.isSupporter()){
 				this.playerPlayCard(this.currentID, card);
+				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		}else{
 			// If action card is valid
@@ -268,6 +274,8 @@ public class Ivanhoe {
 	}
 
 	private Message endTurn(String color){	
+		this.players.get(this.currentID).getDisplayer().cleanNumPlayed();
+		
 		System.out.println("Current Player: " + this.currentID);
 		// Check winner with given color if exist
 		if (!color.equalsIgnoreCase(""))

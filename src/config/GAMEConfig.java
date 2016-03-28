@@ -63,6 +63,7 @@ public class GAMEConfig {
 	public static final String	IMAGE_PATH 				= "PATH";
 	public static final String[]TOKEN_COLORS_FIVE		= {"Purple", "Red", "Blue", "Yellow", "Green"};
 	public static final String[]TOKEN_COLORS_FOUR		= {"Red", "Blue", "Yellow", "Green"};
+	public static final String[]TOKEN_COLORS_THREE		= {"Red", "Blue", "Yellow"};
 	// Hand Configuration
 	public static final int 	MIN_CARD = 1;
 	

@@ -79,7 +79,7 @@ public class AppServer implements Runnable {
 					}
 					
 					int currentID= rEngine.getCurrentID();
-					clients.get(currentID).send(Data.selectColor(players, currentID, GAMEConfig.NUMBER_COLOR_FIVE));
+					clients.get(currentID).send(Data.selectColor(players, currentID, GAMEConfig.NUMBER_COLOR));
 				}
 			} catch (IOException e) {
 			}
@@ -102,13 +102,13 @@ public class AppServer implements Runnable {
 		
 
 		String type = message.getHeader().getType();
-		System.out.println("########Server: " + type + "########");
+		//System.out.println("########Server: " + type + "########");
 		
 		Message response = rEngine.processMessage(message);
 
 		if (response != null){
-			String REtype = response.getHeader().getType();
-			System.out.println("########Ivanhoe: " + REtype + "########");
+			String REtype = message.getHeader().getType();
+			System.out.println("########Ivanhoe: " + type + "########");
 			HashMap<Integer, Player> players = rEngine.getPlayers();
 			for (ServerThread to : clients.values()) {
 				int tempID = to.getID();

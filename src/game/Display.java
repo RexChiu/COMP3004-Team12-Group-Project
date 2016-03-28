@@ -9,6 +9,7 @@ public class Display {
 	private ArrayList<Card> display;
 	private String tournament;
 	private String status;
+	private int numPlayed;
 	private int total;
 	
 	public Display() {
@@ -17,15 +18,19 @@ public class Display {
 		
 		this.tournament = "";
 		this.status 	= "";
-		this.total 	= 0;
+		this.total 		= 0;
+		this.numPlayed  = 0;
 	}
 
 	// Collection of setter 
-	public void		setStatus(String status) 		{ this.status += status; 	}
-	public void 	setTournament(String tournament) { this.tournament = tournament; }
+	public void		playCard()							{ this.numPlayed++;				}
+	public void		setStatus(String status) 			{ this.status += status; 		}
+	public void 	setTournament(String tournament)	{ this.tournament = tournament; }
+	public void 	cleanNumPlayed()					{ this.numPlayed = 0;			}
 	
 	// Collection of Getter
 	public boolean 	isEmpty()			{ return display.isEmpty();										}
+	public int		getNumPlayed()		{ return this.numPlayed;										}
 	public int 		getTotal() 			{ return ( isGreenTournament() ? display.size() : this.total); 	}
 	public Card 	getCard(int index) 	{ return this.display.get(index);								}
 	public String	getStatus()			{ return this.status; 											}
@@ -67,10 +72,12 @@ public class Display {
 	
 	//checks for shield card
 	public boolean hasShield(){
-		for (Card card : display)
-			if (card.isShield())
-				return true;
-		return false;
+		return this.isShield();
+	}
+	
+	//checks for stunned card
+	public boolean hasStunned(){
+		return this.isStunned();
 	}
 	
 	// Add one card to display
