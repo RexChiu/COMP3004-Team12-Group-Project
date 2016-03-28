@@ -116,8 +116,12 @@ public class Ivanhoe {
 	}
 
 	private Message selectColor(String color){
-		if (color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE) && this.prevTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)){
-			return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
+		System.out.println("Color Info:");
+		System.out.println(this.currTournamentColour + " - " + this.prevTournamentColour);
+		System.out.println(color);
+		if (color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE) && this.prevTournamentColour != null){
+			if (this.prevTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE))
+				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
 		}
 		
 		// Update tournament colors	for all displays	

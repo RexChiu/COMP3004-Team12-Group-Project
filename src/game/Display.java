@@ -33,6 +33,46 @@ public class Display {
 	
 	public int		getSize()			{ return display.size();										}
 	
+	//checks for purple colour card
+	public boolean hasPurple(){
+		for (Card card : display)
+			if (card.isPurple())
+				return true;
+		return false;
+	}
+	
+	//checks for value cards, returns card value
+	public int hasValueCard(){
+		for (Card card : display)
+			if (card.isSupporter() || card.isBlue() || card.isGreen() || card.isPurple() || card.isRed() || card.isYellow())
+				return card.getValue();
+		return -1;
+	}
+	
+	//checks for specific value
+	public boolean hasValue(int value){
+		for (Card card : display)
+			if (card.getValue() == value)
+				return true;
+		return false;
+	}
+	
+	//checks for support card
+	public boolean hasSupport(){
+		for (Card card : display)
+			if (card.isSupporter())
+				return true;
+		return false;
+	}
+	
+	//checks for shield card
+	public boolean hasShield(){
+		for (Card card : display)
+			if (card.isShield())
+				return true;
+		return false;
+	}
+	
 	// Add one card to display
 	public void addCard(Card card) { 
 		this.display.add(card); 
