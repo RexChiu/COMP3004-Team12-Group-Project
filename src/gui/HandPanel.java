@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -68,15 +69,14 @@ public class HandPanel extends JPanel implements MouseListener{
 	}	
 
 	public void updateUI(String data){
-
-		Hand hand = new Hand(data);		
-		numCard = hand.getSize();
-
-		for (int i = numCard; i < cards.size(); i++)
-			cards.get(i).setVisible(Boolean.FALSE);
+		if (this.cards.size() != 0)
+			this.cards.get(this.cards.size()-1).setVisible(Boolean.FALSE);
+		this.cards.clear();
+		this.layeredPane.removeAll();
 		
-		layeredPane.removeAll();
-		cards.clear();
+		Hand hand = new Hand(data);		
+		this.numCard = hand.getSize();
+		
 		for (int i = 0; i < numCard; i++){
 			selected[i] = Boolean.FALSE;
 			urlSmall[i] = this.getClass().getResource(hand.getCard(i).getIMG(IMGConfig.IMAGE_SIZE_SMALL));
@@ -93,18 +93,18 @@ public class HandPanel extends JPanel implements MouseListener{
 		}
 	}
 	
-	public void updateUI(boolean isUser, String size){	
+	public void updateUI(boolean isUser, String size){
+		if (this.cards.size() != 0)
+			this.cards.get(this.cards.size()-1).setVisible(Boolean.FALSE);
+		this.cards.clear();
+		this.layeredPane.removeAll();
+		
 		this.isUser = isUser;		
 		this.playCardButton.setVisible(Boolean.FALSE);
 		this.endTurnButton.setVisible(Boolean.FALSE);
 		
-		numCard = Integer.parseInt(size);
+		this.numCard = Integer.parseInt(size);
 		
-		for (int i = numCard; i < cards.size(); i++)
-			cards.get(i).setVisible(Boolean.FALSE);
-		
-		layeredPane.removeAll();
-		cards.clear();
 		for (int i = 0; i < numCard; i++){
 			selected[i] = Boolean.FALSE;
 			URL url = this.getClass().getResource(IMGConfig.DECK_IVANHOE_TINY);
@@ -122,31 +122,35 @@ public class HandPanel extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if (isUser){
 			if (e.getSource() == playCardButton){
-				//System.out.println("*******************Apply Button is clicked*******************");
 				if (client.getClient() != null){
 					client.userPanel.updateHand(client.userPanel.hand);
+					if(!client.userPanel.display.equals(""))
+						client.userPanel.updateDisplay(client.userPanel.display);
+					for (String playerID : client.playerPanel.keySet()){
+						String display = client.playerPanel.get(playerID).display;
+						if (!display.equals(""))
+							client.playerPanel.get(playerID).displayPanel.updateUI(display);
+					}
 
 					Message message = new Message();
 					message.getHeader().sender = this.client.userPanel.infoButton.getText().trim();
 					message.getHeader().receiver = "Ivanhoe";
 					message.getHeader().setType(GAMEConfig.TYPE_PLAY_CARD);
 					message.getHeader().setState(GAMEConfig.PLAY_CARD);
-					message.getBody().addField("Selected Card Index", 			this.client.selectedHandIndex+"");
-					message.getBody().addField("Selected Target", 				this.client.selectedTargetID+"");
-					message.getBody().addField("Selected Own Display Index",	this.client.selectedDisplayIndex+"");
-					message.getBody().addField("Selected Target Display ID",	this.client.targetDisplayID+"");
-					message.getBody().addField("Selected Target Display Index", this.client.targetDisplayIndex+"");
+					
+					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_HAND_INDEX))
+						message.getBody().addField(GAMEConfig.SELECTED_HAND_INDEX, 				this.client.dataPacket.get(GAMEConfig.SELECTED_HAND_INDEX));
+					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_DISPLAY_INDEX))
+						message.getBody().addField(GAMEConfig.SELECTED_DISPLAY_INDEX,			this.client.dataPacket.get(GAMEConfig.SELECTED_DISPLAY_INDEX));
+					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_TARGET_INDEX))
+						message.getBody().addField(GAMEConfig.SELECTED_TARGET_INDEX, 			this.client.dataPacket.get(GAMEConfig.SELECTED_TARGET_INDEX));
+					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX))
+						message.getBody().addField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 	this.client.dataPacket.get(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX));	
+					this.client.dataPacket = new HashMap<String, String>();
 					
 					client.getClient().send(message);
-					this.client.selectedHandIndex = -1;
-					this.client.selectedTargetID = "";
-					this.client.selectedDisplayIndex = -1;
-					this.client.targetDisplayID = "";
-					this.client.targetDisplayIndex = -1;
-					//System.out.print(message.toString());
-				}
-				//System.out.println("*************************************************************");
-				
+					System.out.print(message.toString());
+				}			
 			}else if (e.getSource() == endTurnButton){
 				if (client.getClient() != null){
 					Message message = new Message();
@@ -157,16 +161,22 @@ public class HandPanel extends JPanel implements MouseListener{
 				}
 			} else if (e.getButton() == MouseEvent.BUTTON1){
 				if (e.getY() < 190 && e.getY() > 10){
-					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;		
-					int selectedHandIndex = this.client.selectedHandIndex;
+					int index = (e.getX()-10)/GUIConfig.HANDPANEL_USER_CARD_SIZE;	
+					int selectedHandIndex = -1;
+					String key = GAMEConfig.SELECTED_HAND_INDEX;
+					
+					if (this.client.dataPacket.containsKey(key)){
+						selectedHandIndex = Integer.parseInt(this.client.dataPacket.get(key));
+					}
+					
 					if (index < numCard){
 						if (selectedHandIndex != -1 && selectedHandIndex != index){
 							selected[selectedHandIndex] = !selected[selectedHandIndex];
 							cards.get(selectedHandIndex).setLocation(cards.get(selectedHandIndex).getX()+10, cards.get(selectedHandIndex).getY()+10); 
 						}
-						this.client.selectedHandIndex = (selectedHandIndex != index ? index : -1);
-						System.out.println("Selected Index: " + this.client.selectedHandIndex);
 						
+						this.client.dataPacket.put(key, Integer.toString(selectedHandIndex != index ? index : -1));
+												
 						selected[index] = !selected[index];
 						if (selected[index]){ 
 							cards.get(index).setLocation(cards.get(index).getX()-10, cards.get(index).getY()-10); 
@@ -177,8 +187,9 @@ public class HandPanel extends JPanel implements MouseListener{
 						if (selectedHandIndex != -1 && selectedHandIndex != numCard-1){
 							selected[selectedHandIndex] = !selected[selectedHandIndex];
 							cards.get(selectedHandIndex).setLocation(cards.get(selectedHandIndex).getX()+10, cards.get(selectedHandIndex).getY()+10); 
-						}							
-						this.client.selectedHandIndex = (selectedHandIndex != numCard-1 ? numCard-1 : -1);
+						}
+						
+						this.client.dataPacket.put(key, Integer.toString(selectedHandIndex != numCard-1 ? numCard-1 : -1));
 
 						selected[numCard-1] = !selected[numCard-1];
 						if (selected[numCard-1]){ 

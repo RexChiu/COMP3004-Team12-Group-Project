@@ -1,23 +1,31 @@
 package gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
+import config.GAMEConfig;
 import config.GUIConfig;
 
-public class UserPanel extends JPanel{
+public class UserPanel extends JPanel implements ActionListener{
 
 	/**
 	 * User Panel for the Client Ivanhoe
 	 */
 	private static final long serialVersionUID = -449738241414461419L;
+	private ClientPanel client;
 
 	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton;
 	public HandPanel handPanel;
 	public DisplayPanel displayPanel;
-	public String hand;
+	public String hand = "";
+	public String display = "";
 	public String ID = "";
 	
-	public UserPanel(ClientPanel client) { 		
+	public UserPanel(ClientPanel client) { 	
+		this.client = client;
+		
 		setLocation(GUIConfig.USER_PANEL_LOCATION_X, GUIConfig.USER_PANEL_LOCATION_Y);
 		setSize(GUIConfig.USER_PANEL_WIDTH, GUIConfig.USER_PANEL_HEIGHT);
 		setLayout(null);	
@@ -38,11 +46,13 @@ public class UserPanel extends JPanel{
 		statusOneButton = new JButton("One");
 		statusOneButton.setLocation(GUIConfig.USER_STATUS_ONE_LOCATION_X, GUIConfig.USER_STATUS_ONE_LOCATION_Y);
 		statusOneButton.setSize(GUIConfig.USER_STATUS_WIDTH, GUIConfig.USER_STATUS_HEIGHT);
+		statusOneButton.addActionListener(this);
 		add(statusOneButton);
 		
 		statusTwoButton = new JButton("Two");
 		statusTwoButton.setLocation(GUIConfig.USER_STATUS_TWO_LOCATION_X, GUIConfig.USER_STATUS_TWO_LOCATION_Y);
 		statusTwoButton.setSize(GUIConfig.USER_STATUS_WIDTH, GUIConfig.USER_STATUS_HEIGHT);
+		statusTwoButton.addActionListener(this);
 		add(statusTwoButton);
 		
 		totalButton = new JButton("Total");
@@ -58,13 +68,20 @@ public class UserPanel extends JPanel{
 	public void updateDisplay(String display)	{ displayPanel.updateUI(display); 	}
 	public void updateTotal(String total)		{ totalButton.setText(total);;		}
 	
-	public void updateUI(String hand, String total, String card){
+	public void updateUI(String hand, String total, String display){
 		this.handPanel.ID = this.ID;
 		this.displayPanel.ID = this.ID;
 		this.hand = hand;
+		this.display = display;
+		
 		updateTotal(total);
 		updateHand(hand);
-		if (!card.equals("")) 
-			updateDisplay(card);
+		if (!display.equals("")) 
+			updateDisplay(display);
+	}
+
+	
+	public void actionPerformed(ActionEvent e) {
+		this.client.dataPacket.put(GAMEConfig.SELECTED_DISPLAY_INDEX, e.getActionCommand());	
 	}
 }

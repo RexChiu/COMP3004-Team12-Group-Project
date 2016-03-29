@@ -1,23 +1,31 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import config.GAMEConfig;
 import config.GUIConfig;
 
-public class PlayerPanel extends JPanel{
+public class PlayerPanel extends JPanel implements ActionListener{
 
 	/**
 	 * Player Panel for the Client Ivanhoe
 	 */
 	private static final long serialVersionUID = -3143066852083636376L;
+	private ClientPanel client;
+	
 	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton, displayButton, handButton;
 	public HandPanel handPanel;
 	public DisplayPanel displayPanel;
+	public String display = "";
 	public String ID = "";
-	
+		
 	public PlayerPanel(ClientPanel client, int playerID) { 
+		this.client = client;
 		setLayout(null);
 		
 		int key = playerID - 2;
@@ -41,11 +49,13 @@ public class PlayerPanel extends JPanel{
 		statusOneButton = new JButton("One");
 		statusOneButton.setLocation(GUIConfig.PLAYER_STATUS_ONE_LOCATION_X, GUIConfig.PLAYER_STATUS_ONE_LOCATION_Y);
 		statusOneButton.setSize(GUIConfig.PLAYER_STATUS_WIDTH, GUIConfig.PLAYER_STATUS_HEIGHT);
+		statusOneButton.addActionListener(this);
 		add(statusOneButton);
 		
 		statusTwoButton = new JButton("Two");
 		statusTwoButton.setLocation(GUIConfig.PLAYER_STATUS_TWO_LOCATION_X, GUIConfig.PLAYER_STATUS_TWO_LOCATION_Y);
 		statusTwoButton.setSize(GUIConfig.PLAYER_STATUS_WIDTH, GUIConfig.PLAYER_STATUS_HEIGHT);
+		statusTwoButton.addActionListener(this);
 		add(statusTwoButton);
 
 		totalButton = new JButton("Total");
@@ -62,12 +72,19 @@ public class PlayerPanel extends JPanel{
 		add(displayPanel);	
 	}  
 	
-	public void updateUI(String size, String total, String card){
+	public void updateUI(String size, String total, String display){
 		this.handPanel.ID = this.ID;
 		this.displayPanel.ID = this.ID;
+		this.display = display;
+		
 		totalButton.setText(total);
 		handPanel.updateUI(Boolean.FALSE, size);
-		if (!card.equals(""))
-			displayPanel.updateUI(card);	
+		if (!display.equals(""))
+			displayPanel.updateUI(display);	
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_INDEX, this.ID);	
+		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, e.getActionCommand());	
 	}
 }

@@ -10,6 +10,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ClientPanel extends JFrame implements ActionListener{
@@ -22,21 +23,17 @@ public class ClientPanel extends JFrame implements ActionListener{
 	private static final String GAME_TITLE = "Ivanhoe";
 	private AppClient client;
 	private boolean clientJoined = Boolean.FALSE;
+	private boolean playerUpdated = Boolean.FALSE;
 
-	public HashMap<String, JMenuItem> listJMI = new HashMap<String, JMenuItem>();
-	public HashMap<String, String[]> listMENU = new HashMap<String, String[]>();
-	public HashMap<Integer, PlayerPanel> playerPanel = new HashMap<Integer, PlayerPanel>();
+	public HashMap<String, JMenuItem> 		listJMI 	= new HashMap<String, JMenuItem>();
+	public HashMap<String, String[]> 		listMENU 	= new HashMap<String, String[]>();
+	public HashMap<String, PlayerPanel> 	playerPanel	= new HashMap<String, PlayerPanel>();
+	public HashMap<String, String> 			dataPacket 	=  new HashMap<String, String>();
+	
 	public UserPanel userPanel;
 	public PoolPanel poolPanel;
 	public TournamentPanel tournamentPanel;
 	
-	// Data for UI message
-	public int 		selectedHandIndex		= -1;
-	public String	selectedTargetID		= "";
-	public int		selectedDisplayIndex	= -1;
-	public String	targetDisplayID			= "";
-	public int		targetDisplayIndex		= -1;
-
 	public ClientPanel(){
 		super(GAME_TITLE);
 		getContentPane().setLayout(null);
@@ -53,8 +50,8 @@ public class ClientPanel extends JFrame implements ActionListener{
 		setup_poolPanel();
 		setup_tournamentPanel();
 		setup_playerPanel();
-		setup_userPanel();		
-
+		setup_userPanel();	
+		
 		setSize(GUIConfig.CLIENT_WINDOW_WIDTH, GUIConfig.CLIENT_WINDOW_HEIGHT);
 		setResizable(Boolean.FALSE);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,14 +73,14 @@ public class ClientPanel extends JFrame implements ActionListener{
 	}
 
 	public void setup_playerPanel(){
-		playerPanel.put(GUIConfig.SECOND_PLAYER_ID, new PlayerPanel(this, GUIConfig.SECOND_PLAYER_ID));
-		getContentPane().add(playerPanel.get(GUIConfig.SECOND_PLAYER_ID));
-		playerPanel.put(GUIConfig.THIRD_PLAYER_ID, new PlayerPanel(this, GUIConfig.THIRD_PLAYER_ID));
-		getContentPane().add(playerPanel.get(GUIConfig.THIRD_PLAYER_ID));	
-		playerPanel.put(GUIConfig.FOURTH_PLAYER_ID, new PlayerPanel(this, GUIConfig.FOURTH_PLAYER_ID));
-		getContentPane().add(playerPanel.get(GUIConfig.FOURTH_PLAYER_ID));	
-		playerPanel.put(GUIConfig.FIFTH_PLAYER_ID, new PlayerPanel(this, GUIConfig.FIFTH_PLAYER_ID));
-		getContentPane().add(playerPanel.get(GUIConfig.FIFTH_PLAYER_ID));	
+		playerPanel.put(""+GUIConfig.SECOND_PLAYER_ID, new PlayerPanel(this, GUIConfig.SECOND_PLAYER_ID));
+		getContentPane().add(playerPanel.get(""+GUIConfig.SECOND_PLAYER_ID));
+		playerPanel.put(""+GUIConfig.THIRD_PLAYER_ID, new PlayerPanel(this, GUIConfig.THIRD_PLAYER_ID));
+		getContentPane().add(playerPanel.get(""+GUIConfig.THIRD_PLAYER_ID));	
+		playerPanel.put(""+GUIConfig.FOURTH_PLAYER_ID, new PlayerPanel(this, GUIConfig.FOURTH_PLAYER_ID));
+		getContentPane().add(playerPanel.get(""+GUIConfig.FOURTH_PLAYER_ID));	
+		playerPanel.put(""+GUIConfig.FIFTH_PLAYER_ID, new PlayerPanel(this, GUIConfig.FIFTH_PLAYER_ID));
+		getContentPane().add(playerPanel.get(""+GUIConfig.FIFTH_PLAYER_ID));
 	}
 
 	public void setup_menuBar(){
@@ -188,7 +185,17 @@ public class ClientPanel extends JFrame implements ActionListener{
 		userPanel.statusTwoButton.setText((status.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
 		userPanel.updateUI(hand, total, display);
 
-		index = GUIConfig.SECOND_PLAYER_ID;
+		if (!this.playerUpdated){
+			ArrayList<String> oldKeys = new ArrayList<String>();
+			oldKeys.addAll(playerPanel.keySet());
+			String[] newKeys = playersID.split(",");
+			for (int i = 0; i < newKeys.length; i++){
+				playerPanel.put(newKeys[i], playerPanel.get(oldKeys.get(i)));
+				playerPanel.remove(oldKeys.get(i));
+			}
+			this.playerUpdated = !this.playerUpdated;
+		}
+		
 		for (String playerID : playersID.split(",")){
 			String playersDisplays 	= message.getBody().getField("Player " + playerID + " Display").toString();
 			String playersHand 		= message.getBody().getField("Player " + playerID + " Hand").toString();
@@ -196,19 +203,16 @@ public class ClientPanel extends JFrame implements ActionListener{
 			String playersTokens 	= message.getBody().getField("Player " + playerID + " Tokens").toString();
 			String playersStatus 	= message.getBody().getField("Player " + playerID + " Status").toString();
 			
-			playerPanel.get(index).ID = playersID;
-			playerPanel.get(index).infoButton.setText(playerID);
-			playerPanel.get(index).tokenButton.setText(playersTokens);	
-			playerPanel.get(index).statusOneButton.setText((playersStatus.contains(GAMEConfig.STUNNED)) ? GAMEConfig.STUNNED : "None");
-			playerPanel.get(index).statusTwoButton.setText((playersStatus.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
-			playerPanel.get(index++).updateUI(playersHand, playersTotal, playersDisplays);			
+			playerPanel.get(playerID).ID = playerID;
+			playerPanel.get(playerID).infoButton.setText(playerID);
+			playerPanel.get(playerID).tokenButton.setText(playersTokens);	
+			playerPanel.get(playerID).statusOneButton.setText((playersStatus.contains(GAMEConfig.STUNNED)) ? GAMEConfig.STUNNED : "None");
+			playerPanel.get(playerID).statusTwoButton.setText((playersStatus.contains(GAMEConfig.SHIELD)) ? GAMEConfig.SHIELD : "None");
+			playerPanel.get(playerID).updateUI(playersHand, playersTotal, playersDisplays);
 		}
 
-
 		int state = message.getHeader().getState();
-		String type = message.getHeader().getType();
-		System.out.println("########State: " + type + "(" + state + ")" + "########");
-
+		
 		int result = 0;
 		String colors = "";
 		String selectedColor = "";
@@ -332,7 +336,6 @@ public class ClientPanel extends JFrame implements ActionListener{
 			default:
 				break;
 		}
-		System.out.println("########***********########");
 	}
 
 	public AppClient getClient(){ return this.client; }

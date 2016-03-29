@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import config.GAMEConfig;
 import config.GUIConfig;
 import config.IMGConfig;
 import game.Hand;
@@ -58,13 +59,13 @@ public class DisplayPanel extends JPanel implements MouseListener{
 	}
 	
 	public void updateUI(String display){
-		this.client.selectedDisplayIndex = -1;	
-		this.client.targetDisplayIndex = -1;
-		this.client.targetDisplayID = "Display";
+		if (this.cards.size() != 0)
+			this.cards.get(this.cards.size()-1).setVisible(Boolean.FALSE);
+		cards.clear();
+		layeredPane.removeAll();
 		
 		Hand hand = new Hand(display);	
 		numCard = hand.getSize();
-		cards.clear();
 		
 		for (int i = 0; i < numCard; i++){
 			selected[i] = Boolean.FALSE;
@@ -80,7 +81,7 @@ public class DisplayPanel extends JPanel implements MouseListener{
 		}
 	}
 
-	public void mousePressed(MouseEvent e) {		
+	public void mousePressed(MouseEvent e) {			
 		if (e.getButton() == MouseEvent.BUTTON3){
 			if (e.getY() < 190 && e.getY() > 10){
 				int index = (e.getX()-10)/15;
@@ -110,16 +111,33 @@ public class DisplayPanel extends JPanel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		if (e.getButton() == MouseEvent.BUTTON1){
 			if (e.getY() < 190 && e.getY() > 10){
-				int index = (e.getX()-10)/GUIConfig.HANDPANEL_PLAYER_CARD_SIZE;		
-				int selectedDisplayIndex = this.client.selectedDisplayIndex;	
-				this.client.targetDisplayID = ID;
+				int index = (e.getX()-10)/GUIConfig.HANDPANEL_PLAYER_CARD_SIZE;	
+				
+				int selectedDisplayIndex = -1;
+				String key = "";
+				
+				
+				if (this.client.userPanel.ID.equalsIgnoreCase(ID)){
+					key = GAMEConfig.SELECTED_DISPLAY_INDEX;					
+					if (this.client.dataPacket.containsKey(key)){
+						selectedDisplayIndex = Integer.parseInt(this.client.dataPacket.get(key));
+					}
+				}else{
+					this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_INDEX, ID);
+					key = GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX;
+					if (this.client.dataPacket.containsKey(key)){
+						selectedDisplayIndex = Integer.parseInt(this.client.dataPacket.get(key));
+					}					
+				}
+						
 				if (index < numCard){
 					if (selectedDisplayIndex != -1 && selectedDisplayIndex != index){
 						selected[selectedDisplayIndex] = !selected[selectedDisplayIndex];
 						cards.get(selectedDisplayIndex).setLocation(cards.get(selectedDisplayIndex).getX()+5, cards.get(selectedDisplayIndex).getY()+5); 
 					}
-					this.client.selectedDisplayIndex = (selectedDisplayIndex != index ? index : -1);
-
+					
+					this.client.dataPacket.put(key, Integer.toString(selectedDisplayIndex != index ? index : -1)); 						
+			
 					selected[index] = !selected[index];
 					if (selected[index]){ 
 						cards.get(index).setLocation(cards.get(index).getX()-5, cards.get(index).getY()-5); 
@@ -131,12 +149,12 @@ public class DisplayPanel extends JPanel implements MouseListener{
 						selected[selectedDisplayIndex] = !selected[selectedDisplayIndex];
 						cards.get(selectedDisplayIndex).setLocation(cards.get(selectedDisplayIndex).getX()+5, cards.get(selectedDisplayIndex).getY()+5); 
 					}
-					this.client.selectedDisplayIndex = (selectedDisplayIndex != numCard-1 ? numCard-1 : -1);
-
+						
+					this.client.dataPacket.put(key, Integer.toString(selectedDisplayIndex != numCard-1 ? numCard-1 : -1));						
+					
 					selected[numCard-1] = !selected[numCard-1];
 					if (selected[numCard-1]){ 
-						cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()-5, cards.get(numCard-1).getY()-5); 
-
+						cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()-5, cards.get(numCard-1).getY()-5);
 					} else { 
 						cards.get(numCard-1).setLocation(cards.get(numCard-1).getX()+5, cards.get(numCard-1).getY()+5); 
 					}				

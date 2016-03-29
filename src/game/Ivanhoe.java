@@ -300,7 +300,6 @@ public class Ivanhoe {
 			this.nextPlayer();
 			System.out.print("");
 			this.dealCard();
-			System.out.println("Curreng ID:" + this.currentID + " State: " + this.players.get(this.currentID).isWithdrawn());
 		} while (this.players.get(currentID).isWithdrawn());				
 
 		System.out.println("Next Player: " + this.currentID);
@@ -360,18 +359,22 @@ public class Ivanhoe {
 		if (message.getBody().hasField("Change Tournament Color"))
 			tournamentChoice = message.getBody().getField("Change Tournament Color").toString();
 		System.out.println("ProcessMessage: " + message.toString());
+		
 		switch (state){
 		case GAMEConfig.SELECT_COLOUR:
+			// Purple Tournament and no winning will also choose the different color ? is it problem?
 			System.out.println("COLOR:" + color);
 			return this.selectColor(color);
 		case GAMEConfig.PLAY_OR_WITHDRAW:
 			return this.playOrWithdraw(choice, color);
 		case GAMEConfig.PLAY_CARD:
-			int selectedCardIndex = Integer.parseInt(message.getBody().getField("Selected Card Index").toString());
+			// You may think about pass the message or pass all needed index
+			// I prefer you pass the message and get the card in the beginng of the play card
+			// And get the rest of the index if and only if need and the value will be only add inside of its corresponding block
+			int selectedCardIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
 			Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
 			return this.playCard(card);
 		case GAMEConfig.CHECK_IVANHOE:
-
 			return null;			
 		case GAMEConfig.CHANGE_TOURNAMENT_COLOR:
 			this.changeTournamentColor(tournamentChoice);

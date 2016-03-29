@@ -99,16 +99,10 @@ public class AppServer implements Runnable {
 
 	public synchronized void handle(int ID, Message message) {
 		UI.writeMessage(String.format("%5d: %25s %20s", ID, GAMEConfig.STATE[rEngine.getPrevState()], GAMEConfig.STATE[rEngine.getState()]));
-		
-
-		String type = message.getHeader().getType();
-		//System.out.println("########Server: " + type + "########");
-		
+			
 		Message response = rEngine.processMessage(message);
 
 		if (response != null){
-			String REtype = message.getHeader().getType();
-			System.out.println("########Ivanhoe: " + type + "########");
 			HashMap<Integer, Player> players = rEngine.getPlayers();
 			for (ServerThread to : clients.values()) {
 				int tempID = to.getID();
@@ -117,11 +111,7 @@ public class AppServer implements Runnable {
 			
 			int currentID = rEngine.getCurrentID();
 			clients.get(currentID).send(response);
-			
-			//System.out.println("########****IVANHOE****########");
 		}
-		
-		//System.out.println("########****SERVER*****########\n\n");
 	}
 
 	public synchronized void remove(int ID) {
