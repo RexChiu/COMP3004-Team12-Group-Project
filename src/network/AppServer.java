@@ -79,7 +79,7 @@ public class AppServer implements Runnable {
 					}
 					
 					int currentID= rEngine.getCurrentID();
-					clients.get(currentID).send(Data.selectColor(players, currentID, GAMEConfig.NUMBER_COLOR));
+					clients.get(currentID).send(Data.selectColor(players, currentID, GAMEConfig.NUMBER_COLOR_FIVE));
 				}
 			} catch (IOException e) {
 			}

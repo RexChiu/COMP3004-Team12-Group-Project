@@ -83,16 +83,7 @@ public class TestIvanhoeTournament {
 
 		//make sure playOrWithdraw is valid, and state is PlayCard
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
-
-		/*
-    	//hard code firstPlayer playCard response
-    	msg = new Message();
-    	msg.getHeader().sender = firstPlayer + "";
-    	msg.getHeader().state = GAMEConfig.PLAY_CARD;
-    	msg.getBody().addField("Selected Card Index", 0+"");
-    	reply = rEngine.processMessage(msg);
-		 */
-
+		
 		//hard code firstPlayer endTurn response
 		msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";

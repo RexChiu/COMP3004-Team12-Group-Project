@@ -16,12 +16,14 @@ public class Ivanhoe {
 	private int numPlayers;
 	private int playersLeft;
 	private int firstPlayer;
-
+	
 	private int currentID;
 	private int currentPlayer;
 	private String prevTournamentColour;
 	private String currTournamentColour;	
 
+	private Message storedMessage;
+	
 	private HashMap<Integer, Player> players 	= new HashMap<Integer, Player>();
 	private ArrayList<Integer> playersOrder 	= new ArrayList<Integer>();
 	private HashMap<Integer, Boolean> confirm 	= new HashMap<Integer, Boolean>();
@@ -257,6 +259,8 @@ public class Ivanhoe {
 		if (this.currentID == this.firstPlayer && this.players.get(this.currentID).getDisplayer().isEmpty()){
 			// Update if the card is simple card in first time
 			if (!card.isAction()){
+				if (this.players.get(this.currentID).getDisplayer().hasMaiden() && card.isMaiden())
+					return null;
 				this.playerPlayCard(this.currentID, card);
 				this.players.get(this.currentID).getDisplayer().playCard();
 			}
@@ -271,6 +275,11 @@ public class Ivanhoe {
 			//   handle action cards (many cases)
 		}
 		return Data.getMessage(this.players, this.currentID);
+	}
+	
+	private void changeTournamentColor(String choice){
+		this.currTournamentColour = choice;		
+		this.updateState(GAMEConfig.PLAY_CARD);
 	}
 
 	private Message endTurn(String color){	
@@ -334,10 +343,11 @@ public class Ivanhoe {
 		if (this.currentID != sender)
 			return null;
 
-		String 	choice  = "";
-		String  color 	= "";
-		String  token 	= "";
-		String 	maiden	= "";
+		String 	choice  			= "";
+		String  color 				= "";
+		String  token 				= "";
+		String 	maiden				= "";
+		String 	tournamentChoice 	= "";
 
 		if (message.getBody().hasField("POW Choice"))
 			choice = message.getBody().getField("POW Choice").toString();
@@ -347,6 +357,8 @@ public class Ivanhoe {
 			token = message.getBody().getField("Token Color").toString();
 		if (message.getBody().hasField("Maiden Punish"))
 			maiden = message.getBody().getField("Maiden Punish").toString();
+		if (message.getBody().hasField("Change Tournament Color"))
+			tournamentChoice = message.getBody().getField("Change Tournament Color").toString();
 		System.out.println("ProcessMessage: " + message.toString());
 		switch (state){
 		case GAMEConfig.SELECT_COLOUR:
@@ -358,6 +370,12 @@ public class Ivanhoe {
 			int selectedCardIndex = Integer.parseInt(message.getBody().getField("Selected Card Index").toString());
 			Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
 			return this.playCard(card);
+		case GAMEConfig.CHECK_IVANHOE:
+
+			return null;			
+		case GAMEConfig.CHANGE_TOURNAMENT_COLOR:
+			this.changeTournamentColor(tournamentChoice);
+			return null;
 		case GAMEConfig.MAIDEN_PUNISH:
 			this.players.get(this.currentID).getTokens().removeToken(maiden);
 			return this.checkWinner();

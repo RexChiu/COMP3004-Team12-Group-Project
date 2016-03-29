@@ -92,6 +92,25 @@ public class Data {
 		return message;
 	}
 	
+	public static Message checkIvanhoe(HashMap<Integer, Player> players, int ID, int fromID, String cardName){
+		Message message = getMessage(players, ID);
+		message.getHeader().setType(GAMEConfig.TYPE_CHECK_IVANHOE);
+		message.getHeader().setState(GAMEConfig.CHECK_IVANHOE);		
+		message.getBody().addField("From ID", Integer.toString(fromID));
+		message.getBody().addField("Card Name", cardName);
+					
+		return message;
+	}
+	
+	public static Message changeTournamentColor(HashMap<Integer, Player> players, int ID, String choices){
+		Message message = getMessage(players, ID);
+		message.getHeader().setType(GAMEConfig.TYPE_CHANGE_TOURNAMENT_COLOR);
+		message.getHeader().setState(GAMEConfig.CHANGE_TOURNAMENT_COLOR);
+		message.getBody().addField("Change Tournament Color", choices);
+					
+		return message;
+	}
+	
 	public static Message withdraw(HashMap<Integer, Player> players, int ID){
 		Message message = getMessage(players, ID);
 		message.getHeader().setType(GAMEConfig.TYPE_WITHDRAW);

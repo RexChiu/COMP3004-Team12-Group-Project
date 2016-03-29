@@ -208,17 +208,26 @@ public class ClientPanel extends JFrame implements ActionListener{
 		int state = message.getHeader().getState();
 		String type = message.getHeader().getType();
 		System.out.println("########State: " + type + "(" + state + ")" + "########");
+
+		int result = 0;
+		String colors = "";
+		String selectedColor = "";
+		String choices = "";
+		String cardName = "";
+		String fromID = "";
+		String[] tokenList = null;
+		Message response = null;
+		
 		switch (state){
 			case GAMEConfig.SELECT_COLOUR:
-				String colors = message.getBody().getField("Select Colors").toString();
-				String selectedColor = "";
+				colors = message.getBody().getField("Select Colors").toString();
 				if (colors.split(",").length == 5){
-					int result = JOptionPane.showOptionDialog(null,
+					result = JOptionPane.showOptionDialog(null,
 							"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 							null, GAMEConfig.TOKEN_COLORS_FIVE, GAMEConfig.TOKEN_COLORS_FIVE[0]);
 					selectedColor = GAMEConfig.TOKEN_COLORS_FIVE[result];
 					
-					Message response = new Message();
+					response = new Message();
 					response.getHeader().sender = ID;
 					response.getHeader().state = message.getHeader().getState();
 					response.getHeader().type = message.getHeader().getType();
@@ -227,12 +236,12 @@ public class ClientPanel extends JFrame implements ActionListener{
 					this.client.send(response);
 					System.out.println("Result of MSG: \n" + response.toString());
 				}else{
-					int result = JOptionPane.showOptionDialog(null,
+					result = JOptionPane.showOptionDialog(null,
 							"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 							null, GAMEConfig.TOKEN_COLORS_FOUR, GAMEConfig.TOKEN_COLORS_FOUR[0]);
 
 					selectedColor = GAMEConfig.TOKEN_COLORS_FOUR[result];
-					Message response = new Message();
+					response = new Message();
 					response.getHeader().sender = ID;
 					response.getHeader().state = message.getHeader().getState();
 					response.getHeader().type = message.getHeader().getType();
@@ -243,10 +252,10 @@ public class ClientPanel extends JFrame implements ActionListener{
 				}
 				break;
 			case GAMEConfig.PLAY_OR_WITHDRAW:
-				int result = JOptionPane.showConfirmDialog(null, ID + ": Do you want withdraw?",
+				result = JOptionPane.showConfirmDialog(null, ID + ": Do you want withdraw?",
 						"Play or Withdraw", JOptionPane.YES_NO_OPTION);
 				
-				Message response = new Message();
+				response = new Message();
 				response.getHeader().sender = ID;
 				response.getHeader().state = message.getHeader().getState();
 				response.getHeader().type = message.getHeader().getType();
@@ -255,9 +264,25 @@ public class ClientPanel extends JFrame implements ActionListener{
 				
 				System.out.println("POW MSG: \n" + response.toString());
 				break;
+			case GAMEConfig.CHECK_IVANHOE:
+				cardName = message.getBody().getField("Card Name").toString();
+				fromID = message.getBody().getField("From ID").toString();				
+				
+				result = JOptionPane.showConfirmDialog(null, ID + ": " + fromID + " played " + cardName + ".\nDo you want play Ivanhoe?",
+						"Ivanhoe Choice of " + cardName, JOptionPane.YES_NO_OPTION);
+				
+				response = new Message();
+				response.getHeader().sender = ID;
+				response.getHeader().state = message.getHeader().getState();
+				response.getHeader().type = message.getHeader().getType();
+				response.getBody().addField("Ivanhoe Choice", (result == 0 ? GAMEConfig.IVANHOE_YES : GAMEConfig.IVANHOE_NO));
+				this.client.send(response);
+				
+				System.out.println("Ivanhoe Choice MSG: \n" + response.toString());
+				break;
 			case GAMEConfig.MAIDEN_PUNISH:
-				String choices = message.getBody().getField("Maiden Punish").toString();
-				String[] tokenList = choices.split(",");
+				choices = message.getBody().getField("Maiden Punish").toString();
+				tokenList = choices.split(",");
 				result = JOptionPane.showOptionDialog(null,
 						"Please choose the tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
 						null, tokenList, tokenList[0]);
@@ -270,8 +295,24 @@ public class ClientPanel extends JFrame implements ActionListener{
 				response.getBody().addField("Maiden Punish", selectedColor);
 				
 				this.client.send(response);
-				System.out.println("Select Maiden Punish MSG: \n" + response.toString());
+				System.out.println("Select Maiden Punish MSG: \n" + response.toString());				
+				break;
+			case GAMEConfig.CHANGE_TOURNAMENT_COLOR:
+				choices = message.getBody().getField("Change Tournament Color").toString();
+				tokenList = choices.split(",");
+				result = JOptionPane.showOptionDialog(null,
+						"Please choose new tournament color", "Pick a Colour", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+						null, tokenList, tokenList[0]);
+
+				selectedColor = tokenList[result];
+				response = new Message();
+				response.getHeader().sender = ID;
+				response.getHeader().state = message.getHeader().getState();
+				response.getHeader().type = message.getHeader().getType();
+				response.getBody().addField("Change Tournament Color", selectedColor);
 				
+				this.client.send(response);
+				System.out.println("Select Change Tournament Color MSG: \n" + response.toString());					
 				break;
 			case GAMEConfig.WIN_TOURNAMENT:
 				result = JOptionPane.showOptionDialog(null,
