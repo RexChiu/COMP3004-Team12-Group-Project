@@ -16,14 +16,14 @@ public class Ivanhoe {
 	private int numPlayers;
 	private int playersLeft;
 	private int firstPlayer;
-	
+
 	private int currentID;
 	private int currentPlayer;
 	private String prevTournamentColour;
 	private String currTournamentColour;	
 
-	private Message storedMessage;
-	
+	private Message storedMessage = new Message();
+
 	private HashMap<Integer, Player> players 	= new HashMap<Integer, Player>();
 	private ArrayList<Integer> playersOrder 	= new ArrayList<Integer>();
 	private HashMap<Integer, Boolean> confirm 	= new HashMap<Integer, Boolean>();
@@ -52,9 +52,9 @@ public class Ivanhoe {
 		// Initialize and store first player
 		this.initFirstPlayer();
 		// Initialize Hands	
-		this.initHand();
+		//this.initHand();
 		// Deal card to first player
-		this.dealCard();
+		//this.dealCard();
 		// Update store to select color
 		this.updateState(GAMEConfig.SELECT_COLOUR);
 	}
@@ -125,7 +125,7 @@ public class Ivanhoe {
 			if (this.prevTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE))
 				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
 		}
-		
+
 		// Update tournament colors	for all displays	
 		this.updateTournament(color);
 
@@ -149,18 +149,17 @@ public class Ivanhoe {
 		this.updateState(GAMEConfig.PLAY_CARD);
 		return null;
 	}
-	
+
 	private Message checkToken(){
 		Tokens tokens = this.players.get(this.currentID).getTokens();
 		if (tokens.getSize() == 1){
 			tokens.cleanToken();
 			return checkWinner();
 		}
-		
+
 		this.updateState(GAMEConfig.MAIDEN_PUNISH);
 		return Data.maidenPunish(this.players, this.currentID, tokens.toString());
 	}
-	
 
 	// Check winner is not completed
 	private Message checkWinner(){
@@ -243,48 +242,511 @@ public class Ivanhoe {
 				this.nextPlayer();
 				this.dealCard();			
 			} while (players.get(currentID).isWithdrawn());		
-		
+
 			// Update state to play or withdraw
 			this.updateState(GAMEConfig.PLAY_OR_WITHDRAW);
 			return Data.playOrWithdraw(this.players, this.currentID);		
 		}
 	}
 
-	private Message playCard(Card card){
-		// Limit so the first play cannot play action card as first card
+	private Message playCard(Message message, Boolean checkIvanhoe){
+		int targetID = -1, ownDisplayIndex = -1, targetDisplayIndex = -1;
+
+		int selectedCardIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
+		Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
+
+		// Limit cards played to  1, if stunned
 		Display display = this.players.get(this.currentID).getDisplayer();
 		if (display.isStunned() && display.getNumPlayed() != 0)
 			return null;
-		
+
+		// Update if the card is simple card in first time
 		if (this.currentID == this.firstPlayer && this.players.get(this.currentID).getDisplayer().isEmpty()){
-			// Update if the card is simple card in first time
 			if (!card.isAction()){
-				if (this.players.get(this.currentID).getDisplayer().hasMaiden() && card.isMaiden())
-					return null;
 				this.playerPlayCard(this.currentID, card);
 				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		} else if (!card.isAction()) {			
 			// Current player play a simple card to display
 			if (card.getColor().equalsIgnoreCase(this.currTournamentColour) || card.isSupporter()){
+				//does not allow multiple maidens to be played
+				if (this.players.get(this.currentID).getDisplayer().hasMaiden() && card.isMaiden())
+					return null;
+
 				this.playerPlayCard(this.currentID, card);
 				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		}else{
-			// If action card is valid
-			//   handle action cards (many cases)
+			// Check if anyone has Ivanhoe, if they didnt pass already
+			for (Integer key: playersOrder){
+				if (this.players.get(key).getHand().hasIvanhoe() != -1 && checkIvanhoe){
+					this.storedMessage = message;
+					this.currentID = key;
+					System.out.println(key + " has Ivanhoe, sending message.");
+					return Data.checkIvanhoe(players, this.currentID, Integer.parseInt(message.getHeader().sender.toString()), card.getName());
+				}
+			}
+
+			// Get all required info for action cards.
+			if (message.getBody().hasField(GAMEConfig.SELECTED_DISPLAY_INDEX))
+				ownDisplayIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_DISPLAY_INDEX).toString());
+			if (message.getBody().hasField(GAMEConfig.SELECTED_TARGET_ID))
+				targetID = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_TARGET_ID).toString());
+			if (message.getBody().hasField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX))
+				targetDisplayIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX).toString());
+
+			if (card.getName().equalsIgnoreCase(GAMEConfig.UNHORSE)){
+				//tournament color changes from purple to red, blue or yellow
+				//can only play if tournament colour is purple
+				
+				if (this.currTournamentColour == GAMEConfig.COLOR_PURPLE){
+					// sending available choices to player
+					String colors = "";		
+					for (String tokenColor : GAMEConfig.TOKEN_COLORS_THREE){
+						colors += tokenColor + ","; 
+					}
+					return Data.changeTournamentColor(players, this.currentID, colors);
+				}
+
+				return null;
+				
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.CHANGE_WEAPON)){
+				//tournament color changes from red, blue, or yellow to a diff colour
+				//can only play if tournament colour is red, blue, or yellow
+				
+				if (this.currTournamentColour == GAMEConfig.COLOR_RED ||
+					this.currTournamentColour == GAMEConfig.COLOR_BLUE ||
+					this.currTournamentColour == GAMEConfig.COLOR_YELLOW) {
+					
+					// sending available choices to player
+					String colors = "";		
+					for (String tokenColor : GAMEConfig.TOKEN_COLORS_THREE){
+						//does not add current tournament colour to choice
+						if (!tokenColor.equalsIgnoreCase(this.currTournamentColour))
+							colors += tokenColor + ","; 
+					}
+					return Data.changeTournamentColor(players, this.currentID, colors);
+				}
+				
+				return null;
+				
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.DROP_WEAPON)){	
+				//change tournament from red, blue, or yellow to green
+				//can only play if tournament colour is not green or purple
+				
+				if (this.currTournamentColour == GAMEConfig.COLOR_PURPLE &&
+					this.currTournamentColour == GAMEConfig.COLOR_GREEN){
+					
+					return null;
+				}
+				this.currTournamentColour = GAMEConfig.COLOR_GREEN;
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.BREAK_LANCE)) {	
+				//remove all purples
+				//can only play if > 1 card left, and has a purple, and does not have shield
+				
+				if (players.get(targetID).getDisplayer().getSize() <= 1 ||
+					!players.get(targetID).getDisplayer().hasPurple() ||
+				  	players.get(targetID).getDisplayer().hasShield()) {
+					
+					return null;
+				}
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				Card tempCard;
+				for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
+				{
+					tempCard = players.get(targetID).getDisplayer().getCard(i);
+					//remove all purple cards, leave only one card
+					if (tempCard.isPurple() && players.get(targetID).getDisplayer().getSize() > 1)
+					{
+						players.get(targetID).getDisplayer().removeCard(tempCard);
+						this.deadwood.addCard(tempCard);
+					}
+				}
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.RIPOSTE)) {	
+				//take last card played on any opponent's display and add it to own
+				//can only play if > 1 card left and does not have shield
+				
+				if (players.get(targetID).getDisplayer().getSize() <= 1 ||
+					players.get(targetID).getDisplayer().hasShield()) {
+					
+					return null;
+				}
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				int cardIndex = players.get(targetID).getDisplayer().getSize() - 1;
+				Card tempCard = players.get(targetID).getDisplayer().getCard(cardIndex);
+				players.get(targetID).getDisplayer().removeCard(tempCard);
+				players.get(this.currentID).getDisplayer().addCard(tempCard);
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.DODGE)) {	
+				//discard any one card from opponent's display
+				//can only play if > 1 card left and does not have shield
+				
+				if (players.get(targetID).getDisplayer().getSize() <= 1 ||
+					players.get(targetID).getDisplayer().hasShield()) {
+					
+					return null;
+				}
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				// discard last card of target's display
+				Card tempCard = players.get(targetID).getDisplayer().getCard(targetDisplayIndex);
+				players.get(targetID).getDisplayer().removeCard(tempCard);
+				this.deadwood.addCard(tempCard);
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.RETREAT)) {	
+				//take any one card from your own display back into your hand
+				//can only play if > 1 card left
+				
+				if (players.get(this.currentID).getDisplayer().getSize() <= 1) {
+					return null;
+				}
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				//take back any card from own display
+				Card tempCard = players.get(this.currentID).getDisplayer().getCard(ownDisplayIndex);
+				players.get(this.currentID).getDisplayer().removeCard(tempCard);
+				players.get(this.currentID).getHand().drawCard(tempCard);
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.KNOCK_DOWN)) {	
+				//draw at random one card from target's display and add to hand
+				//can only play if > 1 card left and does not have shield
+				
+				if (players.get(targetID).getDisplayer().getSize() <= 1 ||
+					players.get(targetID).getDisplayer().hasShield()) {
+					
+					return null;
+				}
+
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				//draws random card and adds to own hand
+				int targetDisplaySize = players.get(targetID).getDisplayer().getSize();
+				int cardIndex = new Random().nextInt(targetDisplaySize);
+				Card tempCard = players.get(targetID).getDisplayer().getCard(cardIndex);
+				players.get(targetID).getDisplayer().removeCard(tempCard);
+				this.deadwood.addCard(tempCard);
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.OUTMANEUVER)) {	
+				//all players discard last card
+				//can only play if at least one player has > 1 card left and does not have shield
+				
+				//validity check
+				boolean valid = false;
+				
+				//iterate through players, find a player who has > 1 card in display and does not have shield
+				for (int i = 0; i < this.numPlayers; i++) {
+					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
+						!players.get(i).getDisplayer().hasShield()) {
+						
+						valid = true;
+						break;
+					}
+				}
+				
+				// card cant be played
+				if (!valid)
+					return null;
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				//all players discard last card if possible
+				for (int key : this.players.keySet()) {
+					if (players.get(key).getDisplayer().getSize() > 1 &&
+						!players.get(key).getDisplayer().hasShield()) {
+						
+						int cardIndex = players.get(key).getDisplayer().getSize() - 1;
+						Card tempCard = players.get(key).getDisplayer().getCard(cardIndex);
+						players.get(key).getDisplayer().removeCard(tempCard);
+						this.deadwood.addCard(tempCard);
+					}
+				}
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.CHARGE)) {	
+				//identify lowest value card, discard all cards of this value
+				//can only play if one player has > 1 card left, 
+				//and one person has a simple/value card and does not have shield
+				
+				//validity check
+				boolean valid = false;
+				int cardValue;
+				
+				//iterate through players, find a player who has a simple/value card
+				for (int i = 0; i < this.numPlayers; i++) {	
+					cardValue = players.get(playersOrder.get(i)).getDisplayer().hasValueCard();
+					if (cardValue != -1) {
+						valid = true;
+						break;
+					}
+				}
+				
+				//failed first check, do not need to go further
+				if (!valid) 
+					return null;
+				else
+					valid = false;
+				
+				//find lowest card value
+				int minValue = 999;
+				int displaySize, tempCardValue;
+				
+				for (int key : this.players.keySet()) {
+					displaySize = players.get(key).getDisplayer().getSize();
+					for (int i = 0; i < displaySize; i++) {
+						tempCardValue = players.get(key).getDisplayer().getCard(i).getValue();
+						if (tempCardValue < minValue) {
+							minValue = tempCardValue;
+						}
+					}
+				}
+				
+				//iterate through players, find a player who has > 1 card in display
+				//and has the value card, and does not have shield
+				for (int i = 0; i < this.numPlayers; i++) {	
+					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
+						!players.get(playersOrder.get(i)).getDisplayer().hasShield() &&
+						players.get(playersOrder.get(i)).getDisplayer().hasValue(minValue)) {
+						
+						valid = true;
+						break;
+					}
+				}
+				
+				// card cant be played
+				if (!valid)
+					return null;
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				//remove lowest card value of all players if possible
+				Card tempCard;
+				//loop through players
+				for (int key : this.players.keySet()) {
+					//if can discard at all
+					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
+						!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
+						
+						displaySize = players.get(key).getDisplayer().getSize();
+						//loop through hand to discard if possible
+						for (int i = 0; i < displaySize; i++) {
+							if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1) {
+								tempCard = players.get(key).getDisplayer().getCard(i);
+								cardValue = tempCard.getValue();
+								if (cardValue == minValue) {
+									players.get(playersOrder.get(key)).getDisplayer().removeCard(tempCard);
+									this.deadwood.addCard(tempCard);
+								}
+							}
+						}
+					}
+				}
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.COUNTERCHARGE)) {	
+				//identify highest value card, discard all cards of this value
+				//can only play if one player has > 1 card left, 
+				//and one person has a simple/value card and does not have shield
+				
+				//validity check
+				boolean valid = false;
+				int cardValue;
+				
+				//iterate through players, find a player who has a simple/value card
+				for (int i = 0; i < this.numPlayers; i++) {	
+					cardValue = players.get(playersOrder.get(i)).getDisplayer().hasValueCard();
+					if (cardValue != -1) {
+						valid = true;
+						break;
+					}
+				}
+				
+				//failed first check, do not need to go further
+				if (!valid) 
+					return null;
+				else
+					valid = false;
+				
+				//find highest card value
+				int maxValue = -1;
+				int displaySize, tempCardValue;
+				
+				for (int key : this.players.keySet()) {
+					displaySize = players.get(key).getDisplayer().getSize();
+					for (int i = 0; i < displaySize; i++) {
+						tempCardValue = players.get(key).getDisplayer().getCard(i).getValue();
+						if (tempCardValue > maxValue) {
+							maxValue = tempCardValue;
+						}
+					}
+				}
+				
+				//iterate through players, find a player who has > 1 card in display
+				//and has the value card, and does not have shield
+				for (int i = 0; i < this.numPlayers; i++) {	
+					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
+						!players.get(playersOrder.get(i)).getDisplayer().hasShield() &&
+						players.get(playersOrder.get(i)).getDisplayer().hasValue(maxValue)) {
+						
+						valid = true;
+						break;
+					}
+				}
+				
+				// card cant be played
+				if (!valid)
+					return null;
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				//remove lowest card value of all players if possible
+				Card tempCard;
+				//loop through players
+				for (int key : this.players.keySet()) {
+					//if can discard at all
+					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
+						!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
+						
+						displaySize = players.get(key).getDisplayer().getSize();
+						//loop through hand to discard if possible
+						for (int i = 0; i < displaySize; i++) {
+							if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1) {
+								tempCard = players.get(key).getDisplayer().getCard(i);
+								cardValue = tempCard.getValue();
+								if (cardValue == maxValue) {
+									players.get(playersOrder.get(key)).getDisplayer().removeCard(tempCard);
+									this.deadwood.addCard(tempCard);
+								}
+							}
+						}
+					}
+				}
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.DISGRACE)) {	
+				//all players discard all supporters
+				//can only play if a player has > 1 card AND has a simple card AND does not have shield
+				
+				//validity check
+				boolean valid = false;
+				for (int i = 0; i < this.numPlayers; i++) {	
+					//iterate through players, find a player who has a supporter card and has >1 cards and no shield
+					if (players.get(playersOrder.get(i)).getDisplayer().hasSupport() &&
+						players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
+						!players.get(playersOrder.get(i)).getDisplayer().hasShield()) {
+						
+						valid = true;
+						break;
+					}
+				}
+				
+				if (!valid)
+					return null;
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				//remove all supporters
+				Card tempCard;
+				int displaySize;
+				for (int key : this.players.keySet()) {
+					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
+						!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
+						
+						displaySize = players.get(key).getDisplayer().getSize();
+						for (int i = 0; i < displaySize; i++) {
+							if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1) {
+								tempCard = players.get(key).getDisplayer().getCard(i);
+								if (tempCard.isSupporter()) {
+									players.get(playersOrder.get(key)).getDisplayer().removeCard(tempCard);
+									this.deadwood.addCard(tempCard);
+								}
+							}
+						}
+					}
+				}
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.ADAPT)) {	
+				//each player keep one card of each value, all other card values must be discarded
+				//can only play if one person has two different value cards
+				
+				//NOT IMPLEMENTED
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.OUTWIT)) {	
+				//give target a card from own display, take a card from target display
+				//can only play if both players have >1 cards, and target does not have shield
+				
+				if (players.get(targetID).getDisplayer().hasShield())
+					return null;
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
+				// swap cards
+				Card ownCard = players.get(this.currentID).getDisplayer().getCard(ownDisplayIndex);
+				Card targetCard = players.get(targetID).getDisplayer().getCard(targetDisplayIndex);
+				
+				players.get(this.currentID).getDisplayer().removeCard(ownCard);
+				players.get(targetID).getDisplayer().addCard(ownCard);
+				
+				//catches special case of you giving target a shield
+				if (!ownCard.isShield())
+				{
+					players.get(targetID).getDisplayer().removeCard(targetCard);
+					players.get(this.currentID).getDisplayer().addCard(targetCard);
+				}
+			}
 		}
-		return Data.getMessage(this.players, this.currentID);
+		return Data.getMessage(players, this.currentID);
 	}
-	
-	private void changeTournamentColor(String choice){
+
+	private Message checkIvanhoe(String choice){
+		if (choice.equalsIgnoreCase(GAMEConfig.IVANHOE_NO))
+			return playCard(storedMessage, Boolean.FALSE);
+		else {
+			//remove ivanhoe from player's hand
+			int ivanhoeIndex = this.players.get(this.currentID).getHand().hasIvanhoe();
+			Card card = this.players.get(this.currentID).getHand().getCard(ivanhoeIndex);
+			this.players.get(this.currentID).getHand().playCard(card);
+			this.deadwood.addCard(card);
+
+			// resets states and variables back to original
+			this.currentID = Integer.parseInt(storedMessage.getHeader().sender.toString());
+			this.updateState(storedMessage.getHeader().state);
+			System.out.println("Reset ID to " + this.currentID + ", State to " + GAMEConfig.STATE[this.getState()]);
+
+			// removes action card from original player
+			int selectedCardIndex = Integer.parseInt(storedMessage.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
+			card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
+			this.players.get(this.currentID).getHand().playCard(card);
+			this.deadwood.addCard(card);
+
+			//maybe send a message instead of just deleting?
+			return Data.getMessage(players, this.currentID);
+		}
+
+	}
+
+	private Message changeTournamentColor(String choice){
 		this.currTournamentColour = choice;		
 		this.updateState(GAMEConfig.PLAY_CARD);
+		return Data.getMessage(players, this.currentID);
 	}
 
 	private Message endTurn(String color){	
 		this.players.get(this.currentID).getDisplayer().cleanNumPlayed();
-		
+
 		System.out.println("Current Player: " + this.currentID);
 		// Check winner with given color if exist
 		if (!color.equalsIgnoreCase(""))
@@ -322,19 +784,19 @@ public class Ivanhoe {
 
 		// Discard Display of all players and update to discard deck
 		this.discardDisplay();
-		
+
 		// Reset all players not withdrawn
 		System.out.println("Players Left: " +  this.playersLeft);
 		this.playersLeft = this.numPlayers;
 		for (Integer key : this.players.keySet()){
 			this.players.get(key).setWithdrawn(Boolean.FALSE);
 		}
-				
+
 		// Update state to select color
 		this.updateState(GAMEConfig.SELECT_COLOUR);
 		return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
 	}
-	
+
 	public Message processMessage(Message message){
 		int 	sender 	= Integer.parseInt(message.getHeader().getSender());
 		int 	state 	= message.getHeader().getState();
@@ -347,6 +809,7 @@ public class Ivanhoe {
 		String  token 				= "";
 		String 	maiden				= "";
 		String 	tournamentChoice 	= "";
+		String  ivanhoeChoice		= "";
 
 		if (message.getBody().hasField("POW Choice"))
 			choice = message.getBody().getField("POW Choice").toString();
@@ -358,8 +821,11 @@ public class Ivanhoe {
 			maiden = message.getBody().getField("Maiden Punish").toString();
 		if (message.getBody().hasField("Change Tournament Color"))
 			tournamentChoice = message.getBody().getField("Change Tournament Color").toString();
+		if (message.getBody().hasField("Ivanhoe Choice"))
+			ivanhoeChoice = message.getBody().getField("Ivanhoe Choice").toString();
+
 		System.out.println("ProcessMessage: " + message.toString());
-		
+
 		switch (state){
 		case GAMEConfig.SELECT_COLOUR:
 			// Purple Tournament and no winning will also choose the different color ? is it problem?
@@ -368,17 +834,11 @@ public class Ivanhoe {
 		case GAMEConfig.PLAY_OR_WITHDRAW:
 			return this.playOrWithdraw(choice, color);
 		case GAMEConfig.PLAY_CARD:
-			// You may think about pass the message or pass all needed index
-			// I prefer you pass the message and get the card in the beginng of the play card
-			// And get the rest of the index if and only if need and the value will be only add inside of its corresponding block
-			int selectedCardIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
-			Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
-			return this.playCard(card);
+			return this.playCard(message, Boolean.TRUE);
 		case GAMEConfig.CHECK_IVANHOE:
-			return null;			
+			return this.checkIvanhoe(ivanhoeChoice);
 		case GAMEConfig.CHANGE_TOURNAMENT_COLOR:
-			this.changeTournamentColor(tournamentChoice);
-			return null;
+			return this.changeTournamentColor(tournamentChoice);
 		case GAMEConfig.MAIDEN_PUNISH:
 			this.players.get(this.currentID).getTokens().removeToken(maiden);
 			return this.checkWinner();
