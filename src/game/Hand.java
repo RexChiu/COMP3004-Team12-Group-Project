@@ -56,12 +56,12 @@ public class Hand {
 	}
 	
 	// Check the hand is there an Ivanhoe
-	public boolean hasIvanhoe(){
-		for (Card card : hand){
-			if (card.isIvanhoe())
-				return Boolean.TRUE;	
+	public int hasIvanhoe(){
+		for (int i = 0; i < hand.size(); i++){
+			if (hand.get(i).isIvanhoe())
+				return i;	
 		}
-		return Boolean.FALSE;
+		return -1;
 	}
 
 	// Check the hand is there a Maiden
