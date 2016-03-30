@@ -181,9 +181,9 @@ public class GAMEConfig {
 	public static final int		VALUE_ACTION_CARD_ZERO	= 0;
 	
 	// Data Packet Key Feature
-	public static final String	SELECTED_HAND_INDEX				= "Selected Hand Index";
+	public static final String	SELECTED_HAND_INDEX				= "Selected Card Index";
 	public static final String	SELECTED_DISPLAY_INDEX			= "Selected Display Index";
-	public static final String	SELECTED_TARGET_INDEX			= "Selected Target";
+	public static final String	SELECTED_TARGET_ID				= "Selected Target ID";
 	public static final String	SELECTED_TARGET_DISPLAY_INDEX	= "Selected Target Display Index";
 	
 	public static final boolean compareObject(String objOne, String objTwo) { 

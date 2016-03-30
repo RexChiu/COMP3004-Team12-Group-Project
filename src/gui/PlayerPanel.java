@@ -84,7 +84,7 @@ public class PlayerPanel extends JPanel implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_INDEX, this.ID);	
+		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_ID, this.ID);	
 		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, e.getActionCommand());	
 	}
 }

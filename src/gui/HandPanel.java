@@ -142,8 +142,8 @@ public class HandPanel extends JPanel implements MouseListener{
 						message.getBody().addField(GAMEConfig.SELECTED_HAND_INDEX, 				this.client.dataPacket.get(GAMEConfig.SELECTED_HAND_INDEX));
 					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_DISPLAY_INDEX))
 						message.getBody().addField(GAMEConfig.SELECTED_DISPLAY_INDEX,			this.client.dataPacket.get(GAMEConfig.SELECTED_DISPLAY_INDEX));
-					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_TARGET_INDEX))
-						message.getBody().addField(GAMEConfig.SELECTED_TARGET_INDEX, 			this.client.dataPacket.get(GAMEConfig.SELECTED_TARGET_INDEX));
+					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_TARGET_ID))
+						message.getBody().addField(GAMEConfig.SELECTED_TARGET_ID, 			this.client.dataPacket.get(GAMEConfig.SELECTED_TARGET_ID));
 					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX))
 						message.getBody().addField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 	this.client.dataPacket.get(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX));	
 					this.client.dataPacket = new HashMap<String, String>();

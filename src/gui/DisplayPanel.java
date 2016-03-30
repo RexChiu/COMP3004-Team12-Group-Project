@@ -123,7 +123,7 @@ public class DisplayPanel extends JPanel implements MouseListener{
 						selectedDisplayIndex = Integer.parseInt(this.client.dataPacket.get(key));
 					}
 				}else{
-					this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_INDEX, ID);
+					this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_ID, ID);
 					key = GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX;
 					if (this.client.dataPacket.containsKey(key)){
 						selectedDisplayIndex = Integer.parseInt(this.client.dataPacket.get(key));
