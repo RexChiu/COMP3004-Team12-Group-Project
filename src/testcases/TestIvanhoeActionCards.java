@@ -333,8 +333,6 @@ public class TestIvanhoeActionCards {
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
-		//make sure Unhorse effects are activated, changed colour to red.
-		assertEquals(GAMEConfig.COLOR_RED, rEngine.getCurrColour());
 		//make sure Unhorse is discarded
 		assertEquals(1, rEngine.getDeadwood().getSize());
 		//make sure card discarded is Unhorse
@@ -599,11 +597,6 @@ public class TestIvanhoeActionCards {
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
-		//make sure RE sends correct response back to secondPlayer
-		assertEquals(GAMEConfig.CHECK_IVANHOE, reply.getHeader().state);
-		assertEquals(String.valueOf(secondPlayer), reply.getHeader().receiver);
-		assertEquals(secondPlayer, rEngine.getCurrentID());
-
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
 		reply = rEngine.processMessage(msg);
@@ -681,9 +674,7 @@ public class TestIvanhoeActionCards {
 		//hard code firstPlayer endTurn response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
-
-		//make sure card effects are activated, changed colour to blue.
-		assertEquals(GAMEConfig.COLOR_BLUE, rEngine.getCurrColour());
+		
 		//make sure card is discarded
 		assertEquals(1, rEngine.getDeadwood().getSize());
 		//make sure card discarded is Unhorse
@@ -934,11 +925,6 @@ public class TestIvanhoeActionCards {
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
-		//make sure RE sends correct response back to secondPlayer
-		assertEquals(GAMEConfig.CHECK_IVANHOE, reply.getHeader().state);
-		assertEquals(String.valueOf(secondPlayer), reply.getHeader().receiver);
-		assertEquals(secondPlayer, rEngine.getCurrentID());
-
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
 		reply = rEngine.processMessage(msg);
@@ -1006,8 +992,6 @@ public class TestIvanhoeActionCards {
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
-		//make sure card effects are activated, changed colour to green.
-		assertEquals(GAMEConfig.COLOR_GREEN, rEngine.getCurrColour());
 		//make sure card is discarded
 		assertEquals(1, rEngine.getDeadwood().getSize());
 		//make sure card discarded is correct
@@ -1118,12 +1102,11 @@ public class TestIvanhoeActionCards {
 			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
 			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
 		}
-		
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
-		
+
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
@@ -1139,5 +1122,616 @@ public class TestIvanhoeActionCards {
 		System.out.println(rEngine.getPlayer(secondPlayer).getDisplayer().toString());
 		//make sure card effects are activated.
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+	}
+
+	//playing card on shielded player
+	@Test
+	public void BreakLanceB () {
+		System.out.println("\n-------------------Test BreakLance B.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.BREAK_LANCE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hardcode shield onto secondPlayer
+		rEngine.getPlayer(secondPlayer).getDisplayer().setStatus("Shield");
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure action card cannot be played
+		assertEquals(null, reply);
+
+		System.out.println(rEngine.getPlayer(secondPlayer).getDisplayer().toString());
+		//make sure card effects are not activated
+		assertEquals(5, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+	}
+
+	//undoing this card using Ivanhoe
+	@Test
+	public void BreakLanceC () {
+		System.out.println("\n-------------------Test BreakLance C.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.BREAK_LANCE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//Giving secondPlayer an Ivanhoe Card
+		card = new Card(GAMEConfig.IVANHOE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		Message reply = rEngine.processMessage(msg);
+
+		//make sure current tournament colour is correct
+		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code secondPlayer play Ivanhoe response
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
+		reply = rEngine.processMessage(msg);
+
+		//make sure card is discarded because of Ivanhoe
+		assertEquals(2, rEngine.getDeadwood().getSize());
+		//make sure card effects are not activated
+		assertEquals(5, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+	}
+
+	//checking a used action card is indeed thrown away
+	@Test
+	public void BreakLanceD () {
+		System.out.println("\n-------------------Test BreakLance D.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.BREAK_LANCE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure card discarded is correct
+		card = new Card(GAMEConfig.BREAK_LANCE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		assertTrue(rEngine.getDeadwood().hasCard(card));
+	}
+
+	//making sure the card cannot be played in some circumstances
+	@Test
+	public void BreakLanceE () {
+		System.out.println("\n-------------------Test BreakLance E.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.BREAK_LANCE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_RED, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure card cannot be played
+		assertEquals(null, reply);
+	}
+
+	//playing card on unshielded player
+	@Test
+	public void RiposteA () {
+		System.out.println("\n-------------------Test Riposte A.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure firstPlayer only has one card in display
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		System.out.println("Second Player: " + rEngine.getPlayer(secondPlayer).getDisplayer().toString());
+		System.out.println("First Player: " + rEngine.getPlayer(firstPlayer).getDisplayer().toString());
+		//make sure card effects are activated.
+		assertEquals(4, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+		assertEquals(2, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+	}
+
+	//playing card on shielded player
+	@Test
+	public void RiposteB () {
+		System.out.println("\n-------------------Test Riposte B.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hardcode shield onto secondPlayer
+		rEngine.getPlayer(secondPlayer).getDisplayer().setStatus("Shield");
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure firstPlayer only has one card in display
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure action card cannot be played
+		assertEquals(null, reply);
+
+		System.out.println(rEngine.getPlayer(secondPlayer).getDisplayer().toString());
+		//make sure card effects are not activated
+		assertEquals(5, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+	}
+
+	//undoing this card using Ivanhoe
+	@Test
+	public void RiposteC () {
+		System.out.println("\n-------------------Test Riposte C.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//Giving secondPlayer an Ivanhoe Card
+		card = new Card(GAMEConfig.IVANHOE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		Message reply = rEngine.processMessage(msg);
+		
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code secondPlayer play Ivanhoe response
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
+		reply = rEngine.processMessage(msg);
+
+		//make sure card is discarded because of Ivanhoe
+		assertEquals(2, rEngine.getDeadwood().getSize());
+		//make sure card effects are not activated
+		assertEquals(5, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+	}
+
+	//checking a used action card is indeed thrown away
+	@Test
+	public void RiposteD () {
+		System.out.println("\n-------------------Test Riposte D.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hardcode some purple cards in secondPlayer's display
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure card discarded is correct
+		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		assertTrue(rEngine.getDeadwood().hasCard(card));
+	}
+
+	//making sure the card cannot be played in some circumstances
+	@Test
+	public void RiposteE () {
+		System.out.println("\n-------------------Test Riposte E.------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+
+		//calculate player IDs based on player order
+		int firstPlayer = rEngine.getCurrentID();
+		int secondPlayer = (firstPlayer+1) % 6;
+		if (secondPlayer == 0) { secondPlayer++; };
+		int thirdPlayer = (secondPlayer+1) % 6;
+		if (thirdPlayer == 0) { thirdPlayer++; };
+		int fourthPlayer = (thirdPlayer+1) % 6;
+		if (fourthPlayer == 0) { fourthPlayer++; };
+		int fifthPlayer = (fourthPlayer+1) % 6;
+		if (fifthPlayer == 0) { fifthPlayer++; };
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		rEngine.getPlayer(secondPlayer).addCard(card);
+		rEngine.getPlayer(thirdPlayer).addCard(card);
+		rEngine.getPlayer(fourthPlayer).addCard(card);
+		rEngine.getPlayer(fifthPlayer).addCard(card);
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard playing action card
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure card cannot be played
+		assertEquals(null, reply);
 	}
 }

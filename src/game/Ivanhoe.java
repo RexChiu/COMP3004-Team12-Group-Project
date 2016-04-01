@@ -389,9 +389,9 @@ public class Ivanhoe {
 
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.RIPOSTE)) {	
 				//take last card played on any opponent's display and add it to own
-				//can only play if > 1 card left and does not have shield
+				//can only play if > 2 cards left and does not have shield
 				
-				if (players.get(targetID).getDisplayer().getSize() <= 1 ||
+				if (players.get(targetID).getDisplayer().getSize() < 2 ||
 					players.get(targetID).getDisplayer().hasShield()) {
 					
 					return null;
