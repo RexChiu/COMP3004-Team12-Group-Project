@@ -153,6 +153,13 @@ public class Data {
 		return message;
 	}
 	
+	public static Message newMessage(String sender, int state){
+		Message message = new Message();
+		message.getHeader().sender = sender;
+		message.getHeader().state = state;
+		return message;
+	}
+	
 	public static Message newMessage(String sender, int state, String keyOne, String dataOne, String keyTwo, String dataTwo){
 		Message message = new Message();
 		message.getHeader().sender = sender;
