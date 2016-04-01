@@ -43,7 +43,7 @@ public class Ivanhoe {
 	public void initTestCase(){
 		this.deck = new Deck();
 		this.deck.initTestCase();
-		//this.deck.shuffleDeck();
+		this.deck.shuffleDeck();
 		this.deadwood = new Deck();
 		this.numPlayers = players.size();
 
@@ -255,7 +255,7 @@ public class Ivanhoe {
 		int selectedCardIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
 		Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
 
-		// Limit cards played to  1, if stunned
+		// Limit cards played to 1, if stunned
 		Display display = this.players.get(this.currentID).getDisplayer();
 		if (display.isStunned() && display.getNumPlayed() != 0)
 			return null;
@@ -277,13 +277,15 @@ public class Ivanhoe {
 				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		}else{
-			// Check if anyone has Ivanhoe, if they didnt pass already
+			// Check if anyone has Ivanhoe, if a player didnt already refuse to play Ivanhoe
 			for (Integer key: playersOrder){
 				if (this.players.get(key).getHand().hasIvanhoe() != -1 && checkIvanhoe){
 					this.storedMessage = message;
-					this.currentID = key;
 					System.out.println(key + " has Ivanhoe, sending message.");
-					return Data.checkIvanhoe(players, this.currentID, Integer.parseInt(message.getHeader().sender.toString()), card.getName());
+					//sets currentPlayer to person who has Ivanhoe
+					this.currentID = key;
+					this.currentPlayer = playersOrder.indexOf(key);
+					return Data.checkIvanhoe(players, key, Integer.parseInt(message.getHeader().sender.toString()), card.getName());
 				}
 			}
 
@@ -305,9 +307,13 @@ public class Ivanhoe {
 					for (String tokenColor : GAMEConfig.TOKEN_COLORS_THREE){
 						colors += tokenColor + ","; 
 					}
+					//solicit a reply from the player
+					this.storedMessage = message;
+					this.state = GAMEConfig.CHANGE_TOURNAMENT_COLOR;
 					return Data.changeTournamentColor(players, this.currentID, colors);
 				}
-
+				
+				System.out.println(this.currentID + " Cannot play " + GAMEConfig.UNHORSE);
 				return null;
 				
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.CHANGE_WEAPON)){
@@ -325,6 +331,9 @@ public class Ivanhoe {
 						if (!tokenColor.equalsIgnoreCase(this.currTournamentColour))
 							colors += tokenColor + ","; 
 					}
+					//solicit a reply from the player
+					this.storedMessage = message;
+					this.state = GAMEConfig.CHANGE_TOURNAMENT_COLOR;
 					return Data.changeTournamentColor(players, this.currentID, colors);
 				}
 				
@@ -334,12 +343,17 @@ public class Ivanhoe {
 				//change tournament from red, blue, or yellow to green
 				//can only play if tournament colour is not green or purple
 				
-				if (this.currTournamentColour == GAMEConfig.COLOR_PURPLE &&
+				if (this.currTournamentColour == GAMEConfig.COLOR_PURPLE ||
 					this.currTournamentColour == GAMEConfig.COLOR_GREEN){
 					
 					return null;
 				}
 				this.currTournamentColour = GAMEConfig.COLOR_GREEN;
+				
+				//discard action card
+				players.get(this.currentID).getHand().drawCard(card);
+				this.deadwood.addCard(card);
+				
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.BREAK_LANCE)) {	
 				//remove all purples
 				//can only play if > 1 card left, and has a purple, and does not have shield
@@ -739,7 +753,14 @@ public class Ivanhoe {
 	}
 
 	private Message changeTournamentColor(String choice){
-		this.currTournamentColour = choice;		
+		this.currTournamentColour = choice;
+		int selectedCardIndex = Integer.parseInt(storedMessage.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
+		Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
+		
+		//discard action card
+		players.get(this.currentID).getHand().drawCard(card);
+		this.deadwood.addCard(card);
+		
 		this.updateState(GAMEConfig.PLAY_CARD);
 		return Data.getMessage(players, this.currentID);
 	}
@@ -798,6 +819,8 @@ public class Ivanhoe {
 	}
 
 	public Message processMessage(Message message){
+		System.out.println("Ivanhoe Before: " + GAMEConfig.STATE[message.getHeader().getState()]);
+		
 		int 	sender 	= Integer.parseInt(message.getHeader().getSender());
 		int 	state 	= message.getHeader().getState();
 
@@ -911,4 +934,6 @@ public class Ivanhoe {
 	public int		getCurrentPlayer()	{ return this.currentPlayer;					}
 	public int 		getCurrentID()		{ return this.playersOrder.get(currentPlayer);	}
 	public String	getCurrColour()		{ return this.currTournamentColour;				}
+	public Deck		getDeck()			{ return this.deck;								}
+	public Deck		getDeadwood()		{ return this.deadwood;							}
 }

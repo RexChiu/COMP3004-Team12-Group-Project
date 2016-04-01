@@ -23,7 +23,8 @@ public class GAMEConfig {
 	
 	public static final String[] STATE = {"Game Ready", "Game Setup", "Start Tournament", "Deal Card",
 			"Select Colour", "Confirm Colour", "Confirm Tournament", "Play or Withdraw", "Confirm Token",
-			"Confirm Request", "Play Card", "Win Tournament", "Game Over"};
+			"Confirm Request", "Play Card", "Win Tournament", "Game Over" , "End Turn", "Maiden Punish",
+			"Change Tournament Color", "Check Ivanhoe"};
 
 	public static final String 	TYPE_SET_UP 					= "Set Up";
 	public static final String 	TYPE_START_TOURNAMENT 			= "Start Tournament";

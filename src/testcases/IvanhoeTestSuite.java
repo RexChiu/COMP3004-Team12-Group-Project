@@ -13,7 +13,8 @@ import org.junit.runners.Suite;
    TestHand.class,
    TestDisplay.class,
    TestDeck.class,
-   TestIvanhoeTournament.class
+   TestIvanhoeTournament.class,
+   TestIvanhoeActionCards.class
 })
 
 public class IvanhoeTestSuite {

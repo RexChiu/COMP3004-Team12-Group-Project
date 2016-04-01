@@ -120,6 +120,14 @@ public class Deck {
 	public void 	shuffleDeck()			{ Collections.shuffle(this.deck);	}
 	public boolean 	isEmpty()				{ return this.deck.isEmpty(); 		}
 	public void 	cleanDeck()				{ this.deck.clear(); 				}
+	
+	public boolean  hasCard(Card card){
+		for (Card cards : deck) {
+			if (cards.getName() == card.getName())
+				return true;
+		}
+		return false;
+	}
 
 	// Clone deep copy the deck
 	@Override

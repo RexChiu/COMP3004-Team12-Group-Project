@@ -9,6 +9,7 @@ public class Data {
 
 	public static Message getMessage(HashMap<Integer, Player> players, int ID){
 		Message message = new Message();
+		message.getHeader().setReceiver(String.valueOf(ID));
 		
 		Player user = players.get(ID);
 		message.getBody().addField("UserID",ID);

@@ -2,6 +2,8 @@ package message;
 
 import java.io.Serializable;
 
+import config.GAMEConfig;
+
 public class Header implements Serializable {
 	/**
 	 * 
@@ -29,7 +31,7 @@ public class Header implements Serializable {
 	public int		getState()					{ return this.state;		}
 	
 	public String toString(){
-		return "HEADER: Sender: " + sender + " Receiver: " + receiver + " Type: " + type + " State: " + state;
+		return "HEADER: Sender: " + sender + " Receiver: " + receiver + " Type: " + type + " State: " + GAMEConfig.STATE[state];
 	}
 }
 
