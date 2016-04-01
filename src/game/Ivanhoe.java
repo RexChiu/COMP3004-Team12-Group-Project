@@ -368,18 +368,25 @@ public class Ivanhoe {
 				//discard action card
 				players.get(this.currentID).getHand().drawCard(card);
 				this.deadwood.addCard(card);
-				
+
+				//removing the player's purple cards
+				ArrayList<Card> tempArr = new ArrayList<Card>();
 				Card tempCard;
 				for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
 				{
 					tempCard = players.get(targetID).getDisplayer().getCard(i);
 					//remove all purple cards, leave only one card
-					if (tempCard.isPurple() && players.get(targetID).getDisplayer().getSize() > 1)
+					if (tempCard.isPurple() && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
 					{
-						players.get(targetID).getDisplayer().removeCard(tempCard);
-						this.deadwood.addCard(tempCard);
+						tempArr.add(tempCard);
 					}
 				}
+				for (int i = 0; i < tempArr.size(); i++) {
+					System.out.println("Removing: " + tempArr.get(i).toString());
+					players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
+					this.deadwood.addCard(tempArr.get(i));
+				}
+
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.RIPOSTE)) {	
 				//take last card played on any opponent's display and add it to own
 				//can only play if > 1 card left and does not have shield
@@ -547,6 +554,7 @@ public class Ivanhoe {
 				this.deadwood.addCard(card);
 				
 				//remove lowest card value of all players if possible
+				ArrayList<Card> tempArr = new ArrayList<Card>();
 				Card tempCard;
 				//loop through players
 				for (int key : this.players.keySet()) {
@@ -554,17 +562,19 @@ public class Ivanhoe {
 					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
 						!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
 						
-						displaySize = players.get(key).getDisplayer().getSize();
-						//loop through hand to discard if possible
-						for (int i = 0; i < displaySize; i++) {
-							if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1) {
-								tempCard = players.get(key).getDisplayer().getCard(i);
-								cardValue = tempCard.getValue();
-								if (cardValue == minValue) {
-									players.get(playersOrder.get(key)).getDisplayer().removeCard(tempCard);
-									this.deadwood.addCard(tempCard);
-								}
+						for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
+						{
+							tempCard = players.get(targetID).getDisplayer().getCard(i);
+							//remove cards equal to minValue, leave only one card
+							if (tempCard.getValue() == minValue && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
+							{
+								tempArr.add(tempCard);
 							}
+						}
+						for (int i = 0; i < tempArr.size(); i++) {
+							System.out.println("Removing: " + tempArr.get(i).toString());
+							players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
+							this.deadwood.addCard(tempArr.get(i));
 						}
 					}
 				}
@@ -627,6 +637,7 @@ public class Ivanhoe {
 				this.deadwood.addCard(card);
 				
 				//remove lowest card value of all players if possible
+				ArrayList<Card> tempArr = new ArrayList<Card>();
 				Card tempCard;
 				//loop through players
 				for (int key : this.players.keySet()) {
@@ -634,17 +645,19 @@ public class Ivanhoe {
 					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
 						!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
 						
-						displaySize = players.get(key).getDisplayer().getSize();
-						//loop through hand to discard if possible
-						for (int i = 0; i < displaySize; i++) {
-							if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1) {
-								tempCard = players.get(key).getDisplayer().getCard(i);
-								cardValue = tempCard.getValue();
-								if (cardValue == maxValue) {
-									players.get(playersOrder.get(key)).getDisplayer().removeCard(tempCard);
-									this.deadwood.addCard(tempCard);
-								}
+						for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
+						{
+							tempCard = players.get(targetID).getDisplayer().getCard(i);
+							//remove cards equal to minValue, leave only one card
+							if (tempCard.getValue() == maxValue && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
+							{
+								tempArr.add(tempCard);
 							}
+						}
+						for (int i = 0; i < tempArr.size(); i++) {
+							System.out.println("Removing: " + tempArr.get(i).toString());
+							players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
+							this.deadwood.addCard(tempArr.get(i));
 						}
 					}
 				}
@@ -673,21 +686,25 @@ public class Ivanhoe {
 				this.deadwood.addCard(card);
 				
 				//remove all supporters
+				ArrayList<Card> tempArr = new ArrayList<Card>();
 				Card tempCard;
-				int displaySize;
 				for (int key : this.players.keySet()) {
 					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
 						!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
 						
-						displaySize = players.get(key).getDisplayer().getSize();
-						for (int i = 0; i < displaySize; i++) {
-							if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1) {
-								tempCard = players.get(key).getDisplayer().getCard(i);
-								if (tempCard.isSupporter()) {
-									players.get(playersOrder.get(key)).getDisplayer().removeCard(tempCard);
-									this.deadwood.addCard(tempCard);
-								}
+						for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
+						{
+							tempCard = players.get(targetID).getDisplayer().getCard(i);
+							//remove all purple cards, leave only one card
+							if (tempCard.isSupporter() && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
+							{
+								tempArr.add(tempCard);
 							}
+						}
+						for (int i = 0; i < tempArr.size(); i++) {
+							System.out.println("Removing: " + tempArr.get(i).toString());
+							players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
+							this.deadwood.addCard(tempArr.get(i));
 						}
 					}
 				}

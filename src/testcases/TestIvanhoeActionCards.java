@@ -1114,11 +1114,11 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hardcode some purple cards in secondPlayer's display
-		card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE,GAMEConfig.VALUE_JOUSTING_SEVEN);
-		rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
-		rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
-		rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
-		rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		for (int i = 0; i < 5; i++){
+			card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, i);
+			rEngine.getPlayer(secondPlayer).getDisplayer().addCard(card);
+		}
+		
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
@@ -1138,6 +1138,6 @@ public class TestIvanhoeActionCards {
 
 		System.out.println(rEngine.getPlayer(secondPlayer).getDisplayer().toString());
 		//make sure card effects are activated.
-		//assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
+		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 	}
 }
