@@ -144,4 +144,22 @@ public class Data {
 		
 		return message;
 	}
+	
+	public static Message newMessage(String sender, int state, String key, String data){
+		Message message = new Message();
+		message.getHeader().sender = sender;
+		message.getHeader().state = state;
+		message.getBody().addField(key, data);
+		return message;
+	}
+	
+	public static Message newMessage(String sender, int state, String keyOne, String dataOne, String keyTwo, String dataTwo){
+		Message message = new Message();
+		message.getHeader().sender = sender;
+		message.getHeader().state = state;
+		message.getBody().addField(keyOne, dataOne);
+		message.getBody().addField(keyTwo, dataTwo);
+		return message;
+	}
+	
 }
