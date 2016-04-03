@@ -35,6 +35,7 @@ public class Data {
 		message.getBody().addField("PlayersID", playersID.substring(0, playersID.length()-1));
 		message.getBody().addField("TournamentInfo", tournamentInfo.substring(0, tournamentInfo.length()-1));
 		message.getBody().addField("Tournament Color", user.getDisplayer().getTournament());
+		message.getBody().addField("Winner ID", user.getWinnerID());
 		return message;
 	}
 	

@@ -210,6 +210,9 @@ public class Ivanhoe {
 				if ((this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
 						(this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
 					// Update state to game over
+					for (Integer key : this.players.keySet()){
+						this.players.get(key).setWinnerID(this.currentID);
+					}
 					this.updateState(GAMEConfig.GAME_OVER);
 					return Data.gameOver(this.players, this.currentID);
 				}
@@ -264,7 +267,6 @@ public class Ivanhoe {
 		if (this.currentID == this.firstPlayer && this.players.get(this.currentID).getDisplayer().isEmpty()){
 			if (!card.isAction()){
 				this.playerPlayCard(this.currentID, card);
-				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		} else if (!card.isAction()) {			
 			// Current player play a simple card to display
@@ -274,7 +276,6 @@ public class Ivanhoe {
 					return null;
 
 				this.playerPlayCard(this.currentID, card);
-				this.players.get(this.currentID).getDisplayer().playCard();
 			}
 		}else{
 			// Check if anyone has Ivanhoe, if a player didnt already refuse to play Ivanhoe
@@ -816,6 +817,9 @@ public class Ivanhoe {
 		if ((this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
 				(this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
 			// Update state to game over
+			for (Integer key : this.players.keySet()){
+				this.players.get(key).setWinnerID(this.currentID);
+			}
 			this.updateState(GAMEConfig.GAME_OVER);
 			return Data.gameOver(this.players, this.currentID);
 		}
