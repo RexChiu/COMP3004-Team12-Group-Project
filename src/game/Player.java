@@ -7,15 +7,19 @@ public class Player {
 	private Tokens tokens;
 	private boolean withdrawn;
 	private int ID;
+	private int winnerID;
 	
 	public Player(int ID){
 		this.hand = new Hand();
 		this.display = new Display();
 		this.tokens = new Tokens();
 		this.ID = ID;
+		this.winnerID = -1;
 	}
 
 	public void 	setWithdrawn(boolean status){ this.withdrawn = status;				}
+	public void 	setWinnerID(int id)			{ this.winnerID = id;					}
+	public int 		getWinnerID()				{ return this.winnerID;					}
 	public void 	cleanDisplay()				{ this.display = new Display();			}
 	public boolean 	checkToken(String token) 	{ return this.tokens.checkToken(token); }
 	public void		addToken(String token)		{ this.tokens.addToken(token); 			}
