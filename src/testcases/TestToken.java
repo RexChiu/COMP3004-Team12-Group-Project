@@ -81,50 +81,6 @@ public class TestToken {
     }
 
     @Test
-	public void testHasPurple () {
-		System.out.println("@Test(): hasPurple()");
-		tokens.addToken("Purple");
-		
-		assertEquals(Boolean.TRUE, tokens.hasPurple());
-    }
-
-    @Test
-	public void testHasRed () {
-		System.out.println("@Test(): hasRed()");
-		
-		tokens.addToken("Red");
-		
-		assertEquals(Boolean.TRUE, tokens.hasRed());
-    }
-
-    @Test
-	public void testHasBlue () {
-		System.out.println("@Test(): hasBlue()");
-		
-		tokens.addToken("Blue");
-		
-		assertEquals(Boolean.TRUE, tokens.hasBlue());
-    }
-
-    @Test
-	public void testHasYellow () {
-		System.out.println("@Test(): hasYellow()");
-		
-		tokens.addToken("Yellow");
-		
-		assertEquals(Boolean.TRUE, tokens.hasYellow());
-    }
-
-    @Test
-	public void testHasWhite () {
-		System.out.println("@Test(): hasWhite()");
-		
-		tokens.addToken("White");
-		
-		assertEquals(Boolean.TRUE, tokens.hasWhite());
-    }
-    
-    @Test
 	public void testHasFour () {
 		System.out.println("@Test(): hasFour()");
 		

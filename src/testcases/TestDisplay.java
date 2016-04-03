@@ -107,45 +107,6 @@ public class TestDisplay {
     }
     
     @Test
-	public void testUnhorse () {
-		System.out.println("@Test(): unhorse(String tournament)");
-		
-		display.setTournament("Purple");
-
-		assertEquals("Purple", display.getTournament());
-		
-		display.unhorse("Red");
-		
-		assertEquals("Red", display.getTournament());
-    }
-    
-    @Test
-	public void testChangeWeapon () {
-		System.out.println("@Test(): changeWeapon(String tournament)");
-		
-		display.setTournament("Blue");
-
-		assertEquals("Blue", display.getTournament());
-		
-		display.changeWeapon("Red");
-		
-		assertEquals("Red", display.getTournament());
-    }
-    
-    @Test
-	public void testDropWeapon () {
-		System.out.println("@Test(): dropWeapon()");
-		
-		display.setTournament("Blue");
-
-		assertEquals("Blue", display.getTournament());
-		
-		display.dropWeapon();
-		
-		assertEquals("Green", display.getTournament());
-    }
-    
-    @Test
 	public void testHasMaiden () {
 		System.out.println("@Test(): hasMaiden()");
 		

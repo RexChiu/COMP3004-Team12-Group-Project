@@ -91,7 +91,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -161,7 +161,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(secondPlayer).getDisplayer().setStatus("Shield");
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -232,7 +232,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(secondPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -304,7 +304,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -378,7 +378,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is red
@@ -438,7 +438,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//confirm current tournament colour
@@ -508,7 +508,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(secondPlayer).getDisplayer().setStatus("Shield");
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
@@ -579,7 +579,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(secondPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
@@ -646,7 +646,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -720,7 +720,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -780,7 +780,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//confirm current tournament colour
@@ -843,7 +843,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(secondPlayer).getDisplayer().setStatus("Shield");
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
@@ -907,7 +907,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(secondPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
@@ -974,7 +974,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -1037,7 +1037,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
@@ -1104,7 +1104,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1171,7 +1171,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1242,7 +1242,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
 		Message reply = rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
@@ -1314,7 +1314,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1378,7 +1378,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1441,7 +1441,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1513,7 +1513,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1588,7 +1588,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
 		Message reply = rEngine.processMessage(msg);
 		
 		//hard code firstPlayer play or withdraw response
@@ -1658,7 +1658,7 @@ public class TestIvanhoeActionCards {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
@@ -1716,7 +1716,7 @@ public class TestIvanhoeActionCards {
 		rEngine.getPlayer(fifthPlayer).addCard(card);
 
 		//hard code firstPlayer select colour response
-		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOUR, "Tournament Color", GAMEConfig.COLOR_RED);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response

@@ -46,19 +46,10 @@ public class Data {
 		return message;
 	}
 	
-	public static Message startTournament(HashMap<Integer, Player> players, int currID, int ID){
-		Message message = getMessage(players, ID);
-		message.getHeader().setType(GAMEConfig.TYPE_START_TOURNAMENT);
-		message.getHeader().setState(GAMEConfig.START_TOURNAMENT);
-		
-		message.getBody().addField("Current ID", currID);
-		return message;
-	}
-	
 	public static Message selectColor(HashMap<Integer, Player> players, int ID, int numColor){
 		Message message = getMessage(players, ID);
 		message.getHeader().setType(GAMEConfig.TYPE_SELECT_COLOR);
-		message.getHeader().setState(GAMEConfig.SELECT_COLOUR);
+		message.getHeader().setState(GAMEConfig.SELECT_COLOR);
 				
 		String colors = "";		
 		for (String tokenColor : (numColor == 5 ? GAMEConfig.TOKEN_COLORS_FIVE : GAMEConfig.TOKEN_COLORS_FOUR)){

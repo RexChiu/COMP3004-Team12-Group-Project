@@ -223,7 +223,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 		Message response = null;
 		
 		switch (state){
-			case GAMEConfig.SELECT_COLOUR:
+			case GAMEConfig.SELECT_COLOR:
 				colors = message.getBody().getField("Select Colors").toString();
 				if (colors.split(",").length == 5){
 					result = JOptionPane.showOptionDialog(null,

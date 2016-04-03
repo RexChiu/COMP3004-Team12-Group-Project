@@ -56,7 +56,7 @@ public class Ivanhoe {
 		// Deal card to first player
 		//this.dealCard();
 		// Update store to select color
-		this.updateState(GAMEConfig.SELECT_COLOUR);
+		this.updateState(GAMEConfig.SELECT_COLOR);
 	}
 
 	private void initHand(){
@@ -85,7 +85,7 @@ public class Ivanhoe {
 		this.currentPlayer = new Random().nextInt(numPlayers);		
 		this.currentID = this.playersOrder.get(currentPlayer);
 		this.firstPlayer = currentID;
-		this.playersLeft = numPlayers;		
+		this.playersLeft = numPlayers;
 	}
 
 	public void setup(){
@@ -100,7 +100,7 @@ public class Ivanhoe {
 		// Deal card to first player
 		this.dealCard();
 		// Update store to select color
-		this.updateState(GAMEConfig.SELECT_COLOUR);
+		this.updateState(GAMEConfig.SELECT_COLOR);
 	}
 
 	private void dealCard(){
@@ -207,8 +207,8 @@ public class Ivanhoe {
 				System.out.println(this.players.get(this.currentID).getTokens().toString());
 
 				// Game Over if players could win the whole game
-				if ((this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
-						(this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
+				if ((this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
+						(this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
 					// Update state to game over
 					this.updateState(GAMEConfig.GAME_OVER);
 					return Data.gameOver(this.players, this.currentID);
@@ -231,7 +231,7 @@ public class Ivanhoe {
 				System.out.println("Players Left: " +  this.playersLeft);
 
 				// Update state to select color for next tournament
-				this.updateState(GAMEConfig.SELECT_COLOUR);
+				this.updateState(GAMEConfig.SELECT_COLOR);
 				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FIVE);
 			}
 		}else{
@@ -813,8 +813,8 @@ public class Ivanhoe {
 		this.players.get(this.currentID).addToken(color);
 
 		// Game Over if players could win the whole game
-		if ((this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
-				(this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
+		if ((this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
+				(this.players.get(this.currentID).getTokens().hasFour() && this.numPlayers >= GAMEConfig.FIVE_TOKEN_GAME )){
 			// Update state to game over
 			this.updateState(GAMEConfig.GAME_OVER);
 			return Data.gameOver(this.players, this.currentID);
@@ -831,7 +831,7 @@ public class Ivanhoe {
 		}
 
 		// Update state to select color
-		this.updateState(GAMEConfig.SELECT_COLOUR);
+		this.updateState(GAMEConfig.SELECT_COLOR);
 		return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
 	}
 
@@ -867,7 +867,7 @@ public class Ivanhoe {
 		System.out.println("ProcessMessage: " + message.toString());
 
 		switch (state){
-		case GAMEConfig.SELECT_COLOUR:
+		case GAMEConfig.SELECT_COLOR:
 			// Purple Tournament and no winning will also choose the different color ? is it problem?
 			System.out.println("COLOR:" + color);
 			return this.selectColor(color);

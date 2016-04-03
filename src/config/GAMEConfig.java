@@ -4,43 +4,31 @@ public class GAMEConfig {
 
 	// Ivanhoe Configuration	
 	public final static int 	GAME_READY				= 0;
-	public final static int 	GAME_SETUP 				= 1;
-	public final static int 	START_TOURNAMENT		= 2;
-	public final static int 	DEAL_CARD				= 3;
-	public final static int		SELECT_COLOUR			= 4;
-	public final static int		CONFIRM_COLOUR			= 5;
-	public final static int 	CONFIRM_TOURNAMENT		= 6;
-	public final static int 	PLAY_OR_WITHDRAW		= 7;
-	public final static int 	CONFIRM_TOKEN			= 8;
-	public final static int 	CONFIRM_REQUEST			= 9;
-	public final static int 	PLAY_CARD				= 10;
-	public final static int 	WIN_TOURNAMENT			= 11;
-	public final static int 	GAME_OVER				= 12;	
-	public final static int 	END_TURN				= 13;
-	public final static int 	MAIDEN_PUNISH			= 14;
-	public final static int 	CHANGE_TOURNAMENT_COLOR	= 15;
-	public final static int 	CHECK_IVANHOE			= 16;
+	public final static int 	GAME_SETUP				= 1;
+	public final static int 	DEAL_CARD				= 2;
+	public final static int		SELECT_COLOR			= 3;
+	public final static int 	PLAY_OR_WITHDRAW		= 4;
+	public final static int 	PLAY_CARD				= 5;
+	public final static int 	WIN_TOURNAMENT			= 6;
+	public final static int 	GAME_OVER				= 7;
+	public final static int 	END_TURN				= 7;
+	public final static int 	MAIDEN_PUNISH			= 9;
+	public final static int 	CHANGE_TOURNAMENT_COLOR	= 10;
+	public final static int 	CHECK_IVANHOE			= 11;
 	
-	public static final String[] STATE = {"Game Ready", "Game Setup", "Start Tournament", "Deal Card",
-			"Select Colour", "Confirm Colour", "Confirm Tournament", "Play or Withdraw", "Confirm Token",
-			"Confirm Request", "Play Card", "Win Tournament", "Game Over" , "End Turn", "Maiden Punish",
-			"Change Tournament Color", "Check Ivanhoe"};
+	public static final String[] STATE = {"Game Ready", "Game Setup", "Deal Card","Select Colour", 
+			"Play or Withdraw", "Play Card", "Win Tournament", "Game Over" , "End Turn", 
+			"Maiden Punish", "Change Tournament Color", "Check Ivanhoe"};
 
-	public static final String 	TYPE_SET_UP 					= "Set Up";
-	public static final String 	TYPE_START_TOURNAMENT 			= "Start Tournament";
+	
 	public static final String 	TYPE_GAME_OVER					= "Game Over";
+	public static final String 	TYPE_SET_UP						= "Game Setup";
 	public static final String	TYPE_SELECT_COLOR	 			= "Select Color";
-	public final static String	TYPE_CONFIRM_COLOUR				= "Confirm Color";
-	public static final String 	TYPE_CONFIRM_TOURNAMENT		 	= "Confirm Tournament";
 	public static final String 	TYPE_PLAY_OR_WITHDRAW			= "Play or Withdraw";
 	public static final String 	TYPE_DEAL_CARD					= "Deal Card";
-	public static final String	TYPE_SELECT_COLOUR				= "Select Colour";
-	public static final String 	TYPE_CONFIRM_REQUEST			= "Confirm Request";
 	public static final String 	TYPE_PLAY_CARD					= "Play Card";
 	public static final String 	TYPE_WITHDRAW 					= "Withdraw";
-	public static final String 	TYPE_NEXT_PLAYER				= "Next Player";
 	public static final String 	TYPE_WIN_TOURNAMENT				= "Win Tournament";
-	public static final String 	TYPE_NEXT_TOURNAMENT			= "Next Tournament";
 	public final static String 	TYPE_END_TURN					= "End Turn";
 	public final static String 	TYPE_MAIDEN_PUNISH				= "Maiden Punish";
 	public final static String 	TYPE_CHANGE_TOURNAMENT_COLOR	= "Change Tournament Color";

@@ -80,7 +80,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -181,7 +181,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -299,7 +299,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -426,7 +426,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -503,7 +503,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -594,7 +594,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -659,7 +659,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -738,7 +738,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -796,7 +796,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -857,7 +857,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1009,7 +1009,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1103,7 +1103,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1145,7 +1145,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
@@ -1201,7 +1201,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1274,7 +1274,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1354,7 +1354,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1434,7 +1434,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1514,7 +1514,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1594,7 +1594,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1672,7 +1672,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 
@@ -1745,7 +1745,7 @@ public class TestIvanhoeTournament {
 		//hard code firstPlayer select colour response
 		Message msg = new Message();
 		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOUR;
+		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
 		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
 		Message reply = rEngine.processMessage(msg);
 

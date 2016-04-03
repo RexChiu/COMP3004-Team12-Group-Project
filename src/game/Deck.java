@@ -140,7 +140,7 @@ public class Deck {
 		if (this == deck) return Boolean.TRUE;
 
 		for (int i = 0; i < this.deck.size(); i++){
-			if (!getCard(i).equals(deck.getCard(i)) )
+			if (!getCard(i).equals(deck.getCard(i)))
 				return Boolean.FALSE;
 		}
 

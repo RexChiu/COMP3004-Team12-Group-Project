@@ -84,6 +84,7 @@ public class Display {
 	public void addCard(Card card) { 
 		this.display.add(card); 
 		this.total += card.getValue();
+		playCard();
 		updateDisplay();
 	}
 	
@@ -92,16 +93,6 @@ public class Display {
 		this.display.remove(card);
 		this.total -= card.getValue();
 		updateDisplay();
-	}
-	
-	// Check the supporter maiden
-	public void removeMaiden()	{
-		for (Card card : display){
-			if (card.isMaiden()){
-				display.remove(card);
-				return;
-			}
-		}
 	}
 	
 	// Check the supporter maiden
@@ -123,25 +114,6 @@ public class Display {
 		if (display.get(index).isStunned()) 
 			this.status += ( isShield() ? "" : GAMEConfig.STATUS_STUNNED);
 	}
-	
-	//DISGRACE: Remove all supporter
-	public Hand	removeSupport(){
-		Hand hand  = new Hand();
-		for (Card card : display){
-			if (card.isSquire() || card.isMaiden())
-				hand.drawCard(card);
-		}	
-		return hand;
-	}
-	
-	//UNHORSE: The tournament color changes from purple to red, blue or yellow
-	public void 	unhorse(String tournament) 		{ this.tournament = tournament; 							}
-	
-	//CHANGE WEAPON: The tournament color changes from red, blue or yellow to a differ
-	public void 	changeWeapon(String tournament) { this.tournament = tournament; 							}
-	
-	//DROP WEAPON: The tournament color changes from red, blue or yellow to green.
-	public void 	dropWeapon() 					{ this.tournament = GAMEConfig.GREEN_CARD; 					}
 
 	// Check the green tournament
 	public boolean 	isGreenTournament() { return this.tournament.equalsIgnoreCase(GAMEConfig.COLOR_GREEN); 		}
