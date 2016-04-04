@@ -102,13 +102,12 @@ public class AppServer implements Runnable {
 		if (message.getHeader().state == LANConfig.PLAYER_LOSS){
 			shutdown(ID);
 			return;
-		}
-		
+		}		
 		
 		UI.writeMessage(String.format("%5d: %25s %20s", ID, GAMEConfig.STATE[rEngine.getPrevState()], GAMEConfig.STATE[rEngine.getState()]));
 			
 		Message response = rEngine.processMessage(message);
-
+		
 		if (response != null){
 			HashMap<Integer, Player> players = rEngine.getPlayers();
 			for (ServerThread to : clients.values()) {
@@ -116,8 +115,15 @@ public class AppServer implements Runnable {
 				to.send(Data.getMessage(players, tempID));
 			}			
 			
-			int currentID = rEngine.getCurrentID();
-			clients.get(currentID).send(response);
+			if (response.getHeader().state == GAMEConfig.GAME_OVER){
+				for (ServerThread to : clients.values()) {
+					int tempID = to.getID();
+					to.send(Data.gameOver(players, tempID));
+				}	
+			}else{
+				int currentID = rEngine.getCurrentID();
+				clients.get(currentID).send(response);
+			}
 		}
 	}
 

@@ -11,7 +11,7 @@ public class GAMEConfig {
 	public final static int 	PLAY_CARD				= 5;
 	public final static int 	WIN_TOURNAMENT			= 6;
 	public final static int 	GAME_OVER				= 7;
-	public final static int 	END_TURN				= 7;
+	public final static int 	END_TURN				= 8;
 	public final static int 	MAIDEN_PUNISH			= 9;
 	public final static int 	CHANGE_TOURNAMENT_COLOR	= 10;
 	public final static int 	CHECK_IVANHOE			= 11;
@@ -19,7 +19,7 @@ public class GAMEConfig {
 	public static final String[] STATE = {"Game Ready", "Game Setup", "Deal Card","Select Colour", 
 			"Play or Withdraw", "Play Card", "Win Tournament", "Game Over" , "End Turn", 
 			"Maiden Punish", "Change Tournament Color", "Check Ivanhoe"};
-
+	public static final String 	WINNER = " win the game of Ivanhoe";
 	
 	public static final String 	TYPE_GAME_OVER					= "Game Over";
 	public static final String 	TYPE_SET_UP						= "Game Setup";

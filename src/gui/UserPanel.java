@@ -16,7 +16,7 @@ public class UserPanel extends JPanel implements ActionListener{
 	private static final long serialVersionUID = -449738241414461419L;
 	private ClientPanel client;
 
-	public JButton tokenButton, infoButton, statusOneButton, statusTwoButton, totalButton;
+	public JButton infoButton, tokenButton, statusOneButton, statusTwoButton, totalButton;
 	public HandPanel handPanel;
 	public DisplayPanel displayPanel;
 	public String hand = "";

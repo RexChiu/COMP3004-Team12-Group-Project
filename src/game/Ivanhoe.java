@@ -847,7 +847,7 @@ public class Ivanhoe {
 
 		if (this.currentID != sender)
 			return null;
-
+		
 		String 	choice  			= "";
 		String  color 				= "";
 		String  token 				= "";

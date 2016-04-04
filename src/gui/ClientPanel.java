@@ -160,15 +160,16 @@ public class ClientPanel extends JFrame implements ActionListener{
 	}
 	
 	public void updateUI(Message message){				
-		String ID 				= message.getBody().getField("UserID").toString();
-		String tokens 			= message.getBody().getField("UserTokens").toString();
-		String hand 			= message.getBody().getField("UserHand").toString();
-		String total 			= message.getBody().getField("UserTotal").toString();
-		String status 			= message.getBody().getField("UserStatus").toString();
-		String display			= message.getBody().getField("UserDisplay").toString();
-		String playersID		= message.getBody().getField("PlayersID").toString();
-		String tournamentInfo	= message.getBody().getField("TournamentInfo").toString();
-		String tournamnetColor  = message.getBody().getField("Tournament Color").toString();
+		String 	ID 				= message.getBody().getField("UserID").toString();
+		String 	tokens 			= message.getBody().getField("UserTokens").toString();
+		String 	hand 			= message.getBody().getField("UserHand").toString();
+		String 	total 			= message.getBody().getField("UserTotal").toString();
+		String 	status 			= message.getBody().getField("UserStatus").toString();
+		String 	display			= message.getBody().getField("UserDisplay").toString();
+		String 	playersID		= message.getBody().getField("PlayersID").toString();
+		String 	tournamentInfo	= message.getBody().getField("TournamentInfo").toString();
+		String  tournamnetColor = message.getBody().getField("Tournament Color").toString();
+		int 	winnerID		= Integer.parseInt(message.getBody().getField("Winner ID").toString());
 
 		this.poolPanel.tournamentButton.setText(tournamnetColor);
 		
@@ -178,6 +179,10 @@ public class ClientPanel extends JFrame implements ActionListener{
 			tournamentPanel.statusLabel.get(index).setText(playerInfo.split(":")[1]);
 			tournamentPanel.totalLabel.get(index++).setText(playerInfo.split(":")[2]);		
 		}
+
+		System.out.println("User Tokens: " + tokens);
+		tokens = tokens.replaceAll(",", "\n");
+		System.out.println("User Tokens: " + tokens);
 		
 		userPanel.ID = ID;
 		userPanel.infoButton.setText(ID);
@@ -203,7 +208,8 @@ public class ClientPanel extends JFrame implements ActionListener{
 			String playersTotal 	= message.getBody().getField("Player " + playerID + " Total").toString();
 			String playersTokens 	= message.getBody().getField("Player " + playerID + " Tokens").toString();
 			String playersStatus 	= message.getBody().getField("Player " + playerID + " Status").toString();
-			
+
+			playersTokens = playersTokens.replaceAll(",", "");
 			playerPanel.get(playerID).ID = playerID;
 			playerPanel.get(playerID).infoButton.setText(playerID);
 			playerPanel.get(playerID).tokenButton.setText(playersTokens);	
@@ -333,6 +339,9 @@ public class ClientPanel extends JFrame implements ActionListener{
 				
 				this.client.send(response);
 				System.out.println("Result of MSG: \n" + response.toString());
+				break;
+			case GAMEConfig.GAME_OVER:
+				JOptionPane.showMessageDialog(new JFrame(), GAMEConfig.TYPE_GAME_OVER + "\n" + winnerID + GAMEConfig.WINNER, GAMEConfig.TYPE_GAME_OVER, JOptionPane.INFORMATION_MESSAGE);
 				break;
 			default:
 				break;
