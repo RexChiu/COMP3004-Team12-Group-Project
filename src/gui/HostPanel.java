@@ -222,6 +222,6 @@ public class HostPanel extends JFrame {
 		displayMessage.setCaretPosition(displayMessage.getDocument().getLength());
 	}
 	public Boolean	isStart()					{ return this.start; 			}
-	private void 	startHost()					{ this.start = Boolean.TRUE;	}
-	private void 	stopHost()					{ this.start = Boolean.FALSE;	}
+	public void 	startHost()					{ this.start = Boolean.TRUE;	}
+	public void 	stopHost()					{ this.start = Boolean.FALSE;	}
 }

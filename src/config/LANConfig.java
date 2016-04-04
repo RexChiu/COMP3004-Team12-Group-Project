@@ -10,6 +10,8 @@ public class LANConfig {
 	public static final int 	MIN_PORT 				= 3000;
 	public static final	int 	MAX_PORT 	 			= 10000;
 	public static final boolean PRINT_STACK_TRACE 		= Boolean.FALSE;
+	public static final int 	PLAYER_LOSS				= -99;
+	
 	
 	// Network Status
 	public static final String SERVER 					= "Ivanhoe";
@@ -43,4 +45,5 @@ public class LANConfig {
 	public static final String REQUEST_QUIT				= "Quit the game";
 	public static final String SERVER_SHUTDOWN			= "Shutdown!";
 	public static final String CLIENT_QUIT				= "Quit!";
+	public static final String CLIENT_LOSS				= "Client Loss!";
 }

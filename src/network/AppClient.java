@@ -65,6 +65,9 @@ public class AppClient implements Runnable {
 	}
 
 	public void handle(Message message) {
+		if (message.getHeader().state == LANConfig.PLAYER_LOSS){
+			stop();
+		}
 		UI.updateUI(message);
 	}
 
@@ -81,6 +84,7 @@ public class AppClient implements Runnable {
 		} catch (IOException ioe) {
 		}
 		client.close();
+		UI.shutDown();
 		System.out.println(ID + ": " + LANConfig.CLIENT_STATUS_SHUTDOWN);
 	}
 }

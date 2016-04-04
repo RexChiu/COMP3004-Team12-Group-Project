@@ -128,17 +128,10 @@ public class ClientPanel extends JFrame implements ActionListener{
 			break;
 		case GUIConfig.CLIENT_QUIT:
 			if (clientJoined){
-				client.stop();
-				client = null;
-				clientJoined = !clientJoined;
-
-				// Reset
-				userPanel.infoButton.setText("INFO");
-				for (int i = GUIConfig.SECOND_PLAYER_ID; i <= GUIConfig.FIFTH_PLAYER_ID; i++) { playerPanel.get(i).infoButton.setText("INFO");}
-				for (int i = GUIConfig.USER_PLAYER_ID; i <= tournamentPanel.infoLabel.size(); i++){ tournamentPanel.infoLabel.get(i).setText("INFO"); }
-
-				listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
-				JOptionPane.showMessageDialog(new JFrame(), LANConfig.QUIT_SERVER, LANConfig.DISCONNECT_SERVER, JOptionPane.INFORMATION_MESSAGE);
+				Message message = new Message();
+				message.getHeader().state = LANConfig.PLAYER_LOSS;
+				client.send(message);
+				//JOptionPane.showMessageDialog(new JFrame(), LANConfig.QUIT_SERVER, LANConfig.DISCONNECT_SERVER, JOptionPane.INFORMATION_MESSAGE);
 			}else{
 				JOptionPane.showMessageDialog(new JFrame(), LANConfig.CLIENT_NOT_JOINED, LANConfig.CLIENT_ERROR, JOptionPane.ERROR_MESSAGE);					
 			}
@@ -158,7 +151,15 @@ public class ClientPanel extends JFrame implements ActionListener{
 		}
 	}
 
-	public void updateUI(Message message){		
+	public void shutDown(){
+		// Reset
+		clientJoined = !clientJoined;
+		listJMI.get(GUIConfig.CLIENT_JOIN).setEnabled(Boolean.TRUE);
+		JOptionPane.showMessageDialog(new JFrame(), LANConfig.SERVER_DOWN + ", " + LANConfig.CLIENT_LOSS, LANConfig.DISCONNECT_SERVER, JOptionPane.INFORMATION_MESSAGE);
+		System.exit(0);
+	}
+	
+	public void updateUI(Message message){				
 		String ID 				= message.getBody().getField("UserID").toString();
 		String tokens 			= message.getBody().getField("UserTokens").toString();
 		String hand 			= message.getBody().getField("UserHand").toString();
@@ -221,7 +222,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 		String fromID = "";
 		String[] tokenList = null;
 		Message response = null;
-		
+			
 		switch (state){
 			case GAMEConfig.SELECT_COLOR:
 				colors = message.getBody().getField("Select Colors").toString();
