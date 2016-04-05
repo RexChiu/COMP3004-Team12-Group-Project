@@ -2,8 +2,6 @@ package testcases;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,7 +10,6 @@ import org.junit.Test;
 import game.Card;
 import game.Data;
 import game.Ivanhoe;
-import game.Player;
 import config.GAMEConfig;
 import message.Message;
 
@@ -580,26 +577,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -781,22 +778,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//confirm current tournament colour
 		assertEquals(GAMEConfig.COLOR_RED, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated, changed colour to green.
 		assertEquals(GAMEConfig.COLOR_GREEN, rEngine.getCurrColour());
@@ -844,22 +841,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_BLUE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated, changed colour to green.
 		assertEquals(GAMEConfig.COLOR_GREEN, rEngine.getCurrColour());
@@ -908,26 +905,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -975,22 +972,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_RED, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded
 		assertEquals(1, rEngine.getDeadwood().getSize());
@@ -1104,19 +1101,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		System.out.println(rEngine.getPlayer(secondPlayer).getDisplayer().toString());
 		//make sure card effects are activated.
@@ -1242,26 +1239,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -1314,19 +1311,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.BREAK_LANCE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -1441,22 +1438,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer only has one card in display
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		System.out.println("Second Player: " + rEngine.getPlayer(secondPlayer).getDisplayer().toString());
 		System.out.println("First Player: " + rEngine.getPlayer(firstPlayer).getDisplayer().toString());
@@ -1588,23 +1585,23 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -1658,19 +1655,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.RIPOSTE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -1782,22 +1779,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer only has one card in display
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"", GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		System.out.println("Second Player: " + rEngine.getPlayer(secondPlayer).getDisplayer().toString());
 		//make sure card effects are activated.
@@ -1925,23 +1922,23 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"", GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -1995,19 +1992,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"", GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.DODGE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -2274,23 +2271,23 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -2343,19 +2340,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"", GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.DODGE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -2597,26 +2594,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -2663,19 +2660,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.KNOCK_DOWN, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -2796,22 +2793,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 3 cards in display
 		assertEquals(3, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated.
 		assertEquals(2, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -2880,19 +2877,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated, except for player with shield
 		assertEquals(2, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -2951,26 +2948,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -3023,19 +3020,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.OUTMANEUVER, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -3156,22 +3153,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated.
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -3240,22 +3237,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated.
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -3314,26 +3311,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -3397,22 +3394,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.CHARGE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -3532,22 +3529,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated.
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -3616,22 +3613,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated.
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -3690,26 +3687,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -3773,22 +3770,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.COUNTERCHARGE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -3908,22 +3905,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		System.out.println("FirstPlayer: " + rEngine.getPlayer(firstPlayer).getDisplayer().toString());
 
@@ -3994,22 +3991,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		System.out.println("FirstPlayer: " + rEngine.getPlayer(firstPlayer).getDisplayer().toString());
 
@@ -4074,26 +4071,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -4150,22 +4147,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.DISGRACE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -4409,26 +4406,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is correct
 		assertEquals(GAMEConfig.COLOR_YELLOW, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"", GAMEConfig.SELECTED_DISPLAY_INDEX, 0+"", GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -4480,19 +4477,19 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"", GAMEConfig.SELECTED_DISPLAY_INDEX, 0+"", GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card discarded is correct
 		card = new Card(GAMEConfig.OUTWIT, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
@@ -4589,22 +4586,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_PURPLE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has shield
 		assertTrue(rEngine.getPlayer(firstPlayer).getDisplayer().hasShield());
@@ -4702,26 +4699,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_PURPLE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure Unhorse is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -4760,22 +4757,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_PURPLE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure action card is discarded
 		assertEquals(1, rEngine.getDeadwood().getSize());
@@ -4873,22 +4870,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_PURPLE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure secondPlayer has stunned
 		assertTrue(rEngine.getPlayer(secondPlayer).getDisplayer().hasStunned());
@@ -4986,26 +4983,26 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_PURPLE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code secondPlayer play Ivanhoe response
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.CHECK_IVANHOE, "Ivanhoe Choice", GAMEConfig.IVANHOE_YES);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure Unhorse is discarded because of Ivanhoe
 		assertEquals(2, rEngine.getDeadwood().getSize());
@@ -5044,22 +5041,22 @@ public class TestIvanhoeActionCards {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure current tournament colour is purple
 		assertEquals(GAMEConfig.COLOR_PURPLE, rEngine.getCurrColour());
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"", GAMEConfig.SELECTED_TARGET_ID, secondPlayer+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 		
 		//make sure action card is discarded
 		assertEquals(1, rEngine.getDeadwood().getSize());

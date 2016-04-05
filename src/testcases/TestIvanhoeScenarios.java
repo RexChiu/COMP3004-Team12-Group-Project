@@ -2,8 +2,6 @@ package testcases;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,7 +10,6 @@ import org.junit.Test;
 import game.Card;
 import game.Data;
 import game.Ivanhoe;
-import game.Player;
 import config.GAMEConfig;
 import message.Message;
 
@@ -88,14 +85,6 @@ public class TestIvanhoeScenarios {
 
 		//calculate player IDs based on player order
 		int firstPlayer = rEngine.getCurrentID();
-		int secondPlayer = (firstPlayer+1) % 6;
-		if (secondPlayer == 0) { secondPlayer++; };
-		int thirdPlayer = (secondPlayer+1) % 6;
-		if (thirdPlayer == 0) { thirdPlayer++; };
-		int fourthPlayer = (thirdPlayer+1) % 6;
-		if (fourthPlayer == 0) { fourthPlayer++; };
-		int fifthPlayer = (fourthPlayer+1) % 6;
-		if (fifthPlayer == 0) { fifthPlayer++; };
 
 		//hardcode previous tournament colour to purple
 		rEngine.setPrevColor(GAMEConfig.COLOR_PURPLE);
@@ -127,14 +116,6 @@ public class TestIvanhoeScenarios {
 
 		//calculate player IDs based on player order
 		int firstPlayer = rEngine.getCurrentID();
-		int secondPlayer = (firstPlayer+1) % 6;
-		if (secondPlayer == 0) { secondPlayer++; };
-		int thirdPlayer = (secondPlayer+1) % 6;
-		if (thirdPlayer == 0) { thirdPlayer++; };
-		int fourthPlayer = (thirdPlayer+1) % 6;
-		if (fourthPlayer == 0) { fourthPlayer++; };
-		int fifthPlayer = (fourthPlayer+1) % 6;
-		if (fifthPlayer == 0) { fifthPlayer++; };
 
 		//hardcode dealing card to firstPlayer
 		Card card = new Card(GAMEConfig.JOUSTING, GAMEConfig.COLOR_PURPLE, GAMEConfig.VALUE_JOUSTING_SEVEN);
@@ -170,12 +151,6 @@ public class TestIvanhoeScenarios {
 		int firstPlayer = rEngine.getCurrentID();
 		int secondPlayer = (firstPlayer+1) % 6;
 		if (secondPlayer == 0) { secondPlayer++; };
-		int thirdPlayer = (secondPlayer+1) % 6;
-		if (thirdPlayer == 0) { thirdPlayer++; };
-		int fourthPlayer = (thirdPlayer+1) % 6;
-		if (fourthPlayer == 0) { fourthPlayer++; };
-		int fifthPlayer = (fourthPlayer+1) % 6;
-		if (fifthPlayer == 0) { fifthPlayer++; };
 
 		//hardcode dealing card to firstPlayer
 		Card card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
@@ -194,15 +169,15 @@ public class TestIvanhoeScenarios {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
 		msg = Data.newMessage(firstPlayer +"", GAMEConfig.END_TURN);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure deck isnt empty anymore, and that deadwood is empty.
 		assertEquals(109, rEngine.getDeck().getSize());
@@ -253,19 +228,19 @@ public class TestIvanhoeScenarios {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated, 1 card left in all displays
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize()); 
@@ -331,22 +306,22 @@ public class TestIvanhoeScenarios {
 
 		//hard code firstPlayer select colour response
 		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure firstPlayer has 6 cards
 		assertEquals(6, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer playCard playing action card
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
-		reply = rEngine.processMessage(msg);
+		rEngine.processMessage(msg);
 
 		//make sure card effects are activated, 1 card is left for all players
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
@@ -445,10 +420,6 @@ public class TestIvanhoeScenarios {
 		//make sure state is changed properly to playOrWithdraw for next player
 		assertEquals(GAMEConfig.PLAY_OR_WITHDRAW, rEngine.getState());
 
-		//info needed for next loop
-		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
-		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
-
 		//hardcode withdraw for all other players
 		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
@@ -520,10 +491,7 @@ public class TestIvanhoeScenarios {
 		assertEquals(9, rEngine.getPlayer(firstPlayer).getHand().getSize());
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -532,10 +500,7 @@ public class TestIvanhoeScenarios {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -543,11 +508,9 @@ public class TestIvanhoeScenarios {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
-
+		
 		//make sure state is changed properly to playOrWithdraw for next player
 		assertEquals(GAMEConfig.PLAY_OR_WITHDRAW, rEngine.getState());
 
