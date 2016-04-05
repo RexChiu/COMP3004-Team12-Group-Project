@@ -2,8 +2,6 @@ package testcases;
 
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -12,7 +10,6 @@ import org.junit.Test;
 import game.Card;
 import game.Data;
 import game.Ivanhoe;
-import game.Player;
 import config.GAMEConfig;
 import message.Message;
 
@@ -21,6 +18,7 @@ import org.junit.Before;
 public class TestIvanhoeTournament {
 	// Create attribute variable for Ivanhoe
 	Ivanhoe rEngine;
+	Message reply;
 
 	/** This will be processed before the Test Class is instantiated */
 	@BeforeClass
@@ -79,11 +77,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//make sure select colour is valid
 		assertNotNull(reply);
@@ -95,10 +90,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(firstPlayer).getHand().getSize());
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -107,10 +99,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -118,9 +107,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -136,10 +123,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -180,11 +164,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//make sure select colour is valid
 		assertNotNull(reply);
@@ -196,10 +177,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(firstPlayer).getHand().getSize());
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -208,10 +186,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -219,9 +194,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -237,10 +210,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -281,11 +251,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//make sure select colour is valid
 		assertNotNull(reply);
@@ -297,10 +264,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(firstPlayer).getHand().getSize());
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -309,10 +273,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -320,9 +281,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -338,10 +297,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -382,11 +338,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//make sure select colour is valid
 		assertNotNull(reply);
@@ -398,10 +351,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(firstPlayer).getHand().getSize());
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -410,10 +360,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -421,9 +368,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -439,10 +384,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -483,11 +425,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//make sure select colour is valid
 		assertNotNull(reply);
@@ -499,10 +438,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(firstPlayer).getHand().getSize());
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -511,10 +447,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -522,9 +455,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -540,10 +471,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -588,30 +516,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -624,10 +541,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(secondPlayer).getHand().getSize());
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -636,10 +550,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -647,9 +558,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -665,10 +574,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -706,30 +612,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -741,11 +636,8 @@ public class TestIvanhoeTournament {
 		//make sure secondPlayer is dealt a card
 		assertEquals(9, rEngine.getPlayer(secondPlayer).getHand().getSize());
 
-		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		//hard code secondPlayer play or withdraw response		
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -754,10 +646,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -765,9 +654,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -783,10 +670,7 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -824,30 +708,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -860,32 +733,25 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(secondPlayer).getHand().getSize());
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
-
+		
 		//make sure player has not withdrawn
 		assertFalse(rEngine.getPlayer(secondPlayer).isWithdrawn());
 		//make sure state is changed properly to PlayCard
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
+
 
 		//make sure player has played a card
 		assertEquals(8, rEngine.getPlayer(secondPlayer).getHand().getSize());
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -900,11 +766,8 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+			
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 			reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
@@ -942,30 +805,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -978,10 +830,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(secondPlayer).getHand().getSize());
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -990,10 +839,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1001,9 +847,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -1019,11 +863,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1060,30 +901,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -1096,10 +926,7 @@ public class TestIvanhoeTournament {
 		assertEquals(9, rEngine.getPlayer(secondPlayer).getHand().getSize());
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has not withdrawn
@@ -1108,10 +935,7 @@ public class TestIvanhoeTournament {
 		assertEquals(GAMEConfig.PLAY_CARD, rEngine.getState());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1119,9 +943,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure state is changed properly to playOrWithdraw for next player
@@ -1137,11 +959,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1182,30 +1001,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -1213,17 +1021,11 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1231,10 +1033,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1242,10 +1041,7 @@ public class TestIvanhoeTournament {
 		assertEquals(2, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1253,9 +1049,7 @@ public class TestIvanhoeTournament {
 		assertEquals(3, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//info needed for next loop
@@ -1268,11 +1062,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1309,30 +1100,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -1340,17 +1120,11 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1358,10 +1132,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1369,10 +1140,7 @@ public class TestIvanhoeTournament {
 		assertEquals(2, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1380,9 +1148,7 @@ public class TestIvanhoeTournament {
 		assertEquals(3, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//info needed for next loop
@@ -1395,11 +1161,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1436,30 +1199,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -1467,17 +1219,11 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1485,10 +1231,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1496,10 +1239,7 @@ public class TestIvanhoeTournament {
 		assertEquals(2, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1507,9 +1247,7 @@ public class TestIvanhoeTournament {
 		assertEquals(3, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//info needed for next loop
@@ -1522,11 +1260,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1563,30 +1298,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -1594,17 +1318,11 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1612,10 +1330,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1623,10 +1338,7 @@ public class TestIvanhoeTournament {
 		assertEquals(2, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1634,9 +1346,7 @@ public class TestIvanhoeTournament {
 		assertEquals(3, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//info needed for next loop
@@ -1649,11 +1359,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1690,30 +1397,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//calculate secondPlayer ID
@@ -1721,17 +1417,11 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1739,10 +1429,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1750,10 +1437,7 @@ public class TestIvanhoeTournament {
 		assertEquals(2, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -1761,9 +1445,7 @@ public class TestIvanhoeTournament {
 		assertEquals(3, rEngine.getPlayer(secondPlayer).getDisplayer().getSize());
 
 		//hard code secondPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//info needed for next loop
@@ -1776,11 +1458,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 
 			//make sure all players have been dealt a card
 			assertEquals(9, rEngine.getPlayer(id).getHand().getSize());
@@ -1817,11 +1496,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
@@ -1830,23 +1506,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card
@@ -1860,10 +1528,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -1894,11 +1559,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
@@ -1907,23 +1569,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card
@@ -1937,10 +1591,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -1971,11 +1622,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
@@ -1984,23 +1632,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card
@@ -2014,10 +1654,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2048,11 +1685,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
@@ -2061,23 +1695,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card
@@ -2091,10 +1717,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2125,11 +1748,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
@@ -2138,23 +1758,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card
@@ -2168,10 +1780,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2202,50 +1811,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -2259,10 +1850,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2293,50 +1881,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -2350,10 +1920,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2384,50 +1951,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -2441,10 +1990,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2475,50 +2021,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -2532,10 +2060,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2566,50 +2091,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on first 4 players
 		for (int i = -1; i < 3; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -2623,10 +2130,7 @@ public class TestIvanhoeTournament {
 		if (beforeFirstPlayer == 0) { beforeFirstPlayer = 5; }
 
 		//hard code lastPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = beforeFirstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(beforeFirstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -2657,11 +2161,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
@@ -2670,23 +2171,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a cards
@@ -2722,11 +2215,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
@@ -2735,23 +2225,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a cards
@@ -2787,11 +2269,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
@@ -2800,23 +2279,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a cards
@@ -2852,11 +2323,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
@@ -2865,23 +2333,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a cards
@@ -2917,11 +2377,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
@@ -2930,23 +2387,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a cards
@@ -2982,50 +2431,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -3061,50 +2492,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -3140,50 +2553,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -3219,50 +2614,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -3298,50 +2675,32 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		for (int i = -1; i < 4; i++){
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -3377,24 +2736,15 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -3402,9 +2752,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3435,24 +2783,15 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -3460,9 +2799,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3493,24 +2830,15 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -3518,9 +2846,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3551,24 +2877,15 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -3576,9 +2893,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3609,24 +2924,15 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//make sure player has played a card
@@ -3634,9 +2940,7 @@ public class TestIvanhoeTournament {
 		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3667,26 +2971,17 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		for (int i = 0; i < 5; i++) {
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure player has played 5 cards
@@ -3694,9 +2989,7 @@ public class TestIvanhoeTournament {
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3727,26 +3020,17 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		for (int i = 0; i < 5; i++) {
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure player has played 5 cards
@@ -3754,9 +3038,7 @@ public class TestIvanhoeTournament {
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3787,26 +3069,17 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		for (int i = 0; i < 5; i++) {
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure player has played 5 cards
@@ -3814,9 +3087,7 @@ public class TestIvanhoeTournament {
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3847,26 +3118,17 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		for (int i = 0; i < 5; i++) {
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure player has played 5 cards
@@ -3874,9 +3136,7 @@ public class TestIvanhoeTournament {
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3907,26 +3167,17 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		for (int i = 0; i < 5; i++) {
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure player has played 5 cards
@@ -3934,9 +3185,7 @@ public class TestIvanhoeTournament {
 		assertEquals(5, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
 
@@ -3968,11 +3217,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		//round 1, each player plays 1 card
@@ -3982,23 +3228,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a card
@@ -4014,30 +3252,19 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
-
+			
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played two cards
@@ -4051,39 +3278,24 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -4120,11 +3332,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		//round 1, each player plays 1 card
@@ -4134,23 +3343,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a card
@@ -4166,30 +3367,19 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
-
+			
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played two cards
@@ -4203,39 +3393,24 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -4272,11 +3447,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		//round 1, each player plays 1 card
@@ -4286,23 +3458,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a card
@@ -4318,30 +3482,19 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
-
+			
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played two cards
@@ -4355,39 +3508,24 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -4424,11 +3562,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		//round 1, each player plays 1 card
@@ -4438,23 +3573,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a card
@@ -4470,30 +3597,19 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
-
+			
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played two cards
@@ -4507,39 +3623,24 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -4576,11 +3677,8 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hardcode playCard and endTurn on all players
 		//round 1, each player plays 1 card
@@ -4590,23 +3688,15 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played a card
@@ -4622,30 +3712,19 @@ public class TestIvanhoeTournament {
 			System.out.println("Hardcoding Message: " + id);
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
-
+			
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played two cards
@@ -4659,39 +3738,24 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			System.out.println("Hardcoding Message: " + id);
-
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played three cards
@@ -4728,34 +3792,23 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//have 2nd,3rd,4th player force withdraw because insufficient total
@@ -4763,17 +3816,11 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card only
@@ -4785,9 +3832,7 @@ public class TestIvanhoeTournament {
 			assertTrue(firstPlayerTotal > playerTotal);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they are forced to withdraw
@@ -4823,34 +3868,23 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//have 2nd,3rd,4th player force withdraw because insufficient total
@@ -4858,17 +3892,11 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card only
@@ -4880,9 +3908,7 @@ public class TestIvanhoeTournament {
 			assertTrue(firstPlayerTotal > playerTotal);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they are forced to withdraw
@@ -4918,34 +3944,23 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//have 2nd,3rd,4th player force withdraw because insufficient total
@@ -4953,17 +3968,11 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card only
@@ -4975,9 +3984,7 @@ public class TestIvanhoeTournament {
 			assertTrue(firstPlayerTotal > playerTotal);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they are forced to withdraw
@@ -5013,34 +4020,23 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//have 2nd,3rd,4th player force withdraw because insufficient total
@@ -5048,17 +4044,11 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card only
@@ -5070,9 +4060,7 @@ public class TestIvanhoeTournament {
 			assertTrue(firstPlayerTotal > playerTotal);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they are forced to withdraw
@@ -5108,34 +4096,23 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		//have 2nd,3rd,4th player force withdraw because insufficient total
@@ -5143,17 +4120,11 @@ public class TestIvanhoeTournament {
 			int id = ((firstPlayer + i) % 5) + 1;
 
 			//hard code player play or withdraw response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 			reply = rEngine.processMessage(msg);
 
 			//hard code player playCard response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
+			msg = Data.newMessage(id + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 			reply = rEngine.processMessage(msg);
 
 			//make sure they all played one card only
@@ -5165,9 +4136,7 @@ public class TestIvanhoeTournament {
 			assertTrue(firstPlayerTotal > playerTotal);
 
 			//hard code player endTurn response
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.END_TURN;
+			msg = Data.newMessage(id + "", GAMEConfig.END_TURN);
 			reply = rEngine.processMessage(msg);
 
 			//make sure they are forced to withdraw
@@ -5202,28 +4171,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in first tournament
@@ -5236,36 +4196,24 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer select colour response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in 2nd tournament
@@ -5300,28 +4248,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in first tournament
@@ -5334,36 +4273,24 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer select colour response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in 2nd tournament
@@ -5398,28 +4325,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in first tournament
@@ -5432,36 +4350,24 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer select colour response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in 2nd tournament
@@ -5496,28 +4402,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in first tournament
@@ -5530,36 +4427,24 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer select colour response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in 2nd tournament
@@ -5594,28 +4479,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in first tournament
@@ -5628,36 +4504,24 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hard code firstPlayer select colour response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//making firstPlayer play 5 maiden cards
 		for (int i = 0; i < 5; i++)
 		{
 			//hard code firstPlayer playCard response
-			msg = new Message();
-			msg.getHeader().sender = firstPlayer + "";
-			msg.getHeader().state = GAMEConfig.PLAY_CARD;
-			msg.getBody().addField("Selected Card Index", 0+"");
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer played one maiden card only in 2nd tournament
@@ -5692,30 +4556,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -5727,11 +4580,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer won a red token because everyone withdrew
@@ -5765,30 +4615,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -5800,11 +4639,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer won a red token because everyone withdrew
@@ -5838,30 +4674,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -5873,11 +4698,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer won a red token because everyone withdrew
@@ -5911,30 +4733,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -5946,11 +4757,8 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//make sure firstPlayer won a red token because everyone withdrew
@@ -5984,30 +4792,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -6019,19 +4816,14 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hardcode firstPlayer choosing token message
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.WIN_TOURNAMENT;
-		msg.getBody().addField("Token Color", GAMEConfig.COLOR_PURPLE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.WIN_TOURNAMENT, "Token Color", GAMEConfig.COLOR_PURPLE);
 		reply = rEngine.processMessage(msg);
+
 
 		//make sure firstPlayer won a red token because everyone withdrew
 		assertTrue(rEngine.getPlayer(firstPlayer).checkToken(GAMEConfig.COLOR_PURPLE));
@@ -6064,30 +4856,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -6099,18 +4880,12 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hardcode firstPlayer choosing token message
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.WIN_TOURNAMENT;
-		msg.getBody().addField("Token Color", GAMEConfig.COLOR_GREEN);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.WIN_TOURNAMENT, "Token Color", GAMEConfig.COLOR_GREEN);
 		reply = rEngine.processMessage(msg);
 
 		//make sure firstPlayer won a green token because everyone withdrew
@@ -6144,30 +4919,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -6179,18 +4943,12 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hardcode firstPlayer choosing token message
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.WIN_TOURNAMENT;
-		msg.getBody().addField("Token Color", GAMEConfig.COLOR_YELLOW);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.WIN_TOURNAMENT, "Token Color", GAMEConfig.COLOR_YELLOW);
 		reply = rEngine.processMessage(msg);
 
 		//make sure firstPlayer won a blue token because everyone withdrew
@@ -6224,30 +4982,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -6259,18 +5006,12 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hardcode firstPlayer choosing token message
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.WIN_TOURNAMENT;
-		msg.getBody().addField("Token Color", GAMEConfig.COLOR_RED);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.WIN_TOURNAMENT, "Token Color", GAMEConfig.COLOR_RED);
 		reply = rEngine.processMessage(msg);
 
 		//make sure firstPlayer won a red token because everyone withdrew
@@ -6304,30 +5045,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -6339,18 +5069,12 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hardcode firstPlayer choosing token message
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.WIN_TOURNAMENT;
-		msg.getBody().addField("Token Color", GAMEConfig.COLOR_BLUE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.WIN_TOURNAMENT, "Token Color", GAMEConfig.COLOR_BLUE);
 		reply = rEngine.processMessage(msg);
 
 		//make sure firstPlayer won a purple token because everyone withdrew
@@ -6384,30 +5108,19 @@ public class TestIvanhoeTournament {
 		}
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 		//info needed for next loop
 		int beforeFirstPlayer = (firstPlayer + 5 - 1) % 5;
@@ -6419,18 +5132,12 @@ public class TestIvanhoeTournament {
 
 			System.out.println("Hardcoding Message: " + id);
 
-			msg = new Message();
-			msg.getHeader().sender = id + "";
-			msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-			msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
-			reply = rEngine.processMessage(msg);
+		msg = Data.newMessage(id + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
+		reply = rEngine.processMessage(msg);
 		}
 
 		//hardcode firstPlayer choosing token message
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.WIN_TOURNAMENT;
-		msg.getBody().addField("Token Color", GAMEConfig.COLOR_PURPLE);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.WIN_TOURNAMENT, "Token Color", GAMEConfig.COLOR_PURPLE);
 		reply = rEngine.processMessage(msg);
 
 		//make sure firstPlayer won a yellow token because everyone withdrew
@@ -6462,30 +5169,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6500,10 +5196,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_GREEN));
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 
 		//make sure secondPlayer loses blue token
@@ -6535,30 +5228,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6573,10 +5255,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_YELLOW));
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 
 		//make sure secondPlayer loses blue token
@@ -6608,30 +5287,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6646,10 +5314,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_RED));
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 
 		//make sure secondPlayer loses blue token
@@ -6681,30 +5346,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6719,10 +5373,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_BLUE));
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 
 		//make sure secondPlayer loses blue token
@@ -6754,30 +5405,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6792,10 +5432,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_PURPLE));
 
 		//hard code secondPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(secondPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_WITHDRAW);
 		reply = rEngine.processMessage(msg);
 
 		//make sure secondPlayer loses blue token
@@ -6827,30 +5464,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_GREEN);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6871,10 +5497,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_GREEN));
 
 		//hard code secondPlayer withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer losing blue token
@@ -6913,30 +5536,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_YELLOW);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -6957,10 +5569,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_GREEN));
 
 		//hard code secondPlayer withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer losing blue token
@@ -6999,30 +5608,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_RED);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -7043,10 +5641,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_GREEN));
 
 		//hard code secondPlayer withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer losing blue token
@@ -7085,30 +5680,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_BLUE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -7129,11 +5713,10 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_GREEN));
 
 		//hard code secondPlayer withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
+
+
 
 		//hard code secondPlayer losing blue token
 		msg.getHeader().sender = secondPlayer + "";
@@ -7171,30 +5754,19 @@ public class TestIvanhoeTournament {
 		if (secondPlayer == 0) { secondPlayer++; };
 
 		//hard code firstPlayer select colour response
-		Message msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.SELECT_COLOR;
-		msg.getBody().addField("Tournament Color", GAMEConfig.COLOR_PURPLE);
-		Message reply = rEngine.processMessage(msg);
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer play or withdraw response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_PLAY);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer playCard response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_CARD;
-		msg.getBody().addField("Selected Card Index", 0+"");
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
 		reply = rEngine.processMessage(msg);
 
 		//hard code firstPlayer endTurn response
-		msg = new Message();
-		msg.getHeader().sender = firstPlayer + "";
-		msg.getHeader().state = GAMEConfig.END_TURN;
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 
 		// add a maiden to secondPlayer's display
@@ -7215,10 +5787,7 @@ public class TestIvanhoeTournament {
 		assertTrue(rEngine.getPlayer(secondPlayer).checkToken(GAMEConfig.COLOR_GREEN));
 
 		//hard code secondPlayer withdraw response
-		msg = new Message();
-		msg.getHeader().sender = secondPlayer + "";
-		msg.getHeader().state = GAMEConfig.PLAY_OR_WITHDRAW;
-		msg.getBody().addField("POW Choice", GAMEConfig.POW_WITHDRAW);
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
 		reply = rEngine.processMessage(msg);
 
 		//hard code secondPlayer losing blue token
