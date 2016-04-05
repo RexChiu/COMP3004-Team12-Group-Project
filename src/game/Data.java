@@ -161,4 +161,13 @@ public class Data {
 		return message;
 	}
 	
+	public static Message newMessage(String sender, int state, String keyOne, String dataOne, String keyTwo, String dataTwo, String keyThree, String dataThree){
+		Message message = new Message();
+		message.getHeader().sender = sender;
+		message.getHeader().state = state;
+		message.getBody().addField(keyOne, dataOne);
+		message.getBody().addField(keyTwo, dataTwo);
+		message.getBody().addField(keyThree, dataThree);
+		return message;
+	}
 }

@@ -114,7 +114,7 @@ public class Display {
 		if (display.get(index).isStunned()) 
 			this.status += ( isShield() ? "" : GAMEConfig.STATUS_STUNNED);
 	}
-
+	
 	// Check the green tournament
 	public boolean 	isGreenTournament() { return this.tournament.equalsIgnoreCase(GAMEConfig.COLOR_GREEN); 		}
 	
