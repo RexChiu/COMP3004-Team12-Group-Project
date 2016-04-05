@@ -51,10 +51,38 @@ public class Ivanhoe {
 		this.initPlayerOrder();
 		// Initialize and store first player
 		this.initFirstPlayer();
+		// Update store to select color
+		this.updateState(GAMEConfig.SELECT_COLOR);
+	}
+
+	public void initTestCase2(){
+		this.deck = new Deck();
+		this.deck.initTestCase();
+		this.deck.shuffleDeck();
+		this.deadwood = new Deck();
+		this.numPlayers = players.size();
+
+		// Initialize Player Order		
+		this.initPlayerOrder();
+
+		// Init first player to be the first player (no random)
+		this.currentPlayer = 0;		
+		this.currentID = this.playersOrder.get(currentPlayer);
+		this.firstPlayer = this.currentID;
+		
 		// Initialize Hands	
-		//this.initHand();
-		// Deal card to first player
-		//this.dealCard();
+		Card card = new Card(GAMEConfig.UNHORSE, GAMEConfig.ACTION_CARD, GAMEConfig.VALUE_ACTION_CARD_ZERO);
+		this.players.get(1).getHand().drawCard(card);
+		this.players.get(2).getHand().drawCard(card);
+		this.players.get(3).getHand().drawCard(card);
+		this.players.get(5).getHand().drawCard(card);
+		card = new Card(GAMEConfig.SQUIRE, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_SQUIRE_TWO);
+		this.players.get(4).getHand().drawCard(card);
+
+		//Find player who can play.
+		findValidPlayer();
+		this.playersLeft = numPlayers;
+
 		// Update store to select color
 		this.updateState(GAMEConfig.SELECT_COLOR);
 	}
@@ -85,7 +113,23 @@ public class Ivanhoe {
 		this.currentPlayer = new Random().nextInt(numPlayers);		
 		this.currentID = this.playersOrder.get(currentPlayer);
 		this.firstPlayer = currentID;
+		findValidPlayer();
 		this.playersLeft = numPlayers;
+	}
+
+	private void findValidPlayer(){
+		int counter = 0;
+		//increment until a person can play
+		while (players.get(this.currentID).getHand().allAction()){
+			System.out.println(players.get(this.currentID).getHand().toString());
+			//this.dealCard();
+			this.nextPlayer();
+			counter++;
+			if (counter > numPlayers){
+				System.out.println("Fatal Error. No one can play! (ignore if in Unit Test)");
+				break;
+			}
+		}
 	}
 
 	public void setup(){
@@ -105,10 +149,14 @@ public class Ivanhoe {
 
 	private void dealCard(){
 		// Check deck is empty refill by discards deck and shuffle
-		if (this.deck.isEmpty()){
+		if (this.deck.getSize() == 0){
 			this.deadwood.shuffleDeck();
-			this.deck = this.deadwood;
-			this.deadwood.cleanDeck();
+			int deadwoodSize = this.deadwood.getSize();
+			for (int i = 0; i < deadwoodSize; i++){
+				Card card = this.deadwood.getCard(0);
+				this.deck.addCard(card);
+				this.deadwood.removeCard(card);
+			}
 		}
 
 		// Deal card to player
@@ -238,6 +286,7 @@ public class Ivanhoe {
 				this.dealCard();
 
 				// Update state to select color for next tournament
+				findValidPlayer();
 				this.updateState(GAMEConfig.SELECT_COLOR);
 				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FIVE);
 			}
@@ -477,7 +526,7 @@ public class Ivanhoe {
 				//draw at random one card from target's display and add to hand
 				//can only play if > 1 card left and does not have shield
 
-				if (players.get(targetID).getDisplayer().getSize() <= 1 ||
+				if (players.get(targetID).getHand().getSize() == 0 ||
 						players.get(targetID).getDisplayer().hasShield()) {
 
 					return null;
@@ -492,10 +541,12 @@ public class Ivanhoe {
 				this.deadwood.addCard(card);
 
 				//draws random card and adds to own hand
-				int targetDisplaySize = players.get(targetID).getDisplayer().getSize();
-				int cardIndex = new Random().nextInt(targetDisplaySize);
-				Card tempCard = players.get(targetID).getDisplayer().getCard(cardIndex);
-				players.get(targetID).getDisplayer().removeCard(tempCard);
+				int targetHandSize = players.get(targetID).getHand().getSize();
+				int cardIndex = new Random().nextInt(targetHandSize);
+				Card tempCard = players.get(targetID).getHand().getCard(cardIndex);
+
+				players.get(targetID).getHand().playCard(tempCard);
+				players.get(this.currentID).getHand().drawCard(tempCard);
 				this.deadwood.addCard(tempCard);
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.OUTMANEUVER)) {	
 				//all players discard last card
@@ -506,11 +557,16 @@ public class Ivanhoe {
 
 				//iterate through players, find a player who has > 1 card in display and does not have shield
 				for (int i = 0; i < this.numPlayers; i++) {
-					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
-							!players.get(i).getDisplayer().hasShield()) {
-
-						valid = true;
-						break;
+					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1) {
+						//AOE cards affect own player regardless of shield
+						if (playersOrder.get(i) == this.currentID){
+							valid = true;
+							break;
+						}
+						else if (!players.get(playersOrder.get(i)).getDisplayer().hasShield()){
+							valid = true;
+							break;
+						}
 					}
 				}
 
@@ -528,13 +584,20 @@ public class Ivanhoe {
 
 				//all players discard last card if possible
 				for (int key : this.players.keySet()) {
-					if (players.get(key).getDisplayer().getSize() > 1 &&
-							!players.get(key).getDisplayer().hasShield()) {
-
-						int cardIndex = players.get(key).getDisplayer().getSize() - 1;
-						Card tempCard = players.get(key).getDisplayer().getCard(cardIndex);
-						players.get(key).getDisplayer().removeCard(tempCard);
-						this.deadwood.addCard(tempCard);
+					if (players.get(key).getDisplayer().getSize() > 1) {
+						//AOE affects own player regardless of shield
+						if (this.currentID == key){
+							int cardIndex = players.get(key).getDisplayer().getSize() - 1;
+							Card tempCard = players.get(key).getDisplayer().getCard(cardIndex);
+							players.get(key).getDisplayer().removeCard(tempCard);
+							this.deadwood.addCard(tempCard);
+						}
+						else if (!players.get(key).getDisplayer().hasShield()){
+							int cardIndex = players.get(key).getDisplayer().getSize() - 1;
+							Card tempCard = players.get(key).getDisplayer().getCard(cardIndex);
+							players.get(key).getDisplayer().removeCard(tempCard);
+							this.deadwood.addCard(tempCard);
+						}
 					}
 				}
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.CHARGE)) {	
@@ -579,11 +642,15 @@ public class Ivanhoe {
 				//and has the value card, and does not have shield
 				for (int i = 0; i < this.numPlayers; i++) {	
 					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
-							!players.get(playersOrder.get(i)).getDisplayer().hasShield() &&
 							players.get(playersOrder.get(i)).getDisplayer().hasValue(minValue)) {
-
-						valid = true;
-						break;
+						if (playersOrder.get(i) == this.currentID){
+							valid = true;
+							break;
+						} 
+						else if (!players.get(playersOrder.get(i)).getDisplayer().hasShield()){
+							valid = true;
+							break;
+						}
 					}
 				}
 
@@ -605,23 +672,24 @@ public class Ivanhoe {
 				//loop through players
 				for (int key : this.players.keySet()) {
 					//if can discard at all
-					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
-							!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
+					if (players.get(key).getDisplayer().getSize() > 1 &&
+							!players.get(key).getDisplayer().hasShield()) {
 
-						for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
+						for (int i = 0; i < players.get(key).getDisplayer().getSize(); i++)
 						{
-							tempCard = players.get(targetID).getDisplayer().getCard(i);
+							tempCard = players.get(key).getDisplayer().getCard(i);
 							//remove cards equal to minValue, leave only one card
-							if (tempCard.getValue() == minValue && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
+							if (tempCard.getValue() == minValue && (players.get(key).getDisplayer().getSize() - tempArr.size() > 1))
 							{
 								tempArr.add(tempCard);
 							}
 						}
 						for (int i = 0; i < tempArr.size(); i++) {
 							System.out.println("Removing: " + tempArr.get(i).toString());
-							players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
+							players.get(key).getDisplayer().removeCard(tempArr.get(i));
 							this.deadwood.addCard(tempArr.get(i));
 						}
+						tempArr.clear();
 					}
 				}
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.COUNTERCHARGE)) {	
@@ -664,13 +732,19 @@ public class Ivanhoe {
 
 				//iterate through players, find a player who has > 1 card in display
 				//and has the value card, and does not have shield
+				//iterate through players, find a player who has > 1 card in display
+				//and has the value card, and does not have shield
 				for (int i = 0; i < this.numPlayers; i++) {	
 					if (players.get(playersOrder.get(i)).getDisplayer().getSize() > 1 &&
-							!players.get(playersOrder.get(i)).getDisplayer().hasShield() &&
 							players.get(playersOrder.get(i)).getDisplayer().hasValue(maxValue)) {
-
-						valid = true;
-						break;
+						if (playersOrder.get(i) == this.currentID){
+							valid = true;
+							break;
+						} 
+						else if (!players.get(playersOrder.get(i)).getDisplayer().hasShield()){
+							valid = true;
+							break;
+						}
 					}
 				}
 
@@ -692,23 +766,24 @@ public class Ivanhoe {
 				//loop through players
 				for (int key : this.players.keySet()) {
 					//if can discard at all
-					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
-							!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
+					if (players.get(key).getDisplayer().getSize() > 1 &&
+							!players.get(key).getDisplayer().hasShield()) {
 
-						for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
+						for (int i = 0; i < players.get(key).getDisplayer().getSize(); i++)
 						{
-							tempCard = players.get(targetID).getDisplayer().getCard(i);
+							tempCard = players.get(key).getDisplayer().getCard(i);
 							//remove cards equal to minValue, leave only one card
-							if (tempCard.getValue() == maxValue && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
+							if (tempCard.getValue() == maxValue && (players.get(key).getDisplayer().getSize() - tempArr.size() > 1))
 							{
 								tempArr.add(tempCard);
 							}
 						}
 						for (int i = 0; i < tempArr.size(); i++) {
 							System.out.println("Removing: " + tempArr.get(i).toString());
-							players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
+							players.get(key).getDisplayer().removeCard(tempArr.get(i));
 							this.deadwood.addCard(tempArr.get(i));
 						}
+						tempArr.clear();
 					}
 				}
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.DISGRACE)) {	
@@ -743,24 +818,24 @@ public class Ivanhoe {
 				ArrayList<Card> tempArr = new ArrayList<Card>();
 				Card tempCard;
 				for (int key : this.players.keySet()) {
-					if (players.get(playersOrder.get(key)).getDisplayer().getSize() > 1 &&
-							!players.get(playersOrder.get(key)).getDisplayer().hasShield()) {
-
-						for (int i = 0; i < players.get(targetID).getDisplayer().getSize(); i++)
-						{
-							tempCard = players.get(targetID).getDisplayer().getCard(i);
-							//remove all purple cards, leave only one card
-							if (tempCard.isSupporter() && (players.get(targetID).getDisplayer().getSize() - tempArr.size() > 1))
-							{
-								tempArr.add(tempCard);
+					for (int i = 0; i < players.get(key).getDisplayer().getSize(); i++){
+						//remove all supporter cards, leave only one card
+						if (players.get(key).getDisplayer().getSize() - tempArr.size() > 1){
+							tempCard = players.get(key).getDisplayer().getCard(i);
+							if (tempCard.isSupporter()){
+								if (key == this.currentID)
+									tempArr.add(tempCard);
+								else if (!players.get(key).getDisplayer().hasShield())
+									tempArr.add(tempCard);
 							}
 						}
-						for (int i = 0; i < tempArr.size(); i++) {
-							System.out.println("Removing: " + tempArr.get(i).toString());
-							players.get(targetID).getDisplayer().removeCard(tempArr.get(i));
-							this.deadwood.addCard(tempArr.get(i));
-						}
 					}
+					for (int i = 0; i < tempArr.size(); i++) {
+						System.out.println("Removing: " + tempArr.get(i).toString());
+						players.get(key).getDisplayer().removeCard(tempArr.get(i));
+						this.deadwood.addCard(tempArr.get(i));
+					}
+					tempArr.clear();
 				}
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.ADAPT)) {	
 				//each player keep one card of each value, all other card values must be discarded
@@ -769,9 +844,11 @@ public class Ivanhoe {
 				//NOT IMPLEMENTED
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.OUTWIT)) {	
 				//give target a card from own display, take a card from target display
-				//can only play if both players have >1 cards, and target does not have shield
+				//can only play if both players have at least 1 card, and target does not have shield
 
 				if (players.get(targetID).getDisplayer().hasShield())
+					return null;
+				if (players.get(targetID).getDisplayer().getSize() < 1 || players.get(this.currentID).getDisplayer().getSize() < 1)
 					return null;
 
 				//check Ivanhoe
@@ -783,18 +860,61 @@ public class Ivanhoe {
 				this.deadwood.addCard(card);
 
 				// swap cards
-				Card ownCard = players.get(this.currentID).getDisplayer().getCard(ownDisplayIndex);
-				Card targetCard = players.get(targetID).getDisplayer().getCard(targetDisplayIndex);
-
-				players.get(this.currentID).getDisplayer().removeCard(ownCard);
-				players.get(targetID).getDisplayer().addCard(ownCard);
-
-				//catches special case of you giving target a shield
-				if (!ownCard.isShield())
-				{
-					players.get(targetID).getDisplayer().removeCard(targetCard);
-					players.get(this.currentID).getDisplayer().addCard(targetCard);
+				if (ownDisplayIndex == -100){
+					players.get(this.currentID).getDisplayer().removeShield();
+					players.get(targetID).getDisplayer().setStatus("Shield");
 				}
+				else if (ownDisplayIndex == -200){
+					players.get(this.currentID).getDisplayer().removeStunned();
+					players.get(targetID).getDisplayer().setStatus("Stunned");
+				}
+				else {
+					Card ownCard = players.get(this.currentID).getDisplayer().getCard(ownDisplayIndex);
+					players.get(this.currentID).getDisplayer().removeCard(ownCard);
+					players.get(targetID).getDisplayer().addCard(ownCard);
+				}
+				if (targetDisplayIndex == -100){
+					players.get(targetID).getDisplayer().removeShield();
+					players.get(this.currentID).getDisplayer().setStatus("Shield");
+				}
+				else if (targetDisplayIndex == -200){
+					players.get(targetID).getDisplayer().removeStunned();
+					players.get(this.currentID).getDisplayer().setStatus("Stunned");
+				}
+				else {
+					Card theirCard = players.get(targetID).getDisplayer().getCard(targetDisplayIndex);
+					players.get(targetID).getDisplayer().removeCard(theirCard);
+					players.get(this.currentID).getDisplayer().addCard(theirCard);
+				}
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.SHIELD)){
+
+				if (players.get(this.currentID).getDisplayer().hasShield())
+					return null;
+
+				//check Ivanhoe
+				Message Ivanhoe = this.findIvanhoe(message, checkIvanhoe, card);
+				if (Ivanhoe != null) { return Ivanhoe; }
+
+				//discard action card
+				players.get(this.currentID).getHand().playCard(card);
+				this.deadwood.addCard(card);
+
+				players.get(this.currentID).getDisplayer().setStatus("Shield");
+
+			} else if (card.getName().equalsIgnoreCase(GAMEConfig.STUNNED)){
+
+				if (players.get(targetID).getDisplayer().hasStunned() || players.get(targetID).getDisplayer().hasShield())
+					return null;
+
+				//check Ivanhoe
+				Message Ivanhoe = this.findIvanhoe(message, checkIvanhoe, card);
+				if (Ivanhoe != null) { return Ivanhoe; }
+
+				//discard action card
+				players.get(this.currentID).getHand().playCard(card);
+				this.deadwood.addCard(card);
+
+				players.get(targetID).getDisplayer().setStatus("Stunned");
 			}
 		}
 		return Data.getMessage(players, this.currentID);
@@ -911,6 +1031,7 @@ public class Ivanhoe {
 		this.dealCard();
 
 		// Update state to select color
+		findValidPlayer();
 		this.updateState(GAMEConfig.SELECT_COLOR);
 		return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
 	}
@@ -1033,4 +1154,8 @@ public class Ivanhoe {
 	public String	getCurrColour()		{ return this.currTournamentColour;				}
 	public Deck		getDeck()			{ return this.deck;								}
 	public Deck		getDeadwood()		{ return this.deadwood;							}
+	public int 		getFirstPlayer()	{ return this.firstPlayer;						}
+
+	//used to test Scenario B in Unit Test
+	public void		setPrevColor(String blah){ this.prevTournamentColour = blah; }
 }

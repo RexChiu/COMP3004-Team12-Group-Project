@@ -9,6 +9,8 @@ public class Display {
 	private ArrayList<Card> display;
 	private String tournament;
 	private String status;
+	private boolean shield;
+	private boolean stunned;
 	private int numPlayed;
 	private int total;
 	
@@ -24,9 +26,17 @@ public class Display {
 
 	// Collection of setter 
 	public void		playCard()							{ this.numPlayed++;				}
-	public void		setStatus(String status) 			{ this.status += status; 		}
 	public void 	setTournament(String tournament)	{ this.tournament = tournament; }
 	public void 	cleanNumPlayed()					{ this.numPlayed = 0;			}
+	public void		setStatus(String status) { 
+		this.status += status; 		
+		if (status.equalsIgnoreCase("Shield")){
+			shield = true;
+		}
+		if (status.equalsIgnoreCase("Stunned")){
+			stunned = true;
+		}
+	}
 	
 	// Collection of Getter
 	public boolean 	isEmpty()			{ return display.isEmpty();										}
@@ -35,7 +45,6 @@ public class Display {
 	public Card 	getCard(int index) 	{ return this.display.get(index);								}
 	public String	getStatus()			{ return this.status; 											}
 	public String 	getTournament() 	{ return this.tournament; 										}
-	
 	public int		getSize()			{ return display.size();										}
 	
 	//checks for purple colour card
@@ -72,12 +81,12 @@ public class Display {
 	
 	//checks for shield card
 	public boolean hasShield(){
-		return this.isShield();
+		return this.shield;
 	}
 	
 	//checks for stunned card
 	public boolean hasStunned(){
-		return this.isStunned();
+		return this.stunned;
 	}
 	
 	// Add one card to display
@@ -123,6 +132,9 @@ public class Display {
 
 	// Check the status whether is stunned of not
 	public boolean 	isStunned() 		{ return GAMEConfig.containsKey(this.status, GAMEConfig.STATUS_STUNNED);}
+	
+	public void removeShield() { this.shield = false; }
+	public void removeStunned() { this.stunned = false; }
 		
 	public String toString(){
 		String result = "";
