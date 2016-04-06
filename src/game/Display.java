@@ -133,8 +133,17 @@ public class Display {
 	// Check the status whether is stunned of not
 	public boolean 	isStunned() 		{ return GAMEConfig.containsKey(this.status, GAMEConfig.STATUS_STUNNED);}
 	
-	public void removeShield() { this.shield = false; }
-	public void removeStunned() { this.stunned = false; }
+	public void removeShield() { 
+		this.status = this.status.replace(GAMEConfig.STATUS_SHIELD, "");
+		this.status = this.status.replace(",", "");
+		this.shield = false; 
+	}
+	
+	public void removeStunned() { 
+		this.status = this.status.replace(GAMEConfig.STATUS_STUNNED, "");
+		this.status = this.status.replace(",", "");
+		this.stunned = false; 
+	}
 		
 	public String toString(){
 		String result = "";

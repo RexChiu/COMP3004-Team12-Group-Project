@@ -98,7 +98,6 @@ public class AppServer implements Runnable {
 	}
 
 	public synchronized void handle(int ID, Message message){
-		System.out.println("State: " + message.getHeader().state);
 		if (message.getHeader().state == LANConfig.PLAYER_LOSS){
 			shutdown(ID);
 			return;
@@ -107,14 +106,14 @@ public class AppServer implements Runnable {
 		UI.writeMessage(String.format("%5d: %25s %20s", ID, GAMEConfig.STATE[rEngine.getPrevState()], GAMEConfig.STATE[rEngine.getState()]));
 			
 		Message response = rEngine.processMessage(message);
-		
 		if (response != null){
 			HashMap<Integer, Player> players = rEngine.getPlayers();
 			for (ServerThread to : clients.values()) {
 				int tempID = to.getID();
 				to.send(Data.getMessage(players, tempID));
+				UI.writeMessage(tempID + ": " + players.get(to.getID()).getDisplayer().getTournament().toString());
 			}			
-			
+
 			if (response.getHeader().state == GAMEConfig.GAME_OVER){
 				for (ServerThread to : clients.values()) {
 					int tempID = to.getID();

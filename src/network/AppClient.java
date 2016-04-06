@@ -68,7 +68,9 @@ public class AppClient implements Runnable {
 		if (message.getHeader().state == LANConfig.PLAYER_LOSS){
 			stop();
 		}
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++");
 		UI.updateUI(message);
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++");
 	}
 
 	public void stop() {

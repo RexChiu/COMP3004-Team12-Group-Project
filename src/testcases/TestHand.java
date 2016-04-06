@@ -1,6 +1,6 @@
 package testcases;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -103,7 +103,7 @@ public class TestHand {
 
 		hand.drawCard(card);
 		
-		assertEquals(Boolean.TRUE, hand.hasIvanhoe());
+		assertNotEquals(-1, hand.hasIvanhoe());
     }
     
     @Test

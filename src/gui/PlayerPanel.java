@@ -44,6 +44,7 @@ public class PlayerPanel extends JPanel implements ActionListener{
 		infoButton = new JButton("Info");
 		infoButton.setLocation(GUIConfig.PLAYER_INFO_LOCATION_X, GUIConfig.PLAYER_INFO_LOCATION_Y);
 		infoButton.setSize(GUIConfig.PLAYER_INFO_WIDTH, GUIConfig.PLAYER_INFO_HEIGHT);
+		infoButton.addActionListener(this);
 		add(infoButton);
 		
 		statusOneButton = new JButton("One");
@@ -84,7 +85,7 @@ public class PlayerPanel extends JPanel implements ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_ID, this.ID);	
+		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_ID, this.ID);
 		this.client.dataPacket.put(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, e.getActionCommand());	
 	}
 }

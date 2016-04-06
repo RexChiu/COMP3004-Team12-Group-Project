@@ -67,6 +67,8 @@ Application Introduction:
 	Player(ClientIvanhoe):
 		When the game is running. The player will be able to play the game by clicking a card in their hand and it is able to play the selected the card. The player is limited to selecting one card at a time, but can play as many cards as they want per turn. After the card is selected the player needs click the "Play Card" button to update the action to the Rule Engine in the server. Eveytime the player wants to end their turn, they need to click the "End Turn" button. Apart of Play Card and End Turn, There are some dialog pop-ups such as, select tournament color, play or withdraw, choose tokens, and etc.
 
+		Player could check what the tournament color is in the center.
+
 		Robustness Play Card and End Turn:
 			Both actions of Play Card and End Turn would automatically be evaluated by the Rules Engine. In another word, the action will be affect if and only if it their turn, and the action is valid.
 		The UI will automatically update the client if it receives a message from the server. In another word, the UI is always up to time whenever the current state is. For example, when a player chooses a tournament color, it will automatically update it to everybody.

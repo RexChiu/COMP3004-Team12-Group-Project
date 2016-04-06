@@ -159,7 +159,9 @@ public class ClientPanel extends JFrame implements ActionListener{
 		System.exit(0);
 	}
 	
-	public void updateUI(Message message){				
+	public void updateUI(Message message){		
+		System.out.println("Message:-------------------------------------------------------------- \n" + message.getBody().toString());
+		
 		String 	ID 				= message.getBody().getField("UserID").toString();
 		String 	tokens 			= message.getBody().getField("UserTokens").toString();
 		String 	hand 			= message.getBody().getField("UserHand").toString();
@@ -180,10 +182,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 			tournamentPanel.totalLabel.get(index++).setText(playerInfo.split(":")[2]);		
 		}
 
-		System.out.println("User Tokens: " + tokens);
-		tokens = tokens.replaceAll(",", "\n");
-		System.out.println("User Tokens: " + tokens);
-		
+		tokens = tokens.replaceAll(",", "\n");		
 		userPanel.ID = ID;
 		userPanel.infoButton.setText(ID);
 		userPanel.tokenButton.setText(tokens);	
@@ -228,7 +227,6 @@ public class ClientPanel extends JFrame implements ActionListener{
 		String fromID = "";
 		String[] tokenList = null;
 		Message response = null;
-			
 		switch (state){
 			case GAMEConfig.SELECT_COLOR:
 				colors = message.getBody().getField("Select Colors").toString();

@@ -88,16 +88,11 @@ public class Ivanhoe {
 	}
 
 	private void initHand(){
-		for (int i = 0; i < 8; i++){
+		for (int i = 0; i < 5; i++){
 			for (Integer key: playersOrder){
 				Card card = deck.getCard(0);
 				this.players.get(key).addCard(card);
 				this.deck.removeCard(card);
-
-				// Test Purpose DELETE after Test
-				/*card = deck.getCard(0);
-				this.players.get(key).addDisplay(card);
-				this.deck.removeCard(card);*/
 			}		
 		}			
 	}
@@ -137,10 +132,10 @@ public class Ivanhoe {
 		this.init();
 		// Initialize Player Order		
 		this.initPlayerOrder();
-		// Initialize and store first player
-		this.initFirstPlayer();
 		// Initialize Hands	
 		this.initHand();
+		// Initialize and store first player
+		this.initFirstPlayer();
 		// Deal card to first player
 		this.dealCard();
 		// Update store to select color
@@ -166,9 +161,6 @@ public class Ivanhoe {
 	}
 
 	private Message selectColor(String color){
-		System.out.println("Color Info:");
-		System.out.println(this.currTournamentColour + " - " + this.prevTournamentColour);
-		System.out.println(color);
 		if (color.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE) && this.prevTournamentColour != null){
 			if (this.prevTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE))
 				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FOUR);
@@ -179,13 +171,13 @@ public class Ivanhoe {
 
 		// Update store to play or withdraw
 		this.updateState(GAMEConfig.PLAY_OR_WITHDRAW);
-		System.out.println("SELECTED COLOR: " + color);
 		return Data.playOrWithdraw(this.players, this.currentID);
 	}
 
 	private Message playOrWithdraw(String choice, String color){
 		// Check current Player's Choice if player is withdrawn
 		if (choice.equalsIgnoreCase(GAMEConfig.POW_WITHDRAW)){
+			this.players.get(this.currentID).getDisplayer().cleanNumPlayed();
 			if (this.players.get(this.currentID).getDisplayer().hasMaiden() &&
 					this.players.get(this.currentID).getTokens().getSize() > 0){
 				return checkToken();
@@ -211,8 +203,6 @@ public class Ivanhoe {
 
 	// Check winner is not completed
 	private Message checkWinner(){
-		System.out.println("Check Winnter");
-
 		// Decrement the remaining players
 		if (!this.players.get(currentID).isWithdrawn()){
 			this.playersLeft--;
@@ -220,21 +210,14 @@ public class Ivanhoe {
 
 		// Set player to withdraw	
 		this.players.get(currentID).setWithdrawn(Boolean.TRUE);
-		System.out.println(currentID + " Withdraws");
 
 		// Discard display
 		int displaySize = players.get(this.currentID).getDisplayer().getSize();
-		System.out.println("Display Size: " + displaySize);
 		for (int i = 0; i < displaySize; i++){
-			System.out.println("Removing Card");
 			Card card = players.get(this.currentID).getDisplayer().getCard(0);
-			System.out.println("Card: " + card.toString());
 			players.get(this.currentID).getDisplayer().removeCard(card);
-			System.out.println("Discard from player");
 			this.deadwood.addCard(card);
-			System.out.println("Discard to Deadwood");
 		}
-		System.out.println(currentID + " Discard");
 
 		// Check the player left to determine the winner
 		if (playersLeft == 1){
@@ -244,7 +227,6 @@ public class Ivanhoe {
 				if (!this.players.get(this.currentID).isWithdrawn())
 					break;
 			}
-			System.out.println("Tournament Winner: " + this.currentID);
 			if (this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)){
 				// Update state to win purple tournament
 				this.updateState(GAMEConfig.WIN_TOURNAMENT);
@@ -281,7 +263,6 @@ public class Ivanhoe {
 
 				// Reset Data
 				this.playersLeft = this.numPlayers;
-				System.out.println("Players Left: " +  this.playersLeft);
 
 				this.dealCard();
 
@@ -291,8 +272,6 @@ public class Ivanhoe {
 				return Data.selectColor(this.players, this.currentID, GAMEConfig.NUMBER_COLOR_FIVE);
 			}
 		}else{
-			// Increment current player until non withdraw player (do while loop)
-			System.out.println(this.currentID + " is withdrawn then next player.");
 			do {
 				System.out.print("");
 				this.nextPlayer();
@@ -304,13 +283,51 @@ public class Ivanhoe {
 			return Data.playOrWithdraw(this.players, this.currentID);		
 		}
 	}
+	
+	private boolean verifyMessageField(Message message, Card card){
+		String cardName = card.getName();
+		
+		if (cardName.equalsIgnoreCase(GAMEConfig.BREAK_LANCE) 	||
+			cardName.equalsIgnoreCase(GAMEConfig.RIPOSTE) 		||
+			cardName.equalsIgnoreCase(GAMEConfig.KNOCK_DOWN) 	||
+			cardName.equalsIgnoreCase(GAMEConfig.STUNNED)){
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_TARGET_ID)){ 	// 1
+				return false;
+			}
+		}else if (cardName.equalsIgnoreCase(GAMEConfig.DODGE)){
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_TARGET_ID)){ 	// 1
+				return false;
+			}
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX)){	// 3
+				return false;
+			}
+		}else if (cardName.equalsIgnoreCase(GAMEConfig.RETREAT)){
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_DISPLAY_INDEX)){	// 2
+				return false;
+			}			
+		}else if (cardName.equalsIgnoreCase(GAMEConfig.OUTWIT)){
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_TARGET_ID)){ 	// 1
+				return false;
+			}
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_DISPLAY_INDEX)){	// 2
+				return false;
+			}
+			if (!message.getBody().hasField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX)){	// 3
+				return false;
+			}			
+		}
+		return Boolean.TRUE;
+	}
 
 	private Message playCard(Message message, Boolean checkIvanhoe){
 		int targetID = -1, ownDisplayIndex = -1, targetDisplayIndex = -1;
 
 		int selectedCardIndex = Integer.parseInt(message.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
 		Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
-
+		
+		boolean validMessage = verifyMessageField(message, card);
+		if (!validMessage){ return null; }
+		
 		// Limit cards played to 1, if stunned
 		Display display = this.players.get(this.currentID).getDisplayer();
 		if (display.isStunned() && display.getNumPlayed() != 0)
@@ -321,6 +338,7 @@ public class Ivanhoe {
 			if (!card.isAction()){
 				this.playerPlayCard(this.currentID, card);
 			}
+			return Data.getMessage(players, this.currentID);
 		} else if (!card.isAction()) {			
 			// Current player play a simple card to display
 			if (card.getColor().equalsIgnoreCase(this.currTournamentColour) || card.isSupporter()){
@@ -330,7 +348,9 @@ public class Ivanhoe {
 
 				this.playerPlayCard(this.currentID, card);
 			}
+			return Data.getMessage(players, this.currentID);
 		}else{
+			
 			// Get all required info for action cards.
 			if (message.getBody().hasField(GAMEConfig.SELECTED_DISPLAY_INDEX)) {
 				if (message.getBody().getField(GAMEConfig.SELECTED_DISPLAY_INDEX).toString().equalsIgnoreCase("Shield")) 
@@ -355,7 +375,7 @@ public class Ivanhoe {
 				//tournament color changes from purple to red, blue or yellow
 				//can only play if tournament colour is purple
 
-				if (this.currTournamentColour == GAMEConfig.COLOR_PURPLE){
+				if (this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)){
 					//check Ivanhoe
 					Message Ivanhoe = this.findIvanhoe(message, checkIvanhoe, card);
 					if (Ivanhoe != null) { return Ivanhoe; }
@@ -378,14 +398,13 @@ public class Ivanhoe {
 				//tournament color changes from red, blue, or yellow to a diff colour
 				//can only play if tournament colour is red, blue, or yellow
 
-				if (this.currTournamentColour == GAMEConfig.COLOR_RED ||
-						this.currTournamentColour == GAMEConfig.COLOR_BLUE ||
-						this.currTournamentColour == GAMEConfig.COLOR_YELLOW) {
-
+				if (this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_RED) ||
+						this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_BLUE) ||
+						this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_YELLOW)) {
+				
 					//check Ivanhoe
 					Message Ivanhoe = this.findIvanhoe(message, checkIvanhoe, card);
 					if (Ivanhoe != null) { return Ivanhoe; }
-
 
 					// sending available choices to player
 					String colors = "";		
@@ -406,8 +425,8 @@ public class Ivanhoe {
 				//change tournament from red, blue, or yellow to green
 				//can only play if tournament colour is not green or purple
 
-				if (this.currTournamentColour == GAMEConfig.COLOR_PURPLE ||
-						this.currTournamentColour == GAMEConfig.COLOR_GREEN){
+				if (this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_PURPLE)  ||
+					this.currTournamentColour.equalsIgnoreCase(GAMEConfig.COLOR_GREEN)){
 
 					return null;
 				}
@@ -416,12 +435,12 @@ public class Ivanhoe {
 				Message Ivanhoe = this.findIvanhoe(message, checkIvanhoe, card);
 				if (Ivanhoe != null) { return Ivanhoe; }
 
-				this.currTournamentColour = GAMEConfig.COLOR_GREEN;
+				System.out.println("Card: " + card.getName().toString() + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+				this.updateTournament(GAMEConfig.COLOR_GREEN);
 
 				//discard action card
 				players.get(this.currentID).getHand().playCard(card);
 				this.deadwood.addCard(card);
-
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.BREAK_LANCE)) {	
 				//remove all purples
 				//can only play if > 1 card left, and has a purple, and does not have shield
@@ -462,7 +481,7 @@ public class Ivanhoe {
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.RIPOSTE)) {	
 				//take last card played on any opponent's display and add it to own
 				//can only play if > 2 cards left and does not have shield
-
+				
 				if (players.get(targetID).getDisplayer().getSize() < 2 ||
 						players.get(targetID).getDisplayer().hasShield()) {
 
@@ -500,7 +519,9 @@ public class Ivanhoe {
 				this.deadwood.addCard(card);
 
 				// discard last card of target's display
-				Card tempCard = players.get(targetID).getDisplayer().getCard(targetDisplayIndex);
+				int randIndex = players.get(targetID).getDisplayer().getSize();
+				
+				Card tempCard = players.get(targetID).getDisplayer().getCard(new Random().nextInt(randIndex));
 				players.get(targetID).getDisplayer().removeCard(tempCard);
 				this.deadwood.addCard(tempCard);
 			} else if (card.getName().equalsIgnoreCase(GAMEConfig.RETREAT)) {	
@@ -916,14 +937,14 @@ public class Ivanhoe {
 
 				players.get(targetID).getDisplayer().setStatus("Stunned");
 			}
+			return Data.getMessage(players, this.currentID);
 		}
-		return Data.getMessage(players, this.currentID);
 	}
 
 	private Message findIvanhoe(Message message, Boolean checkIvanhoe, Card card){
 		// Check if anyone has Ivanhoe, if a player didnt already refuse to play Ivanhoe
 		for (Integer key: playersOrder){
-			if (this.players.get(key).getHand().hasIvanhoe() != -1 && checkIvanhoe){
+			if (this.players.get(key).getHand().hasIvanhoe() != -1 && checkIvanhoe && key != this.currentID){
 				this.storedMessage = message;
 				System.out.println(key + " has Ivanhoe, sending message.");
 				//sets currentPlayer to person who has Ivanhoe
@@ -936,9 +957,13 @@ public class Ivanhoe {
 	}
 
 	private Message checkIvanhoe(String choice){
-		if (choice.equalsIgnoreCase(GAMEConfig.IVANHOE_NO))
+		if (choice.equalsIgnoreCase(GAMEConfig.IVANHOE_NO)){
+			// resets states and variables back to original
+			this.currentID = Integer.parseInt(storedMessage.getHeader().sender.toString());
+			this.currentPlayer = playersOrder.indexOf(currentID);
+			this.updateState(storedMessage.getHeader().state);
 			return playCard(storedMessage, Boolean.FALSE);
-		else {
+		}else {
 			//remove ivanhoe from player's hand
 			int ivanhoeIndex = this.players.get(this.currentID).getHand().hasIvanhoe();
 			Card card = this.players.get(this.currentID).getHand().getCard(ivanhoeIndex);
@@ -947,6 +972,7 @@ public class Ivanhoe {
 
 			// resets states and variables back to original
 			this.currentID = Integer.parseInt(storedMessage.getHeader().sender.toString());
+			this.currentPlayer = playersOrder.indexOf(currentID);
 			this.updateState(storedMessage.getHeader().state);
 			System.out.println("Reset ID to " + this.currentID + ", State to " + GAMEConfig.STATE[this.getState()]);
 
@@ -963,12 +989,12 @@ public class Ivanhoe {
 	}
 
 	private Message changeTournamentColor(String choice){
-		this.currTournamentColour = choice;
+		this.updateTournament(choice);
 		int selectedCardIndex = Integer.parseInt(storedMessage.getBody().getField(GAMEConfig.SELECTED_HAND_INDEX).toString());
 		Card card = this.players.get(this.currentID).getHand().getCard(selectedCardIndex);
 
 		//discard action card
-		players.get(this.currentID).getHand().drawCard(card);
+		players.get(this.currentID).getHand().playCard(card);
 		this.deadwood.addCard(card);
 
 		this.updateState(GAMEConfig.PLAY_CARD);
@@ -1037,8 +1063,6 @@ public class Ivanhoe {
 	}
 
 	public Message processMessage(Message message){
-		System.out.println("Ivanhoe Before: " + GAMEConfig.STATE[message.getHeader().getState()]);
-
 		int 	sender 	= Integer.parseInt(message.getHeader().getSender());
 		int 	state 	= message.getHeader().getState();
 
@@ -1052,6 +1076,9 @@ public class Ivanhoe {
 		String 	tournamentChoice 	= "";
 		String  ivanhoeChoice		= "";
 
+
+		System.out.println("Error Checking Message: " + message.toString());
+		
 		if (message.getBody().hasField("POW Choice"))
 			choice = message.getBody().getField("POW Choice").toString();
 		if (message.getBody().hasField("Tournament Color"))
@@ -1069,8 +1096,6 @@ public class Ivanhoe {
 
 		switch (state){
 		case GAMEConfig.SELECT_COLOR:
-			// Purple Tournament and no winning will also choose the different color ? is it problem?
-			System.out.println("COLOR:" + color);
 			return this.selectColor(color);
 		case GAMEConfig.PLAY_OR_WITHDRAW:
 			return this.playOrWithdraw(choice, color);
