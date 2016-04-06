@@ -2943,10 +2943,244 @@ public class TestIvanhoeTournament {
 		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
 		reply = rEngine.processMessage(msg);
 	}
-
-	//starting with several supporters (5 cards)
+	//starting with a supporter
 	@Test
 	public void TestE2Green () {
+		System.out.println("\n-------------------Test E. Green i)------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+		int firstPlayer = rEngine.getCurrentID();
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 0; j < 8; j++) {
+				card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+				rEngine.getPlayer(i).addCard(card);
+			}
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_GREEN);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure player has played a card
+		assertEquals(8, rEngine.getPlayer(firstPlayer).getHand().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer endTurn response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
+		reply = rEngine.processMessage(msg);
+	}
+
+	//starting with a supporter
+	@Test
+	public void TestE2Yellow () {
+		System.out.println("\n-------------------Test E. i)------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+		int firstPlayer = rEngine.getCurrentID();
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 0; j < 8; j++) {
+				card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+				rEngine.getPlayer(i).addCard(card);
+			}
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_YELLOW);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure player has played a card
+		assertEquals(8, rEngine.getPlayer(firstPlayer).getHand().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer endTurn response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
+		reply = rEngine.processMessage(msg);
+	}
+
+	//starting with a supporter
+	@Test
+	public void TestE2Red () {
+		System.out.println("\n-------------------Test E. i)------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+		int firstPlayer = rEngine.getCurrentID();
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 0; j < 8; j++) {
+				card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+				rEngine.getPlayer(i).addCard(card);
+			}
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_RED);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure player has played a card
+		assertEquals(8, rEngine.getPlayer(firstPlayer).getHand().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer endTurn response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
+		reply = rEngine.processMessage(msg);
+	}
+
+	//starting with a supporter
+	@Test
+	public void TestE2Blue () {
+		System.out.println("\n-------------------Test E. i)------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+		int firstPlayer = rEngine.getCurrentID();
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 0; j < 8; j++) {
+				card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+				rEngine.getPlayer(i).addCard(card);
+			}
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_BLUE);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure player has played a card
+		assertEquals(8, rEngine.getPlayer(firstPlayer).getHand().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer endTurn response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
+		reply = rEngine.processMessage(msg);
+	}
+
+	//starting with a supporter
+	@Test
+	public void TestE2Purple () {
+		System.out.println("\n-------------------Test E. i)------------------------------");
+
+		//add 5 players
+		for (int i = 1; i <= 5; i++) {
+			rEngine.addPlayer(i);
+		}
+
+		//init game
+		rEngine.initTestCase();
+		int firstPlayer = rEngine.getCurrentID();
+
+		//hardcode dealing card to firstPlayer
+		Card card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+		rEngine.getPlayer(firstPlayer).addCard(card);
+
+		//hardcode player hands
+		for (int i = 1; i <= 5; i++) {
+			for (int j = 0; j < 8; j++) {
+				card = new Card(GAMEConfig.MAIDEN, GAMEConfig.SUPPORTERS_WHITE, GAMEConfig.VALUE_MAIDEN_SIX);
+				rEngine.getPlayer(i).addCard(card);
+			}
+		}
+
+		//hard code firstPlayer select colour response
+		Message msg = Data.newMessage(firstPlayer + "", GAMEConfig.SELECT_COLOR, "Tournament Color", GAMEConfig.COLOR_PURPLE);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer play or withdraw response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_OR_WITHDRAW, "POW Choice", GAMEConfig.POW_PLAY);
+		reply = rEngine.processMessage(msg);
+
+		//hard code firstPlayer playCard response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.PLAY_CARD, "Selected Card Index", 0+"");
+		reply = rEngine.processMessage(msg);
+
+		//make sure player has played a card
+		assertEquals(8, rEngine.getPlayer(firstPlayer).getHand().getSize());
+		assertEquals(1, rEngine.getPlayer(firstPlayer).getDisplayer().getSize());
+
+		//hard code firstPlayer endTurn response
+		msg = Data.newMessage(firstPlayer + "", GAMEConfig.END_TURN);
+		reply = rEngine.processMessage(msg);
+	}
+	
+	//starting with several supporters (5 cards)
+	@Test
+	public void TestE3Green () {
 		System.out.println("\n-------------------Test E. ii)------------------------------");
 
 		//add 5 players
@@ -2995,7 +3229,7 @@ public class TestIvanhoeTournament {
 
 	//starting with several supporters (5 cards)
 	@Test
-	public void TestE2Yellow () {
+	public void TestE3Yellow () {
 		System.out.println("\n-------------------Test E. ii)------------------------------");
 
 		//add 5 players
@@ -3044,7 +3278,7 @@ public class TestIvanhoeTournament {
 
 	//starting with several supporters (5 cards)
 	@Test
-	public void TestE2Red () {
+	public void TestE3Red () {
 		System.out.println("\n-------------------Test E. ii)------------------------------");
 
 		//add 5 players
@@ -3093,7 +3327,7 @@ public class TestIvanhoeTournament {
 
 	//starting with several supporters (5 cards)
 	@Test
-	public void TestE2Blue () {
+	public void TestE3Blue () {
 		System.out.println("\n-------------------Test E. ii)------------------------------");
 
 		//add 5 players
@@ -3142,7 +3376,7 @@ public class TestIvanhoeTournament {
 
 	//starting with several supporters (5 cards)
 	@Test
-	public void TestE2Purple () {
+	public void TestE3Purple () {
 		System.out.println("\n-------------------Test E. ii)------------------------------");
 
 		//add 5 players

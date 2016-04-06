@@ -111,7 +111,6 @@ public class AppServer implements Runnable {
 			for (ServerThread to : clients.values()) {
 				int tempID = to.getID();
 				to.send(Data.getMessage(players, tempID));
-				UI.writeMessage(tempID + ": " + players.get(to.getID()).getDisplayer().getTournament().toString());
 			}			
 
 			if (response.getHeader().state == GAMEConfig.GAME_OVER){
