@@ -234,7 +234,6 @@ public class Ivanhoe {
 			}else{
 				// Add token to current player
 				this.players.get(this.currentID).addToken(this.currTournamentColour); // Display all token currently had 
-				System.out.println(this.players.get(this.currentID).getTokens().toString());
 
 				// Game Over if players could win the whole game
 				if ((this.players.get(this.currentID).getTokens().hasFive() && this.numPlayers < GAMEConfig.FIVE_TOKEN_GAME ) ||
@@ -435,7 +434,6 @@ public class Ivanhoe {
 				Message Ivanhoe = this.findIvanhoe(message, checkIvanhoe, card);
 				if (Ivanhoe != null) { return Ivanhoe; }
 
-				System.out.println("Card: " + card.getName().toString() + "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 				this.updateTournament(GAMEConfig.COLOR_GREEN);
 
 				//discard action card
@@ -1075,9 +1073,6 @@ public class Ivanhoe {
 		String 	maiden				= "";
 		String 	tournamentChoice 	= "";
 		String  ivanhoeChoice		= "";
-
-
-		System.out.println("Error Checking Message: " + message.toString());
 		
 		if (message.getBody().hasField("POW Choice"))
 			choice = message.getBody().getField("POW Choice").toString();
@@ -1091,8 +1086,6 @@ public class Ivanhoe {
 			tournamentChoice = message.getBody().getField("Change Tournament Color").toString();
 		if (message.getBody().hasField("Ivanhoe Choice"))
 			ivanhoeChoice = message.getBody().getField("Ivanhoe Choice").toString();
-
-		System.out.println("ProcessMessage: " + message.toString());
 
 		switch (state){
 		case GAMEConfig.SELECT_COLOR:

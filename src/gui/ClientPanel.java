@@ -159,9 +159,7 @@ public class ClientPanel extends JFrame implements ActionListener{
 		System.exit(0);
 	}
 	
-	public void updateUI(Message message){		
-		System.out.println("Message:-------------------------------------------------------------- \n" + message.getBody().toString());
-		
+	public void updateUI(Message message){				
 		String 	ID 				= message.getBody().getField("UserID").toString();
 		String 	tokens 			= message.getBody().getField("UserTokens").toString();
 		String 	hand 			= message.getBody().getField("UserHand").toString();
