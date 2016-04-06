@@ -147,8 +147,8 @@ public class HandPanel extends JPanel implements MouseListener{
 					if (this.client.dataPacket.containsKey(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX))
 						message.getBody().addField(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX, 	this.client.dataPacket.get(GAMEConfig.SELECTED_TARGET_DISPLAY_INDEX));	
 					this.client.dataPacket = new HashMap<String, String>();
-					
-					client.getClient().send(message);
+					if (message.getBody().hasField(GAMEConfig.SELECTED_HAND_INDEX))
+						client.getClient().send(message);
 					System.out.print(message.toString());
 				}			
 			}else if (e.getSource() == endTurnButton){

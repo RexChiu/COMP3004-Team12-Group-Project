@@ -135,6 +135,7 @@ public class AppServer implements Runnable {
 
 			toTerminate.close();
 			toTerminate = null;
+			shutdown(ID);
 		}
 	}
 
