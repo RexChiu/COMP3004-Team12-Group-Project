@@ -88,7 +88,7 @@ public class Ivanhoe {
 	}
 
 	private void initHand(){
-		for (int i = 0; i < 5; i++){
+		for (int i = 0; i < 8; i++){
 			for (Integer key: playersOrder){
 				Card card = deck.getCard(0);
 				this.players.get(key).addCard(card);
